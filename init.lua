@@ -13,29 +13,29 @@ end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 -- custom "OpenFile" events
-require("lazy.core.handler.event").mappings.LazyFile = {
-  id = "LazyFile",
-  event = { "BufReadPre", "BufNewFile", "BufWritePre" },
+require('lazy.core.handler.event').mappings.LazyFile = {
+  id = 'LazyFile',
+  event = { 'BufReadPre', 'BufNewFile', 'BufWritePre' },
 }
 
 -- The language system self-initializes on require:
 -- it scans lua/langs/*.lua and aggregates everything.
-local language = require("core.language")
+local language = require 'core.language'
 
 -- Lazy setup
-require('lazy').setup({
+require('lazy').setup {
   spec = {
-    { import = "plugins.ui" },
-    { import = "plugins.editor" },
-    { import = "plugins.langs" },
-    { import = "plugins.git" },
-    { import = "plugins.ai" },
+    { import = 'plugins.ui' },
+    { import = 'plugins.editor' },
+    { import = 'plugins.langs' },
+    { import = 'plugins.git' },
+    { import = 'plugins.ai' },
 
     -- Inject language-specific plugins (rustaceanvim, crates.nvim, etc.)
     language.plugins,
   },
 
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { 'tokyonight', 'habamax' } },
   checker = { enabled = false },
   change_detection = { enabled = false },
   rocks = { enabled = false },
@@ -44,15 +44,15 @@ require('lazy').setup({
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {
-        "tohtml",
-        "tutor",
-        "zipPlugin",
+        'tohtml',
+        'tutor',
+        'zipPlugin',
       },
     },
   },
-})
+}
 
-vim.cmd.colorscheme("tokyonight")
+vim.cmd.colorscheme 'tokyonight'
 
 -- Enable LSP & per-language options (after lazy.nvim has set up rtp)
 language.enable()
@@ -114,7 +114,7 @@ require 'core.autocmds'
 -- })
 
 -- NOTE: Language Config
-require("nvim-treesitter.install").prefer_git = true
+require('nvim-treesitter.install').prefer_git = true
 require 'lang.task'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
