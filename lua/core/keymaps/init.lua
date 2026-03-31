@@ -1,4 +1,5 @@
 local opts = { noremap = true, silent = true }
+local map = vim.keymap.set
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -39,18 +40,18 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 
 -- Buffers
 vim.keymap.set('n', '<leader>q', ':Bdelete!<CR>', { desc = 'Close buffer', silent = true, noremap = true }) -- close buffer
-vim.keymap.set('n', '<leader>n', '<cmd> enew <CR>', { desc = 'New buffer', silent = true })                 -- new buffer
+vim.keymap.set('n', '<leader>n', '<cmd> enew <CR>', { desc = 'New buffer', silent = true }) -- new buffer
 -- NOTE: Require bufferline.nvim
 vim.keymap.set('n', 'H', '<Cmd>BufferLineCyclePrev<CR>', { desc = 'Go to previous buffer' })
-vim.keymap.set('n', "L", '<Cmd>BufferLineCycleNext<CR>', { desc = 'Go to next buffer' })
+vim.keymap.set('n', 'L', '<Cmd>BufferLineCycleNext<CR>', { desc = 'Go to next buffer' })
 
 -- Diagnostic keymaps
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>n', function()
   local float_buf, float_win = vim.diagnostic.open_float(nil, {
     scope = 'line',
-    focus = false,     -- 先别自动聚焦
-    focusable = true,  -- 允许聚焦
+    focus = false, -- 先别自动聚焦
+    focusable = true, -- 允许聚焦
     close_events = {}, -- 清空默认事件，不要自动关
   })
 
@@ -86,3 +87,6 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- Remove comflicts with Kitty's keymap
 vim.keymap.set('n', '<S-A-.>', '', opts)
+
+-- better j/k, dealing with wrap lines
+-- vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'")
