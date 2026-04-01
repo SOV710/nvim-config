@@ -129,6 +129,22 @@ local function get_file_icon(bufname)
   return ok and icon or ""
 end
 
+-- Check if a buffer is tagged in grapple and return its index
+local function grapple_index(buf)
+  local ok, grapple = pcall(require, "grapple")
+  if not ok then return nil end
+  local exists = pcall(grapple.find, { buffer = buf })
+  if not exists then return nil end
+  local tags_ok, tags = pcall(grapple.tags)
+  if not tags_ok or not tags then return nil end
+  for i, tag in ipairs(tags) do
+    if tag.path == vim.api.nvim_buf_get_name(buf) then
+      return i
+    end
+  end
+  return nil
+end
+
 local Windows = {
   flexible = 3,
   -- Full: icon + filename
@@ -148,10 +164,17 @@ local Windows = {
           local icon = get_file_icon(bufname)
           local is_active = (win == cur_win)
 
+          local gidx = grapple_index(buf)
           table.insert(children, {
             provider = " " .. icon .. " " .. name,
             hl = is_active and "TabLineSel" or { fg = "gray" },
           })
+          if gidx then
+            table.insert(children, {
+              provider = " 󰛢" .. gidx,
+              hl = { fg = "yellow" },
+            })
+          end
         end
       end
 
@@ -173,9 +196,10 @@ local Windows = {
           local bufname = vim.api.nvim_buf_get_name(buf)
           local icon = get_file_icon(bufname)
           local is_active = (win == cur_win)
+          local gidx = grapple_index(buf)
 
           table.insert(children, {
-            provider = " " .. icon,
+            provider = " " .. icon .. (gidx and " 󰛢" or ""),
             hl = is_active and "TabLineSel" or { fg = "gray" },
           })
         end
