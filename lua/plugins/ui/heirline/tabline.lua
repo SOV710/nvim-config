@@ -1,4 +1,5 @@
 local M = {}
+local utils = require("heirline.utils")
 
 -- ══════════════════════════════════════════════════════════════════════
 -- State
@@ -10,9 +11,21 @@ local show_picker = false -- picker mode active?
 -- Home-row key sequence for tab picker
 local picker_keys = "asdfjklghvbnyuio"
 
+-- Build reverse map: char → index
+local label_map = {}
+for i = 1, #picker_keys do
+  label_map[picker_keys:sub(i, i)] = i
+end
+
 -- Numbered tab icons (Nerd Font)
 local tab_icons = {
   "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫", "󰲭", "󰲯", "󰲱", "󰿭",
+}
+
+local update_events = {
+  "TabEnter", "TabNew", "TabClosed",
+  "WinNew", "WinClosed", "WinLeave", "WinEnter",
+  "BufWinEnter", "BufWinLeave", "BufDelete",
 }
 
 -- ══════════════════════════════════════════════════════════════════════
@@ -27,7 +40,7 @@ function M.pick()
   show_picker = false
 
   if ok and char then
-    local idx = picker_keys:find(char:lower(), 1, true)
+    local idx = label_map[char:lower()]
     local tabs = vim.api.nvim_list_tabpages()
     if idx and idx <= #tabs then
       vim.api.nvim_set_current_tabpage(tabs[idx])
@@ -52,13 +65,6 @@ end
 -- Tab component (one per tabpage, used by make_tablist)
 -- ══════════════════════════════════════════════════════════════════════
 
-local function get_file_icon(bufname)
-  local ok, icon = pcall(function()
-    return Snacks.util.icon(bufname)
-  end)
-  return ok and icon or ""
-end
-
 local TabComponent = {
   init = function(self)
     local tabnr = self.tabnr
@@ -78,7 +84,6 @@ local TabComponent = {
 
     -- Icon
     if show_picker then
-      -- Picker mode: show uppercase letter label
       local key = picker_keys:sub(tabnr, tabnr):upper()
       self.tab_icon = key
     elseif is_active then
@@ -105,23 +110,24 @@ local TabComponent = {
 -- Tabpages list
 -- ══════════════════════════════════════════════════════════════════════
 
-local utils = require("heirline.utils")
-
 local Tabpages = {
   condition = function()
     return #vim.api.nvim_list_tabpages() >= 2
   end,
   utils.make_tablist(TabComponent),
-  update = {
-    "TabEnter", "TabNew", "TabClosed",
-    "WinNew", "WinClosed", "WinLeave", "WinEnter",
-    "BufWinEnter", "BufWinLeave", "BufDelete",
-  },
+  update = update_events,
 }
 
 -- ══════════════════════════════════════════════════════════════════════
 -- Windows list (right side)
 -- ══════════════════════════════════════════════════════════════════════
+
+local function get_file_icon(bufname)
+  local ok, icon = pcall(function()
+    return Snacks.util.icon(bufname)
+  end)
+  return ok and icon or ""
+end
 
 local Windows = {
   flexible = 3,
@@ -133,7 +139,6 @@ local Windows = {
       local children = {}
 
       for _, win in ipairs(wins) do
-        -- Filter out floating windows
         local config = vim.api.nvim_win_get_config(win)
         if config.relative == "" then
           local buf = vim.api.nvim_win_get_buf(win)
@@ -188,9 +193,9 @@ local Windows = {
 
 M.tabline = {
   Tabpages,
-  { provider = "%=", hl = "TabLine" },  -- fill space
+  { provider = "%=", hl = "TabLine" }, -- fill space
   Windows,
-  { provider = "  ", hl = "TabLine" },  -- trailing padding
+  { provider = "  ", hl = "TabLine" }, -- trailing padding
 }
 
-return M.tabline
+return M
