@@ -49,6 +49,7 @@ vim.opt.laststatus = 3 -- single global statusline across all splits
 -- ── Folding ────────────────────────────────────────────────────────
 vim.opt.foldlevel = 99 -- open all folds by default
 vim.opt.foldmethod = 'expr' -- use treesitter expression for folding
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.opt.foldtext = '' -- render fold lines with treesitter highlights
 
 -- ── Timing ─────────────────────────────────────────────────────────
