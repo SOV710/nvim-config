@@ -4,7 +4,7 @@ return {
   dependencies = { 'MunifTanjim/nui.nvim' },
   opts = {
     -- IMPORTANT: only messages, no cmdline/search takeover
-    cmdline = { enabled = false },
+    cmdline = { enabled = true, view = 'cmdline' },
     popupmenu = { enabled = false },
 
     messages = {
@@ -50,7 +50,7 @@ return {
     },
 
     presets = {
-      bottom_search = false, -- DO NOT move search to bottom
+      bottom_search = true, -- DO NOT move search to bottom
       command_palette = false, -- DO NOT float the cmdline
       long_message_to_split = true, -- redirect long messages to split
       lsp_doc_border = true, -- add border to hover/signature
