@@ -13,6 +13,16 @@ end
 local config_dir = vim.fn.stdpath 'config'
 local dot_dir = vim.env.XDG_CONFIG_HOME or '~/.config'
 
+local logo = [[
+   ████    ██████          ████████████████   
+  ████  ██████        ██    ██  ██████  
+ ██      ██   ────是秃顶男娘喵──── ██      ██  ██ 
+ ██████████   ████    ██    ██  ███████████ 
+       ██      ██ ██  ██      󰮯   ██ ██  ██  
+  ████   ████   ████    ██  ██   ████   
+   ████     ████     ████    ███████████████    
+]]
+
 return {
   'folke/snacks.nvim',
   opts = {
@@ -22,6 +32,7 @@ return {
       pane_gap = 4, -- gap between panes in wide layout
 
       preset = {
+        header = logo,
         keys = {
           { icon = ' ', key = 'f', desc = 'Find File', action = pick 'files' },
           { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
@@ -40,37 +51,26 @@ return {
         local item_width = self.opts.width
         local max_panes = math.floor((win_width + pane_gap) / (item_width + pane_gap))
 
-        -- ── Header ──────────────────────────────────────────────────────
-        local header = {
-          section = 'header',
-          val = {
-            [[   ████    ██████          ████████████████]],
-            [[  ████  ██████        ██    ██  ██████]],
-            [[ ██      ██   ────是秃顶男娘喵──── ██      ██  ██]],
-            [[ ██████████   ████    ██    ██  ███████████]],
-            [[       ██      ██ ██  ██      󰮯   ██ ██  ██]],
-            [[  ████   ████   ████    ██  ██   ████]],
-            [[   ████     ████     ████    ███████████████]],
-          },
-        }
+        local header = { section = 'header', padding = 1 }
+        local keys = { section = 'keys', gap = 1, indent = 2, padding = 1 }
+        local startup = { section = 'startup', padding = 1 }
 
         if max_panes > 1 then
-          -- ── Wide layout: two panes ────────────────────────────────────
           return {
             header,
-            { section = 'keys', gap = 1, indent = 2, padding = 1 },
-            -- Pane 2: startup, projects, recent
-            { section = 'startup', pane = 2 },
-            { section = 'projects', title = 'Projects', icon = ' ', pane = 2, indent = 2, padding = 1 },
-            { section = 'recent_files', title = 'Recent Files', icon = ' ', pane = 2, indent = 2, padding = 1 },
+            {
+              { section = 'projects', title = 'Projects', icon = ' ', indent = 2, padding = 1, pane = 2 },
+              { section = 'recent_files', title = 'Recent', icon = ' ', indent = 2, padding = 1, pane = 2 },
+            },
+            keys,
+            { section = 'startup', padding = 1, pane = 2 },
           }
         else
-          -- ── Compact layout: single pane ───────────────────────────────
           return {
             header,
-            { section = 'keys', gap = 1, indent = 2, padding = 1 },
-            { section = 'recent_files', title = 'Recent Files', icon = ' ', indent = 2, padding = 1 },
-            { section = 'startup' },
+            keys,
+            { section = 'recent_files', title = 'Recent', icon = ' ', indent = 2, padding = 1 },
+            startup,
           }
         end
       end,
