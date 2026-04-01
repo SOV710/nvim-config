@@ -62,7 +62,7 @@ return {
   -- ── Save / Quit ─────────────────────────────────────────────────────
 
   { "<C-s>", "<cmd>w<cr><esc>", mode = { "i", "x", "n", "s" }, desc = "Save File" },
-  { "<leader>sn", "<cmd>noautocmd w<CR>", desc = "Save without auto-formatting" },
+  { "<leader>sN", "<cmd>noautocmd w<CR>", desc = "Save without auto-formatting" },
   { "<leader>qq", "<cmd>qa<cr>", desc = "Quit All" },
 
   -- ── Diagnostics ─────────────────────────────────────────────────────
@@ -95,5 +95,5 @@ return {
   -- ── UI ──────────────────────────────────────────────────────────────
 
   { "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", desc = "Redraw / Clear highlights" },
-  { "<leader>l", "<cmd>Lazy<CR>", desc = "Lazy" },
+  { "<leader>L", "<cmd>Lazy<CR>", desc = "Lazy" },
 }
