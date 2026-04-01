@@ -25,6 +25,8 @@ local language = require 'core.language'
 -- Lazy setup
 require('lazy').setup {
   spec = {
+    require 'plugins.snacks',
+
     { import = 'plugins.ui' },
     { import = 'plugins.editor' },
     { import = 'plugins.langs' },

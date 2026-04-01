@@ -1,98 +1,99 @@
-local map = vim.keymap.set
+return {
+  -- ── General ──────────────────────────────────────────────────────────
 
--- ── General ──────────────────────────────────────────────────────────
+  { "<Space>", "<Nop>", mode = { "n", "v" }, desc = "Disable space default" },
+  { "<Esc>", "<cmd>nohlsearch<CR>", desc = "Clear search highlights" },
+  { "<C-a>", "m'ggVG", desc = "Select all" },
 
--- Disable the spacebar key's default behavior in Normal and Visual modes
-map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+  -- ── Insert / Command-line mode enhancements ──────────────────────────
 
--- Clear highlights on search when pressing <Esc> in normal mode
-map('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
+  { "<C-CR>", "<End><CR>", mode = "i", desc = "End line and enter" },
+  { "<C-S-V>", '<C-r>"', mode = { "i", "c" }, desc = "Paste from register" },
+  { "<S-Insert>", "<C-r>+", mode = { "i", "c" }, desc = "Paste from clipboard" },
+  { "<C-BS>", "<C-w>", mode = { "i", "c" }, desc = "Delete word before" },
+  { "<C-Delete>", "<C-Right><C-w>", mode = { "i", "c" }, desc = "Delete word after" },
 
--- Select all
-map('n', '<C-a>', "m'ggVG", { silent = true, desc = 'Select all' })
+  -- ── Undo break-points ────────────────────────────────────────────────
 
--- ── Insert / Command-line mode enhancements ──────────────────────────
+  { ",", ",<c-g>u", mode = "i", desc = "Undo break-point" },
+  { ".", ".<c-g>u", mode = "i", desc = "Undo break-point" },
+  { ";", ";<c-g>u", mode = "i", desc = "Undo break-point" },
 
-map('i', '<C-CR>', '<End><CR>', { desc = 'End line and enter' })
-map({ 'i', 'c' }, '<C-S-V>', '<C-r>"', { desc = 'Paste from register' })
-map({ 'i', 'c' }, '<S-Insert>', '<C-r>+', { desc = 'Paste from clipboard' })
-map({ 'i', 'c' }, '<C-BS>', '<C-w>', { desc = 'Delete word before' })
-map({ 'i', 'c' }, '<C-Delete>', '<C-Right><C-w>', { desc = 'Delete word after' })
+  -- ── Terminal mode ────────────────────────────────────────────────────
 
--- ── Undo break-points ────────────────────────────────────────────────
+  { "<C-S-V>", "<cmd>stopinsert<CR>pi", mode = "t", desc = "Paste" },
+  { "<S-Insert>", "<cmd>stopinsert<CR>pi", mode = "t", desc = "Paste" },
+  { "<Esc><Esc>", "<cmd>stopinsert<CR>", mode = "t", desc = "Exit terminal mode" },
 
-map('i', ',', ',<c-g>u', { desc = 'Undo break-point' })
-map('i', '.', '.<c-g>u', { desc = 'Undo break-point' })
-map('i', ';', ';<c-g>u', { desc = 'Undo break-point' })
+  -- ── Better j/k (wrap-aware) ─────────────────────────────────────────
 
--- ── Terminal mode ────────────────────────────────────────────────────
+  { "j", "v:count == 0 ? 'gj' : 'j'", mode = { "n", "x" }, desc = "Down", expr = true },
+  { "k", "v:count == 0 ? 'gk' : 'k'", mode = { "n", "x" }, desc = "Up", expr = true },
 
-map('t', '<C-S-V>', '<cmd>stopinsert<CR>pi', { desc = 'Paste' })
-map('t', '<S-Insert>', '<cmd>stopinsert<CR>pi', { desc = 'Paste' })
-map('t', '<Esc><Esc>', '<cmd>stopinsert<CR>', { desc = 'Exit terminal mode' })
+  -- ── Move lines with Ctrl+j/k ────────────────────────────────────────
 
--- ── Better j/k (wrap-aware) ─────────────────────────────────────────
+  { "<C-j>", "<esc><cmd>m .+1<cr>==gi", mode = "i", desc = "Move Down" },
+  { "<C-k>", "<esc><cmd>m .-2<cr>==gi", mode = "i", desc = "Move Up" },
+  { "<C-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", mode = "v", desc = "Move Down" },
+  { "<C-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", mode = "v", desc = "Move Up" },
 
-map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { desc = 'Down', expr = true, silent = true })
-map({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { desc = 'Up', expr = true, silent = true })
+  -- ── Saner n/N direction ──────────────────────────────────────────────
 
--- ── Move lines with Ctrl+j/k ────────────────────────────────────────
+  { "n", "'Nn'[v:searchforward].'zv'", desc = "Next Search Result", expr = true },
+  { "N", "'nN'[v:searchforward].'zv'", desc = "Prev Search Result", expr = true },
+  { "n", "'Nn'[v:searchforward]", mode = { "x", "o" }, desc = "Next Search Result", expr = true },
+  { "N", "'nN'[v:searchforward]", mode = { "x", "o" }, desc = "Prev Search Result", expr = true },
 
-map('v', '<C-j>', ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = 'Move Down', silent = true })
-map('v', '<C-k>', ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = 'Move Up', silent = true })
+  -- ── Scrolling ────────────────────────────────────────────────────────
 
--- ── Saner n/N direction ──────────────────────────────────────────────
+  { "<C-d>", "<C-d>zz", desc = "Scroll down and center" },
+  { "<C-u>", "<C-u>zz", desc = "Scroll up and center" },
 
-map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next Search Result' })
-map('n', 'N', "'nN'[v:searchforward].'zv'", { expr = true, desc = 'Prev Search Result' })
-map({ 'x', 'o' }, 'n', "'Nn'[v:searchforward]", { expr = true, desc = 'Next Search Result' })
-map({ 'x', 'o' }, 'N', "'nN'[v:searchforward]", { expr = true, desc = 'Prev Search Result' })
+  -- ── Delete without register ─────────────────────────────────────────
 
--- ── Scrolling ────────────────────────────────────────────────────────
+  { "x", '"_x', desc = "Delete char without register" },
+  { "dl", '"_dl', desc = "Delete char-right without register" },
 
-map('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true, desc = 'Scroll down and center' })
-map('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true, desc = 'Scroll up and center' })
+  -- ── Indenting (keep selection) ───────────────────────────────────────
 
--- ── Delete without register ─────────────────────────────────────────
+  { "<", "<gv", mode = "v", desc = "Indent left (keep sel)" },
+  { ">", ">gv", mode = "v", desc = "Indent right (keep sel)" },
 
-map('n', 'x', '"_x', { noremap = true, silent = true, desc = 'Delete char without register' })
-map('n', 'dl', '"_dl', { noremap = true, silent = true, desc = 'Delete char-right without register' })
+  -- ── Save / Quit ─────────────────────────────────────────────────────
 
--- ── Indenting (keep selection) ───────────────────────────────────────
+  { "<C-s>", "<cmd>w<cr><esc>", mode = { "i", "x", "n", "s" }, desc = "Save File" },
+  { "<leader>sn", "<cmd>noautocmd w<CR>", desc = "Save without auto-formatting" },
+  { "<leader>qq", "<cmd>qa<cr>", desc = "Quit All" },
 
-map('v', '<', '<gv', { desc = 'Indent left (keep sel)' })
-map('v', '>', '>gv', { desc = 'Indent right (keep sel)' })
+  -- ── Diagnostics ─────────────────────────────────────────────────────
 
--- ── Save / Quit ─────────────────────────────────────────────────────
+  {
+    "<leader>n",
+    function()
+      local float_buf, float_win = vim.diagnostic.open_float(nil, {
+        scope = "line",
+        focus = false,
+        focusable = true,
+        close_events = {},
+      })
 
-map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save File' })
-map('n', '<leader>sn', '<cmd>noautocmd w<CR>', { noremap = true, silent = true, desc = 'Save without auto-formatting' })
-map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
+      if float_win and vim.api.nvim_win_is_valid(float_win) then
+        vim.cmd(("noautocmd call nvim_set_current_win(%d)"):format(float_win))
 
--- ── Diagnostics ─────────────────────────────────────────────────────
+        vim.keymap.set("n", "<Esc>", function()
+          vim.api.nvim_win_close(float_win, true)
+        end, { buffer = float_buf, nowait = true, silent = true, desc = "Close diagnostic float" })
 
-map('n', '<leader>n', function()
-  local float_buf, float_win = vim.diagnostic.open_float(nil, {
-    scope = 'line',
-    focus = false,
-    focusable = true,
-    close_events = {},
-  })
+        vim.keymap.set("n", "q", function()
+          vim.api.nvim_win_close(float_win, true)
+        end, { buffer = float_buf, nowait = true, silent = true, desc = "Close diagnostic float" })
+      end
+    end,
+    desc = "Open diagnostic float and focus",
+  },
 
-  if float_win and vim.api.nvim_win_is_valid(float_win) then
-    vim.cmd(('noautocmd call nvim_set_current_win(%d)'):format(float_win))
+  -- ── UI ──────────────────────────────────────────────────────────────
 
-    map('n', '<Esc>', function()
-      vim.api.nvim_win_close(float_win, true)
-    end, { buffer = float_buf, nowait = true, silent = true, desc = 'Close diagnostic float' })
-
-    map('n', 'q', function()
-      vim.api.nvim_win_close(float_win, true)
-    end, { buffer = float_buf, nowait = true, silent = true, desc = 'Close diagnostic float' })
-  end
-end, { desc = 'Open diagnostic float and focus', silent = true })
-
--- ── UI ──────────────────────────────────────────────────────────────
-
-map('n', '<leader>ur', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', { desc = 'Redraw / Clear highlights' })
-map('n', '<leader>l', '<cmd>Lazy<CR>', { desc = 'Lazy' })
+  { "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", desc = "Redraw / Clear highlights" },
+  { "<leader>l", "<cmd>Lazy<CR>", desc = "Lazy" },
+}
