@@ -3,21 +3,22 @@ return {
   opts = {
     picker = {
       -- ── General ─────────────────────────────────────────────────────
-      prompt = ' ',                    -- prompt prefix icon
-      ui_select = true,                 -- replace vim.ui.select with picker
+      prompt = ' ', -- prompt prefix icon
+      ui_select = true, -- replace vim.ui.select with picker
 
       -- ── Sources (per-picker overrides) ──────────────────────────────
       sources = {
         files = {
-          hidden = true,                -- include dotfiles in file search
-          ignored = false,              -- exclude .gitignore'd files
+          hidden = true, -- include dotfiles in file search
+          ignored = false, -- exclude .gitignore'd files
         },
         grep = {
-          hidden = true,                -- search inside dotfiles
-          ignored = false,              -- exclude .gitignore'd files
+          hidden = true, -- search inside dotfiles
+          ignored = false, -- exclude .gitignore'd files
         },
       },
 
+      "#ff0000"
       -- ── Window ──────────────────────────────────────────────────────
       win = {
         input = {
@@ -31,7 +32,7 @@ return {
 
       -- ── Layout ──────────────────────────────────────────────────────
       layout = {
-        preset = 'default',             -- layout preset: "default"|"dropdown"|"ivy"|"select"
+        preset = 'default', -- layout preset: "default"|"dropdown"|"ivy"|"select"
         -- cycle = true,                -- allow cycling through results
       },
     },
