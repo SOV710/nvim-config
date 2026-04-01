@@ -1,15 +1,37 @@
-return { -- Useful plugin to show you pending keybinds.
+return {
   'folke/which-key.nvim',
-  event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-  dependencies = { 'echasnovski/mini.nvim' },
+  event = 'VeryLazy',
   opts = {
-    delay = 0,
+    delay = 0,                          -- ms before popup shows (0 = instant)
+
+    plugins = {
+      marks = true,                     -- show marks on ' and `
+      registers = true,                 -- show registers on " and <C-r>
+      spelling = {
+        enabled = true,                 -- show spelling suggestions on z=
+        suggestions = 20,               -- max suggestions to show
+      },
+    },
+
+    win = {
+      border = 'rounded',              -- popup border style
+      padding = { 1, 2 },              -- { top/bottom, left/right } padding
+    },
+
+    layout = {
+      spacing = 3,                      -- gap between columns
+      align = 'left',                   -- column alignment: "left"|"center"|"right"
+    },
+
     icons = {
+      breadcrumb = '»',               -- separator in command line
+      separator = '➜',                -- separator between key and description
+      group = '+ ',                     -- prepended to group labels
       keys = {
-        Up = ' ',
-        Down = ' ',
-        Left = ' ',
-        Right = ' ',
+        Up = ' ',
+        Down = ' ',
+        Left = ' ',
+        Right = ' ',
         C = '󰘴 ',
         M = '󰘵 ',
         D = '󰘳 ',
@@ -37,55 +59,36 @@ return { -- Useful plugin to show you pending keybinds.
       },
     },
   },
-  config = function()
-    local wk = require 'which-key'
 
+  config = function(_, opts)
+    local wk = require('which-key')
+    wk.setup(opts)
+
+    local _search = { icon = '', color = 'blue' }
+    local _lsp = { icon = '', color = 'cyan' }
     local _debug = { icon = '󰃤', color = 'red' }
-    local _telescope = { icon = '', color = 'blue' }
-    local _lsp = { icon = '', color = 'cyan' }
 
-    wk.add {
-      -- NOTE: Debug
-      { '<leader>d', group = '[D]ebug', icon = _debug },
-      { '<leader>ds', desc = 'Debug: Start/Continue', icon = _debug },
-      { '<leader>di', desc = 'Debug: Step Into', icon = _debug },
-      { '<leader>dn', desc = 'Debug: Step Over', icon = _debug },
-      { '<leader>do', desc = 'Debug: Step Out', icon = _debug },
-      { '<leader>db', desc = 'Debug: Toggle Breakpoint', icon = _debug },
-      { '<leader>dc', desc = 'Debug: Set Conditional Breakpoint', icon = _debug },
-      { '<leader>de', desc = 'Debug: Terminate and Close', icon = _debug },
-      { '<leader>du', desc = 'Debug: Toggle Debug UI', icon = _debug },
+    wk.add({
+      -- ── Search (Snacks.picker) ────────────────────────────────────
+      { '<leader>s', group = 'Search', icon = _search },
 
-      -- NOTE: Telescope
-      { '<leader>s', group = '[S]earch', icon = _telescope },
-      { '<leader>sh', desc = '[S]earch [H]elp', icon = _telescope },
-      { '<leader>sk', desc = '[S]earch [K]eymaps', icon = _telescope },
-      { '<leader>sf', desc = '[S]earch [F]iles', icon = _telescope },
-      { '<leader>ss', desc = '[S]earch [S]elect Telescope', icon = _telescope },
-      { '<leader>sw', desc = '[S]earch current [W]ord', icon = _telescope },
-      { '<leader>sg', desc = '[S]earch by [G]rep', icon = _telescope },
-      { '<leader>sd', desc = '[S]earch [D]iagnostics', icon = _telescope },
-      { '<leader>sr', desc = '[S]earch [R]esume', icon = _telescope },
-      { '<leader>s.', desc = '[S]earch Recent Files ("." for repeat)', icon = _telescope },
-      { '<leader><leader>', desc = '[ ] Find existing buffers', icon = _telescope },
+      -- ── LSP ───────────────────────────────────────────────────────
+      { '<leader>l', group = 'LSP', icon = _lsp },
 
-      -- NOTE: LSP
-      { '<leader>l', group = '[L]SP', icon = _lsp },
-      { '<leader>ld', desc = 'Goto [D]efinition', icon = _lsp },
-      { '<leader>lD', desc = 'Goto [D]eclaration', icon = _lsp },
-      { '<leader>lt', desc = 'Goto [T]ype Definition', icon = _lsp },
-      { '<leader>lr', desc = 'Find [R]eferences', icon = _lsp },
-      { '<leader>li', desc = 'Goto [I]mplementation', icon = _lsp },
-      { '<leader>ls', desc = 'Document [S]ymbols', icon = _lsp },
-      { '<leader>lS', desc = 'Workspace [S]ymbols', icon = _lsp },
-      { '<leader>ln', desc = 'Re[n]ame', icon = _lsp },
-      { '<leader>lc', desc = '[C]ode Actions', icon = _lsp },
+      -- ── Debug ─────────────────────────────────────────────────────
+      { '<leader>d', group = 'Debug', icon = _debug },
 
-      { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
-      { '<leader>r', group = '[R]ename' },
-      { '<leader>w', group = '[W]orkspace' },
-      { '<leader>t', group = '[T]oggle' },
-      { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-    }
+      -- ── Other groups ──────────────────────────────────────────────
+      { '<leader>b', group = 'Buffer' },
+      { '<leader>c', group = 'Code', mode = { 'n', 'x' } },
+      { '<leader>f', group = 'File' },
+      { '<leader>g', group = 'Git' },
+      { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
+      { '<leader>q', group = 'Quit' },
+      { '<leader>t', group = 'Terminal' },
+      { '<leader>u', group = 'UI Toggle' },
+      { '<leader>w', group = 'Window' },
+      { '<leader><tab>', group = 'Tab' },
+    })
   end,
 }
