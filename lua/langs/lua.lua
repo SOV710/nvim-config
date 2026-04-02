@@ -1,4 +1,6 @@
 return {
+  treesitter = { "lua", "luadoc", "luap" },
+
   lsp = {
     lua_ls = {
       settings = {
