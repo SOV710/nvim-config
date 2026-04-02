@@ -1,18 +1,18 @@
--- Mason consumes: language.mason → string[]
--- e.g. { "rust-analyzer", "codelldb", "clangd", "clang-format", "vtsls", "prettier", ... }
--- Deduplicated automatically by core.language (codelldb appears in both rust.lua and c.lua)
-
 return {
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
+    build = ":MasonUpdate",
     opts = {},
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = { "williamboman/mason.nvim" },
+    cmd = { "MasonToolsInstall", "MasonToolsUpdate" },
     opts = {
       ensure_installed = require("core.language").mason,
+      auto_update = false,
+      run_on_start = true,
     },
   },
 }

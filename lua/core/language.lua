@@ -4,21 +4,31 @@
 ---
 --- Usage:
 ---   local language = require("core.language")
----   language.plugins     → LazySpec[] for lazy.nvim
----   language.treesitter  → string[] for nvim-treesitter ensure_installed
----   language.formatters  → table<filetype, string[]> for conform.nvim
----   language.linters     → table<filetype, string[]> for nvim-lint
----   language.mason       → string[] for mason ensure_installed
----   language.enable_lsp()    → call after plugins loaded
----   language.enable_options() → call after plugins loaded
+---   language.plugins              → LazySpec[] for lazy.nvim
+---   language.treesitter           → string[] for nvim-treesitter ensure_installed
+---   language.treesitter_parsers   → table<name, ParserConfig> custom parsers
+---   language.formatters           → table<filetype, string[]> for conform.nvim
+---   language.linters              → table<filetype, string[]> for nvim-lint
+---   language.mason                → string[] for mason ensure_installed
+---   language.dap_adapters         → table<name, AdapterConfig> for nvim-dap
+---   language.dap_configurations   → table<filetype, table[]> for nvim-dap
+---   language.filetypes            → list of tables for vim.filetype.add()
+---   language.enable_lsp()         → call after plugins loaded
+---   language.enable_options()     → call after plugins loaded
+---   language.enable_filetypes()   → call after plugins loaded
+---   language.register_treesitter_parsers() → call before treesitter setup
 
 local M = {
   --- Aggregated results (available immediately after require)
   plugins = {}, ---@type LazySpec[]
   treesitter = {}, ---@type string[]
+  treesitter_parsers = {}, ---@type table<string, TreesitterParserConfig>
   formatters = {}, ---@type table<string, string[]>
   linters = {}, ---@type table<string, string[]>
   mason = {}, ---@type string[]
+  dap_adapters = {}, ---@type table<string, DapAdapterConfig>
+  dap_configurations = {}, ---@type table<string, table[]>
+  filetypes = {}, ---@type table[]
 
   --- Internal state
   _langs = {}, ---@type table<string, LangConfig>
@@ -28,16 +38,30 @@ local M = {
 }
 
 ---@class LangConfig
----@field filetypes?  string[]
----@field treesitter? string[] | false
----@field lsp?        string | table<string, table>
----@field formatter?  string | string[]
----@field linter?     string | string[]
----@field dap?        string | string[]
----@field mason?      string[]
----@field plugins?    LazySpec[]
----@field options?    table<string, any>
----@field enabled?    boolean
+---@field enabled?            boolean
+---@field filetypes?          string[]
+---@field treesitter?         string[]|false
+---@field treesitter_parsers? table<string, TreesitterParserConfig>
+---@field filetype?           table
+---@field lsp?                string|table<string, table>
+---@field formatter?          string|string[]
+---@field linter?             string|string[]
+---@field dap?                LangDapConfig
+---@field mason?              string[]
+---@field plugins?            LazySpec[]
+---@field options?            table<string, any>
+
+---@class TreesitterParserConfig
+---@field url          string
+---@field branch?      string
+---@field revision?    string
+---@field files        string[]
+---@field filetype?    string
+---@field generate?    boolean
+
+---@class LangDapConfig
+---@field adapter        table<string, DapAdapterConfig>
+---@field configurations? table<string, table[]>
 
 ----------------------------------------------------------------------
 -- Normalization helpers
@@ -155,6 +179,35 @@ function M._aggregate()
     if lang.mason then
       collect_unique(M.mason, M._seen_mason, lang.mason)
     end
+
+    -- Treesitter parsers: custom parser definitions
+    if lang.treesitter_parsers then
+      for name, config in pairs(lang.treesitter_parsers) do
+        M.treesitter_parsers[name] = config
+      end
+    end
+
+    -- DAP adapters and configurations
+    if lang.dap then
+      if lang.dap.adapter then
+        for name, adapter_config in pairs(lang.dap.adapter) do
+          M.dap_adapters[name] = adapter_config
+        end
+      end
+      if lang.dap.configurations then
+        for ft, configs in pairs(lang.dap.configurations) do
+          M.dap_configurations[ft] = M.dap_configurations[ft] or {}
+          for _, config in ipairs(configs) do
+            table.insert(M.dap_configurations[ft], config)
+          end
+        end
+      end
+    end
+
+    -- Filetypes: collect filetype.add() tables
+    if lang.filetype then
+      M.filetypes[#M.filetypes + 1] = lang.filetype
+    end
   end
 end
 
@@ -197,10 +250,39 @@ function M.enable_options()
   end
 end
 
+--- Register custom filetypes via vim.filetype.add()
+function M.enable_filetypes()
+  for _, ft_config in ipairs(M.filetypes) do
+    vim.filetype.add(ft_config)
+  end
+end
+
+--- Register custom treesitter parsers (call before nvim-treesitter setup)
+function M.register_treesitter_parsers()
+  for name, config in pairs(M.treesitter_parsers) do
+    local parsers = require("nvim-treesitter.parsers")
+    parsers[name] = {
+      install_info = {
+        url = config.url,
+        branch = config.branch,
+        revision = config.revision,
+        files = config.files,
+        generate = config.generate or false,
+      },
+      filetype = config.filetype,
+      tier = 3,
+    }
+    if config.filetype then
+      vim.treesitter.language.register(name, config.filetype)
+    end
+  end
+end
+
 --- Convenience: enable everything that needs deferred setup
 function M.enable()
   M.enable_lsp()
   M.enable_options()
+  M.enable_filetypes()
 end
 
 ----------------------------------------------------------------------

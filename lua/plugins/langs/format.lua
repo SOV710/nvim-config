@@ -1,9 +1,7 @@
--- Conform consumes: language.formatters → table<filetype, string[]>
--- e.g. { rust = {"rustfmt"}, python = {"black"}, lua = {"stylua"}, c = {"clang-format"}, ... }
-
 return {
   "stevearc/conform.nvim",
-  event = "LazyFile",
+  event = { "BufWritePre" },
+  cmd = { "ConformInfo" },
   opts = {
     formatters_by_ft = require("core.language").formatters,
     format_on_save = {
@@ -12,6 +10,11 @@ return {
     },
   },
   keys = {
-    { "<leader>cf", function() require("conform").format() end, desc = "Format buffer" },
+    {
+      "<leader>cf",
+      function() require("conform").format({ async = true }) end,
+      mode = { "n", "v" },
+      desc = "Format buffer",
+    },
   },
 }
