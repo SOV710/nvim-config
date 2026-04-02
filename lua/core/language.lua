@@ -222,6 +222,9 @@ function M.enable_lsp()
     for server, config in pairs(servers) do
       if not M._seen_lsp[server] then
         M._seen_lsp[server] = true
+        if not config.filetypes and lang.filetypes then
+          config.filetypes = lang.filetypes
+        end
         if next(config) then
           vim.lsp.config(server, config)
         end
