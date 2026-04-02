@@ -1,77 +1,66 @@
 return {
-  filetypes = {"c", "cpp"}, treesitter = {"c", "cpp"},
+  filetypes = { "c", "cpp" },
+  treesitter = { "c", "cpp" },
 
-  lsp =
-      {
-          clangd =
-              {
-                  cmd =
-                      {
-                          "clangd",
-                          "--background-index",
-                          "--clang-tidy",
-                          "--header-insertion=iwyu",
-                          "--completion-style=detailed",
-                          "--function-arg-placeholders",
-                          "--fallback-style=llvm",
-                      },
-              },
+  lsp = {
+    clangd = {
+      cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
       },
+    },
+  },
 
-  --formatter : not set — clangd provides formatting via LSP-- linter
-      : not set — clang -
-      tidy runs through clangd's --clang-tidy flag
+  -- formatter: not set — clangd provides formatting via LSP
+  -- linter: not set — clang-tidy runs through clangd's --clang-tidy flag
 
-      dap =
-      {
-          adapter =
-              {
-                  codelldb =
-                      {
-                          type = "server",
-                          port = "${port}",
-                          executable =
-                              {
-                                  command = vim.fn.stdpath("data")
-                                                .."/mason/bin/codelldb",
-                                  args = {"--port", "${port}"},
-                              },
-                      },
-              },
-          configurations =
-              {
-                  c =
-                      {
-                          {
-                              name = "Launch (C)",
-                              type = "codelldb",
-                              request = "launch",
-                              program = function() return vim.fn.input(
-                                  "Path to executable: ", vim.fn.getcwd().."/",
-                                  "file") end,
-                              cwd = "${workspaceFolder}",
-                              stopOnEntry = false,
-                          },
-                      },
-                  cpp =
-                      {
-                          {
-                              name = "Launch (C++)",
-                              type = "codelldb",
-                              request = "launch",
-                              program = function() return vim.fn.input(
-                                  "Path to executable: ", vim.fn.getcwd().."/",
-                                  "file") end,
-                              cwd = "${workspaceFolder}",
-                              stopOnEntry = false,
-                          },
-                      },
-              },
+  dap = {
+    adapter = {
+      codelldb = {
+        type = "server",
+        port = "${port}",
+        executable = {
+          command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+          args = { "--port", "${port}" },
+        },
       },
+    },
+    configurations = {
+      c = {
+        {
+          name = "Launch (C)",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+      },
+      cpp = {
+        {
+          name = "Launch (C++)",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+      },
+    },
+  },
 
-  mason = {"clangd", "codelldb"},
+  mason = { "clangd", "codelldb" },
 
   plugins = {
-      {"p00f/clangd_extensions.nvim", lazy = true},
+    { "p00f/clangd_extensions.nvim", lazy = true },
   },
 }
