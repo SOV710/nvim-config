@@ -1,13 +1,12 @@
 return {
   {
-    "williamboman/mason.nvim",
-    cmd = "Mason",
+    "mason-org/mason.nvim",
     build = ":MasonUpdate",
     opts = {},
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    dependencies = { "williamboman/mason.nvim" },
+    dependencies = { "mason-org/mason.nvim" },
     cmd = { "MasonToolsInstall", "MasonToolsUpdate" },
     event = "VeryLazy",
     opts = function()
