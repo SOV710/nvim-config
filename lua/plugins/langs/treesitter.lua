@@ -7,6 +7,7 @@ return {
 
     -- Register custom parsers BEFORE calling setup
     language.register_treesitter_parsers()
+    require("nvim-treesitter.install").prefer_git = true
 
     require("nvim-treesitter.configs").setup({
       ensure_installed = language.treesitter,
