@@ -18,6 +18,9 @@
 ---   language.enable_filetypes()   → call after plugins loaded
 ---   language.register_treesitter_parsers() → call before treesitter setup
 
+---@alias LazySpec table
+---@alias DapAdapterConfig table
+
 local M = {
   --- Aggregated results (available immediately after require)
   plugins = {}, ---@type LazySpec[]
@@ -171,7 +174,7 @@ end
 --- Process all loaded language configs into aggregated tables
 function M._aggregate()
   for _, lang in pairs(M._langs) do
-    local fts = lang.filetypes
+    local fts = lang.filetypes --[[@as string[] ]]
 
     -- Plugins: just append, no dedup needed (lazy.nvim handles duplicate specs)
     if lang.plugins then
@@ -187,7 +190,7 @@ function M._aggregate()
         -- Default: use filetypes as parser names
         parsers = fts
       end
-      collect_unique(M.treesitter, M._seen_ts, to_list(parsers))
+      collect_unique(M.treesitter, M._seen_ts, to_list(parsers --[[@as string[] ]]))
     end
 
     -- Formatters: map each filetype to its formatter list
