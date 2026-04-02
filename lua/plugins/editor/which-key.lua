@@ -84,6 +84,7 @@ return {
       { '<leader>f', group = 'File' },
       { '<leader>g', group = 'Git' },
       { '<leader>h', group = 'Git Hunk', mode = { 'n', 'v' } },
+      { '<leader>a', group = 'AI' },
       { '<leader>q', group = 'Quit' },
       { '<leader>t', group = 'Terminal' },
       { '<leader>u', group = 'UI Toggle' },
