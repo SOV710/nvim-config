@@ -10,7 +10,17 @@ return {
       group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
       callback = function()
         if vim.bo.buftype == "" then
-          lint.try_lint()
+          local names = lint.linters_by_ft[vim.bo.filetype]
+          if names then
+            names = vim.tbl_filter(function(name)
+              local linter = lint.linters[name]
+              if not linter then return false end
+              return vim.fn.executable(linter.cmd or name) == 1
+            end, names)
+            if #names > 0 then
+              lint.try_lint(names)
+            end
+          end
         end
       end,
     })
