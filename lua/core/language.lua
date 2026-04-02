@@ -32,7 +32,8 @@ local M = {
 
   --- Internal state
   _langs = {}, ---@type table<string, LangConfig>
-  _seen_lsp = {}, ---@type table<string, boolean>
+  _lsp_configs = {}, ---@type table<string, table> aggregated LSP server configs
+  _seen_lsp_ft = {}, ---@type table<string, table<string, boolean>> per-server filetype dedup
   _seen_ts = {}, ---@type table<string, boolean>
   _seen_mason = {}, ---@type table<string, boolean>
 }
@@ -91,6 +92,30 @@ local function normalize_lsp(lsp)
     else
       -- { pyright = { settings = ... } } style
       result[k] = v
+    end
+  end
+  return result
+end
+
+--- Deep merge two tables, concatenating list-like tables instead of replacing
+---@param base table
+---@param override table
+---@return table
+local function deep_merge(base, override)
+  local result = vim.tbl_deep_extend("force", base, override)
+  -- Fix list-like tables: concatenate instead of replace
+  for k, v in pairs(override) do
+    if type(v) == "table" and type(base[k]) == "table" then
+      if vim.islist(v) and vim.islist(base[k]) then
+        -- Concatenate lists (e.g. globalPlugins)
+        local merged = {}
+        for _, item in ipairs(base[k]) do merged[#merged + 1] = item end
+        for _, item in ipairs(v) do merged[#merged + 1] = item end
+        result[k] = merged
+      elseif not vim.islist(v) and not vim.islist(base[k]) then
+        -- Recurse into dict-like tables
+        result[k] = deep_merge(base[k], v)
+      end
     end
   end
   return result
@@ -208,6 +233,42 @@ function M._aggregate()
     if lang.filetype then
       M.filetypes[#M.filetypes + 1] = lang.filetype
     end
+
+    -- LSP: aggregate server configs, merging filetypes and settings
+    local servers = normalize_lsp(lang.lsp)
+    for server, config in pairs(servers) do
+      -- Determine filetypes for this server entry
+      local server_fts = config.filetypes or fts
+      M._seen_lsp_ft[server] = M._seen_lsp_ft[server] or {}
+
+      if not M._lsp_configs[server] then
+        -- First occurrence: initialize
+        config.filetypes = server_fts
+        M._lsp_configs[server] = config
+        for _, ft in ipairs(server_fts) do
+          M._seen_lsp_ft[server][ft] = true
+        end
+      else
+        -- Subsequent occurrence: merge filetypes (union) and deep-merge settings
+        local existing = M._lsp_configs[server]
+        -- Union filetypes
+        existing.filetypes = existing.filetypes or {}
+        for _, ft in ipairs(server_fts) do
+          if not M._seen_lsp_ft[server][ft] then
+            M._seen_lsp_ft[server][ft] = true
+            existing.filetypes[#existing.filetypes + 1] = ft
+          end
+        end
+        -- Deep-merge the rest (settings, init_options, etc.)
+        local fts_backup = existing.filetypes
+        local merge_config = vim.tbl_extend("force", {}, config)
+        merge_config.filetypes = nil -- filetypes already handled above
+        if next(merge_config) then
+          M._lsp_configs[server] = deep_merge(existing, merge_config)
+          M._lsp_configs[server].filetypes = fts_backup
+        end
+      end
+    end
   end
 end
 
@@ -217,20 +278,11 @@ end
 
 --- Enable all declared LSP servers via Neovim 0.11+ native API
 function M.enable_lsp()
-  for _, lang in pairs(M._langs) do
-    local servers = normalize_lsp(lang.lsp)
-    for server, config in pairs(servers) do
-      if not M._seen_lsp[server] then
-        M._seen_lsp[server] = true
-        if not config.filetypes and lang.filetypes then
-          config.filetypes = lang.filetypes
-        end
-        if next(config) then
-          vim.lsp.config(server, config)
-        end
-        vim.lsp.enable(server)
-      end
+  for server, config in pairs(M._lsp_configs) do
+    if next(config) then
+      vim.lsp.config(server, config)
     end
+    vim.lsp.enable(server)
   end
 end
 
