@@ -1,0 +1,46 @@
+return {
+  treesitter = { "markdown", "markdown_inline" },
+
+  lsp = "marksman",
+
+  -- linter: markdownlint
+  -- nvim-lint name: "markdownlint"
+  linter = "markdownlint",
+
+  -- formatter: not set — markdown formatting is opinionated
+  -- markdownlint --fix can handle basic formatting if needed
+
+  mason = { "marksman", "markdownlint" },
+
+  plugins = {
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      dependencies = { "nvim-treesitter/nvim-treesitter" },
+      ft = { "markdown", "norg", "org" },
+      opts = {
+        heading = {
+          enabled = true,
+          sign = true,
+          icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+        },
+        code = {
+          enabled = true,
+          sign = true,
+          style = "full",
+          left_pad = 1,
+          right_pad = 1,
+          language_pad = 1,
+        },
+        checkbox = {
+          enabled = true,
+          unchecked = { icon = "󰄱 " },
+          checked = { icon = "󰄵 " },
+        },
+        bullet = {
+          enabled = true,
+          icons = { "●", "○", "◆", "◇" },
+        },
+      },
+    },
+  },
+}
