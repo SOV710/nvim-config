@@ -1,68 +1,52 @@
--- Adds git related signs to the gutter, as well as utilities for managing changes
--- NOTE: gitsigns is already included in init.lua but contains only the base
--- config. This will add also the recommended keymaps.
-
 return {
-  {
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-      on_attach = function(bufnr)
-        local gitsigns = require 'gitsigns'
-
-        local function map(mode, l, r, opts)
-          opts = opts or {}
-          opts.buffer = bufnr
-          vim.keymap.set(mode, l, r, opts)
-        end
-
-        -- Navigation
-        map('n', ']c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { ']c', bang = true }
-          else
-            gitsigns.nav_hunk 'next'
-          end
-        end, { desc = 'Jump to next git [c]hange' })
-
-        map('n', '[c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { '[c', bang = true }
-          else
-            gitsigns.nav_hunk 'prev'
-          end
-        end, { desc = 'Jump to previous git [c]hange' })
-
-        -- Actions
-        -- visual mode
-        map('v', '<leader>hs', function()
-          gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'git [s]tage hunk' })
-        map('v', '<leader>hr', function()
-          gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'git [r]eset hunk' })
-        -- normal mode
-        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
-        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
-        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
-        map('n', '<leader>hu', gitsigns.undo_stage_hunk, { desc = 'git [u]ndo stage hunk' })
-        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
-        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
-        map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
-        map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
-        map('n', '<leader>hD', function()
-          gitsigns.diffthis '@'
-        end, { desc = 'git [D]iff against last commit' })
-        -- Toggles
-        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-        map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = '[T]oggle git show [D]eleted' })
-      end,
+  'lewis6991/gitsigns.nvim',
+  event = 'BufReadPost',                        -- attach to buffers as they open
+  keys = require 'core.keymaps.git.gitsigns',
+  opts = {
+    signs = {
+      add          = { text = '+' },            -- sign for added lines
+      change       = { text = '~' },            -- sign for changed lines
+      delete       = { text = '_' },            -- sign for deleted lines
+      topdelete    = { text = '‾' },            -- sign for top-deleted lines
+      changedelete = { text = '~' },            -- sign for changed+deleted lines
+      untracked    = { text = '┆' },            -- sign for untracked files
+    },
+    signs_staged = {
+      add          = { text = '+' },            -- staged add
+      change       = { text = '~' },            -- staged change
+      delete       = { text = '_' },            -- staged delete
+      topdelete    = { text = '‾' },            -- staged topdelete
+      changedelete = { text = '~' },            -- staged changedelete
+      untracked    = { text = '┆' },            -- staged untracked
+    },
+    signs_staged_enable    = true,              -- show staged signs in sign column
+    signcolumn             = true,              -- show signs in the sign column
+    numhl                  = false,             -- highlight line numbers
+    linehl                 = false,             -- highlight the whole line
+    word_diff              = false,             -- intra-line word diff highlighting
+    watch_gitdir           = {
+      follow_files = true,                      -- watch file renames
+    },
+    auto_attach            = true,              -- auto-attach to buffers
+    attach_to_untracked    = false,             -- also attach to untracked files
+    current_line_blame     = false,             -- virtual text blame on cursor line
+    current_line_blame_opts = {
+      virt_text          = true,                -- show blame as virtual text
+      virt_text_pos      = 'eol',               -- position: 'eol'|'overlay'|'right_align'
+      delay              = 1000,                -- ms before blame appears
+      ignore_whitespace  = false,               -- ignore whitespace changes in blame
+      virt_text_priority = 100,                 -- virtual text priority
+      use_focus          = true,                -- only show on focused window
+    },
+    current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
+    sign_priority          = 6,                 -- sign column priority
+    update_debounce        = 100,               -- ms debounce for updates
+    max_file_length        = 40000,             -- disable for files longer than this
+    preview_config         = {
+      style    = 'minimal',                     -- float style
+      relative = 'cursor',                      -- relative to cursor
+      row      = 0,                             -- float row offset
+      col      = 1,                             -- float col offset
     },
   },
 }
