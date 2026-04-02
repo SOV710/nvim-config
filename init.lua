@@ -56,6 +56,9 @@ require('lazy').setup {
 
 vim.cmd.colorscheme 'tokyonight'
 
+-- Ensure mason bin is in PATH before enabling LSP servers
+vim.env.PATH = vim.fn.stdpath 'data' .. '/mason/bin:' .. vim.env.PATH
+
 -- Enable LSP & per-language options (after lazy.nvim has set up rtp)
 language.enable()
 

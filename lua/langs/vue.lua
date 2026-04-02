@@ -6,9 +6,14 @@ return {
   treesitter = { "vue" },
 
   lsp = {
-    vue_ls = {},
+    vue_ls = {
+      cmd = { "vue-language-server", "--stdio" },
+      root_markers = { "package.json" },
+    },
 
     vtsls = {
+      cmd = { "vtsls", "--stdio" },
+      root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
       filetypes = {
         "typescript", "javascript",
         "javascriptreact", "typescriptreact",
@@ -31,6 +36,8 @@ return {
     },
 
     biome = {
+      cmd = { "biome", "lsp-proxy" },
+      root_markers = { "biome.json", "biome.jsonc" },
       settings = {
         biome = {
           html = {

@@ -3,6 +3,8 @@ return {
 
   lsp = {
     tinymist = {
+      cmd = { "tinymist" },
+      root_markers = { ".git" },
       settings = {
         formatterMode = "typstyle",
         exportPdf = "onSave",

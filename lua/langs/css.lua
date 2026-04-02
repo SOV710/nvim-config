@@ -4,6 +4,8 @@ return {
 
   lsp = {
     cssls = {
+      cmd = { "vscode-css-language-server", "--stdio" },
+      root_markers = { "package.json", ".git" },
       settings = {
         css = {
           validate = true,
@@ -20,7 +22,10 @@ return {
       },
     },
 
-    biome = {},
+    biome = {
+      cmd = { "biome", "lsp-proxy" },
+      root_markers = { "biome.json", "biome.jsonc" },
+    },
   },
 
   formatter = "biome",

@@ -3,6 +3,8 @@ return {
 
   lsp = {
     nil_ls = {
+      cmd = { "nil" },
+      root_markers = { "flake.nix", ".git" },
       settings = {
         ["nil"] = {
           formatting = {

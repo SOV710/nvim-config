@@ -7,6 +7,7 @@ return {
     -- NOT in mason — install from source: https://github.com/microsoft/typescript-go
     tsgo = {
       cmd = { "tsgo", "lsp", "--stdio" },
+      root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
       settings = {
         typescript = {
           inlayHints = {
@@ -32,7 +33,10 @@ return {
     },
 
     -- biome: linting diagnostics + formatting
-    biome = {},
+    biome = {
+      cmd = { "biome", "lsp-proxy" },
+      root_markers = { "biome.json", "biome.jsonc" },
+    },
   },
 
   formatter = "biome",

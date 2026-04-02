@@ -3,9 +3,14 @@ return {
   treesitter = { "astro" },
 
   lsp = {
-    astro = {},
+    astro = {
+      cmd = { "astro-ls", "--stdio" },
+      root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+    },
 
     vtsls = {
+      cmd = { "vtsls", "--stdio" },
+      root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
       filetypes = {
         "typescript", "javascript",
         "javascriptreact", "typescriptreact",
@@ -27,6 +32,8 @@ return {
     },
 
     biome = {
+      cmd = { "biome", "lsp-proxy" },
+      root_markers = { "biome.json", "biome.jsonc" },
       settings = {
         biome = {
           html = {

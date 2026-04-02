@@ -3,6 +3,9 @@ return {
 
   lsp = {
     texlab = {
+      cmd = { "texlab" },
+      filetypes = { "tex", "plaintex", "bib" },
+      root_markers = { ".latexmkrc", "latexmkrc", ".texlabroot", "texlabroot", "Tectonic.toml", ".git" },
       settings = {
         texlab = {
           build = {

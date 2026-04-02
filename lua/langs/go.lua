@@ -4,6 +4,8 @@ return {
 
   lsp = {
     gopls = {
+      cmd = { "gopls" },
+      root_markers = { "go.work", "go.mod", ".git" },
       settings = {
         gopls = {
           gofumpt = true,

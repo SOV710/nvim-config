@@ -3,7 +3,8 @@ return {
 
   lsp = {
     neocmakelsp = {
-      cmd = { "neocmakelsp", "--stdio" },
+      cmd = { "neocmakelsp", "stdio" },
+      root_markers = { "CMakeLists.txt", "cmake", ".git" },
       -- Disable LSP formatting capability — we use gersemi through conform instead
       on_attach = function(client, _)
         client.server_capabilities.documentFormattingProvider = false

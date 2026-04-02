@@ -2,7 +2,12 @@ return {
   filetypes = { "clojure", "edn" },
   treesitter = { "clojure" },
 
-  lsp = "clojure_lsp",
+  lsp = {
+    clojure_lsp = {
+      cmd = { "clojure-lsp" },
+      root_markers = { "project.clj", "deps.edn", "build.boot", "shadow-cljs.edn", "bb.edn", ".git" },
+    },
+  },
 
   -- formatter: not set — clojure-lsp integrates cljfmt, formats via LSP
   -- linter: not set — clojure-lsp integrates clj-kondo

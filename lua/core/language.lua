@@ -97,24 +97,30 @@ local function normalize_lsp(lsp)
   return result
 end
 
---- Deep merge two tables, concatenating list-like tables instead of replacing
+--- Deep merge two tables, concatenating list-like tables only at depth > 0
+--- (nested inside dicts like `settings`). Top-level lists use replacement
+--- semantics so that fields like `cmd` and `root_markers` aren't duplicated
+--- when the same server appears in multiple lang files.
 ---@param base table
 ---@param override table
+---@param depth? number
 ---@return table
-local function deep_merge(base, override)
+local function deep_merge(base, override, depth)
+  depth = depth or 0
   local result = vim.tbl_deep_extend("force", base, override)
-  -- Fix list-like tables: concatenate instead of replace
   for k, v in pairs(override) do
     if type(v) == "table" and type(base[k]) == "table" then
       if vim.islist(v) and vim.islist(base[k]) then
-        -- Concatenate lists (e.g. globalPlugins)
-        local merged = {}
-        for _, item in ipairs(base[k]) do merged[#merged + 1] = item end
-        for _, item in ipairs(v) do merged[#merged + 1] = item end
-        result[k] = merged
+        if depth > 0 then
+          -- Concatenate nested lists (e.g. globalPlugins inside settings)
+          local merged = {}
+          for _, item in ipairs(base[k]) do merged[#merged + 1] = item end
+          for _, item in ipairs(v) do merged[#merged + 1] = item end
+          result[k] = merged
+        end
+        -- depth == 0: tbl_deep_extend already replaced, which is correct
       elseif not vim.islist(v) and not vim.islist(base[k]) then
-        -- Recurse into dict-like tables
-        result[k] = deep_merge(base[k], v)
+        result[k] = deep_merge(base[k], v, depth + 1)
       end
     end
   end

@@ -3,6 +3,8 @@ return {
 
   lsp = {
     ruff = {
+      cmd = { "ruff", "server" },
+      root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
       init_options = {
         settings = {
           lineLength = 88,
@@ -14,6 +16,7 @@ return {
     },
     ty = {
       cmd = { "ty", "server" },
+      root_markers = { "pyproject.toml", ".git" },
     },
   },
 

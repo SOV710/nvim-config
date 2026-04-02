@@ -3,6 +3,8 @@ return {
 
   lsp = {
     yamlls = {
+      cmd = { "yaml-language-server", "--stdio" },
+      root_markers = { ".git" },
       settings = {
         yaml = {
           schemaStore = {

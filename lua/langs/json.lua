@@ -4,6 +4,8 @@ return {
 
   lsp = {
     jsonls = {
+      cmd = { "vscode-json-language-server", "--stdio" },
+      root_markers = { ".git" },
       settings = {
         json = {
           schemas = (function()
@@ -15,7 +17,10 @@ return {
       },
     },
 
-    biome = {},
+    biome = {
+      cmd = { "biome", "lsp-proxy" },
+      root_markers = { "biome.json", "biome.jsonc" },
+    },
   },
 
   formatter = "biome",

@@ -5,6 +5,7 @@ return {
     fish_lsp = {
       -- NOT in mason — install via: npm install -g fish-lsp
       cmd = { "fish-lsp", "start" },
+      root_markers = { "config.fish", ".git" },
     },
   },
 

@@ -7,6 +7,7 @@ return {
     -- Or from source: https://github.com/cxxxr/cl-lsp
     cl_lsp = {
       cmd = { "cl-lsp" },
+      root_markers = { ".git" },
     },
   },
 

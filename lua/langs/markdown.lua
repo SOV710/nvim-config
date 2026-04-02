@@ -1,7 +1,12 @@
 return {
   treesitter = { "markdown", "markdown_inline" },
 
-  lsp = "marksman",
+  lsp = {
+    marksman = {
+      cmd = { "marksman", "server" },
+      root_markers = { ".marksman.toml", ".git" },
+    },
+  },
 
   -- linter: markdownlint
   -- nvim-lint name: "markdownlint"

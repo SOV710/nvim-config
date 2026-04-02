@@ -1,7 +1,12 @@
 return {
   treesitter = { "dockerfile" },
 
-  lsp = "dockerls",
+  lsp = {
+    dockerls = {
+      cmd = { "docker-langserver", "--stdio" },
+      root_markers = { "Dockerfile", ".git" },
+    },
+  },
 
   -- linter: hadolint — comprehensive Dockerfile linter
   -- nvim-lint name: "hadolint"

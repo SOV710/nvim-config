@@ -2,7 +2,12 @@ return {
   filetypes = { "sql", "mysql", "plsql" },
   treesitter = { "sql" },
 
-  lsp = "sqlls",
+  lsp = {
+    sqlls = {
+      cmd = { "sql-language-server", "up", "--method", "stdio" },
+      root_markers = { ".sqllsrc.json", ".git" },
+    },
+  },
 
   -- sleek: fast Rust-based SQL formatter
   -- conform.nvim name: "sleek"
