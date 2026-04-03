@@ -252,7 +252,7 @@ function M._aggregate()
 
       if not M._lsp_configs[server] then
         -- First occurrence: initialize
-        config.filetypes = server_fts
+        config.filetypes = vim.list_extend({}, server_fts)
         M._lsp_configs[server] = config
         for _, ft in ipairs(server_fts) do
           M._seen_lsp_ft[server][ft] = true
