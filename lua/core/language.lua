@@ -62,6 +62,7 @@ local M = {
 ---@field files        string[]
 ---@field filetype?    string
 ---@field generate?    boolean
+---@field queries?     string
 
 ---@class LangDapConfig
 ---@field adapter        table<string, DapAdapterConfig>
@@ -325,13 +326,14 @@ end
 function M.register_treesitter_parsers()
   for name, config in pairs(M.treesitter_parsers) do
     local parsers = require("nvim-treesitter.parsers")
-    parsers[name] = {
+    parsers.list[name] = {
       install_info = {
         url = config.url,
         branch = config.branch,
         revision = config.revision,
         files = config.files,
         generate = config.generate or false,
+        queries = config.queries,
       },
       filetype = config.filetype,
       tier = 3,

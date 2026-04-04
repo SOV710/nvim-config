@@ -9,6 +9,7 @@ return {
       files = { 'src/parser.c' },
       filetype = 'taskrc',
       generate = false,
+      queries = 'queries',
     },
   },
   filetype = {
