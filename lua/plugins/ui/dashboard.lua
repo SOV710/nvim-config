@@ -51,12 +51,12 @@ return {
       preset = {
         header = logo,
         keys = {
-          { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
-          { icon = ' ', key = 'f', desc = 'Find File', action = pick 'files' },
+          { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
+          { icon = ' ', key = 'f', desc = 'Find File', action = pick 'files' },
           { icon = '󱎸 ', key = 'g', desc = 'Grep', action = pick 'grep' },
           { icon = '󰋚 ', key = 'r', desc = 'Recent Files', action = pick 'recent' },
           { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy' },
-          { icon = ' ', key = 'm', desc = 'Mason', action = ':Mason' },
+          { icon = ' ', key = 'm', desc = 'Mason', action = ':Mason' },
           { icon = '󰩈 ', key = 'q', desc = 'Quit', action = ':qa' },
         },
       },
