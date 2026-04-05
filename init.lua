@@ -101,6 +101,7 @@ require('lazy').setup {
         'netrwPlugin',
         'tohtml',
         'tutor',
+        'matchit',
       },
     },
   },
