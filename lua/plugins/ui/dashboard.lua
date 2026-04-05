@@ -4,15 +4,6 @@ local function pick(cmd)
   end
 end
 
-local function pickfiles(cwd)
-  return function()
-    Snacks.dashboard.pick('files', { cwd = cwd })
-  end
-end
-
-local config_dir = vim.fn.stdpath 'config'
-local dot_dir = vim.env.XDG_CONFIG_HOME or '~/.config'
-
 local logo = [[
    ████    ██████          ████████████████  
   ████  ██████        ██    ██  ██████ 
@@ -22,6 +13,32 @@ local logo = [[
   ████   ████   ████    ██  ██   ████  
    ████     ████     ████    ███████████████   
 ]]
+
+local function get_utc_offset()
+  local tz = os.date '%z' --[[@as string]] -- e.g. "+0100" or "-0500"
+  local sign = tz:sub(1, 1)
+  local hours = tonumber(tz:sub(2, 3))
+  local mins = tonumber(tz:sub(4, 5))
+  if mins and mins ~= 0 then
+    return string.format('UTC%s%d:%02d', sign, hours, mins)
+  else
+    return string.format('UTC%s%d', sign, hours)
+  end
+end
+
+local function clock_line()
+  local weekdays = { '日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日' }
+  local wday = weekdays[tonumber(os.date '%w') + 1]
+  return string.format('%s   %s (%s)   %s %s', wday, os.date '%y-%m-%d', os.date '%b %d', os.date '%H:%M', get_utc_offset())
+end
+
+local function clock_section()
+  return {
+    text = { { clock_line(), hl = 'SnacksDashboardDesc' } },
+    align = 'center',
+    padding = 1,
+  }
+end
 
 return {
   'folke/snacks.nvim',
@@ -34,14 +51,13 @@ return {
       preset = {
         header = logo,
         keys = {
-          { icon = ' ', key = 'f', desc = 'Find File', action = pick 'files' },
           { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
-          { icon = ' ', key = 'r', desc = 'Recent Files', action = pick 'recent' },
-          { icon = ' ', key = 'c', desc = 'Config', action = pickfiles(config_dir) },
-          { icon = ' ', key = '.', desc = 'Dotfiles', action = pickfiles(dot_dir) },
-          { icon = ' ', key = 'g', desc = 'Grep', action = pick 'grep' },
+          { icon = ' ', key = 'f', desc = 'Find File', action = pick 'files' },
+          { icon = '󱎸 ', key = 'g', desc = 'Grep', action = pick 'grep' },
+          { icon = '󰋚 ', key = 'r', desc = 'Recent Files', action = pick 'recent' },
           { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy' },
-          { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
+          { icon = ' ', key = 'm', desc = 'Mason', action = ':Mason' },
+          { icon = '󰩈 ', key = 'q', desc = 'Quit', action = ':qa' },
         },
       },
 
@@ -58,6 +74,7 @@ return {
         if max_panes > 1 then
           return {
             header,
+            clock_section(),
             {
               { section = 'projects', title = 'Projects', icon = ' ', indent = 2, padding = 1, pane = 2 },
               { section = 'recent_files', title = 'Recent', icon = ' ', indent = 2, padding = 1, pane = 2 },
@@ -68,8 +85,8 @@ return {
         else
           return {
             header,
+            clock_section(),
             keys,
-            { section = 'recent_files', title = 'Recent', icon = ' ', indent = 2, padding = 1 },
             startup,
           }
         end
