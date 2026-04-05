@@ -213,7 +213,13 @@ return {
               align = 'center',
               padding = 1,
             },
-            { section = 'recent_files', title = 'Recent', icon = '󰋚 ', indent = 2, padding = 1 },
+            {
+              section = 'recent_files',
+              title = 'Recent',
+              icon = '󰋚 ',
+              indent = 2,
+              padding = 1,
+            },
             {
               text = {
                 { os_info(), hl = 'SnacksDashboardDesc' },
