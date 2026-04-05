@@ -14,6 +14,8 @@ local logo = [[
    ████     ████     ████    ███████████████   
 ]]
 
+-- --- Clock Line ---------------------
+
 local function get_utc_offset()
   local tz = os.date '%z' --[[@as string]] -- e.g. "+0100" or "-0500"
   local sign = tz:sub(1, 1)
@@ -32,12 +34,107 @@ local function clock_line()
   return string.format('%s   %s (%s)   %s %s', wday, os.date '%y-%m-%d', os.date '%b %d', os.date '%H:%M', get_utc_offset())
 end
 
-local function clock_section()
-  return {
-    text = { { clock_line(), hl = 'SnacksDashboardDesc' } },
-    align = 'center',
-    padding = 1,
+-- --- System Info Line ----------------
+
+local function os_info()
+  local uname = vim.uv.os_uname()
+  local sysname = uname.sysname
+
+  -- Windows
+  if sysname:match 'Windows' then
+    -- uname.version on Windows usually looks like "Windows 11 Pro" or similar
+    local name = uname.version ~= '' and uname.version or sysname
+    return ' ' .. name
+  end
+
+  -- macOS
+  if sysname == 'Darwin' then
+    local handle = io.popen 'sw_vers -productVersion 2>/dev/null'
+    local version = ''
+    if handle then
+      version = (handle:read '*a' or ''):gsub('%s+$', '')
+      handle:close()
+    end
+    if version == '' then
+      version = uname.release -- fallback to Darwin kernel version
+    end
+    return ' macOS ' .. version
+  end
+
+  -- Unix-like: read /etc/os-release
+  local pretty_name, id, id_like = nil, nil, nil
+  local f = io.open('/etc/os-release', 'r')
+  if f then
+    for line in f:lines() do
+      local k, v = line:match '^([%w_]+)=(.+)$'
+      if k and v then
+        v = v:gsub('^"(.*)"$', '%1'):gsub("^'(.*)'$", '%1')
+        if k == 'PRETTY_NAME' then
+          pretty_name = v
+        elseif k == 'ID' then
+          id = v
+        elseif k == 'ID_LIKE' then
+          id_like = v
+        end
+      end
+    end
+    f:close()
+  end
+
+  pretty_name = pretty_name or sysname
+
+  -- Nerd Font icons keyed by /etc/os-release ID
+  local icons = {
+    debian = ' ',
+    ubuntu = ' ',
+    ['pop'] = ' ',
+    linuxmint = '󰣭 ',
+    deepin = ' ',
+    rocky = ' ',
+    fedora = ' ',
+    opensuse = ' ',
+    ['opensuse-tumbleweed'] = ' ',
+    ['opensuse-leap'] = ' ',
+    gentoo = ' ',
+    arch = ' ',
+    nixos = ' ',
+    slackware = ' ',
+    void = ' ',
+    alpine = ' ',
+    aosc = ' ',
+    ['aosc-os'] = ' ',
+    manjaro = ' ',
+    freebsd = ' ',
+    endeavouros = ' ',
+    kali = ' ',
+    garuda = ' ',
+    rhel = ' ',
+    qubes = ' ',
+    guix = ' ',
   }
+
+  local icon = id and icons[id]
+  -- Fallback: try ID_LIKE (e.g. derivatives not in our explicit list)
+  if not icon and id_like then
+    for token in id_like:gmatch '%S+' do
+      if icons[token] then
+        icon = icons[token]
+        break
+      end
+    end
+  end
+  icon = icon or ' ' -- generic Linux/Tux
+
+  return icon .. pretty_name
+end
+
+local function nvim_version()
+  local v = vim.version()
+  local s = string.format(' Neovim %d.%d.%d', v.major, v.minor, v.patch)
+  if v.prerelease then
+    s = s .. '-' .. tostring(v.prerelease)
+  end
+  return s
 end
 
 return {
@@ -74,10 +171,36 @@ return {
         if max_panes > 1 then
           return {
             header,
-            clock_section(),
             {
-              { section = 'projects', title = 'Projects', icon = ' ', indent = 2, padding = 1, pane = 2 },
-              { section = 'recent_files', title = 'Recent', icon = ' ', indent = 2, padding = 1, pane = 2 },
+              text = { { clock_line(), hl = 'SnacksDashboardDesc' } },
+              align = 'center',
+              padding = 1,
+            },
+            {
+              section = 'projects',
+              title = 'Projects',
+              icon = ' ',
+              indent = 2,
+              padding = 1,
+              pane = 2,
+            },
+            {
+              section = 'recent_files',
+              title = 'Recent',
+              icon = ' ',
+              indent = 2,
+              padding = 1,
+              pane = 2,
+            },
+            {
+              text = {
+                { os_info(), hl = 'SnacksDashboardDesc' },
+                { '  |  ', hl = 'SnacksDashboardDimmed' },
+                { nvim_version(), hl = 'SnacksDashboardDesc' },
+              },
+              align = 'center',
+              padding = 1,
+              pane = 1,
             },
             keys,
             { section = 'startup', padding = 1, pane = 2 },
@@ -85,7 +208,21 @@ return {
         else
           return {
             header,
-            clock_section(),
+            {
+              text = { { clock_line(), hl = 'SnacksDashboardDesc' } },
+              align = 'center',
+              padding = 1,
+            },
+            { section = 'recent_files', title = 'Recent', icon = '󰋚 ', indent = 2, padding = 1 },
+            {
+              text = {
+                { os_info(), hl = 'SnacksDashboardDesc' },
+                { '  |  ', hl = 'SnacksDashboardDimmed' },
+                { nvim_version(), hl = 'SnacksDashboardDesc' },
+              },
+              align = 'center',
+              padding = 1,
+            },
             keys,
             startup,
           }
