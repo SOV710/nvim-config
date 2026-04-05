@@ -22,6 +22,9 @@ require('lazy.core.handler.event').mappings.LazyFile = {
 -- it scans lua/langs/*.lua and aggregates everything.
 local language = require 'core.language'
 
+-- if you have nerd fonts
+local have_nerd_font = true
+
 -- Lazy setup
 require('lazy').setup {
   spec = {
@@ -42,6 +45,55 @@ require('lazy').setup {
   change_detection = { enabled = false },
   rocks = { enabled = false },
 
+  dev = {
+    path = '~/proj',
+    patterns = {},
+    fallback = false,
+  },
+
+  ui = {
+    size = {
+      width = 0.85,
+      height = 0.8,
+    },
+    border = 'rounded',
+    backdrop = 60,
+    title = ' SOV710 is Lazy󰒲 ',
+
+    icons = have_nerd_font and {
+      cmd = '󰞷 ',
+      event = ' ',
+      ft = '󱔘 ',
+      debug = '󰃤 ',
+    } or {
+      cmd = '⌘',
+      config = '🛠',
+      event = '📅',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤 ',
+    },
+
+    browser = (function()
+      for _, cmd in ipairs { 'vivaldi', 'firefox', 'chromium', 'xdg-open', 'open' } do
+        if vim.fn.executable(cmd) == 1 then
+          return cmd
+        end
+      end
+    end)(),
+
+    diff = {
+      cmd = 'diffview.nvim',
+    },
+  },
+
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -52,7 +104,19 @@ require('lazy').setup {
       },
     },
   },
+
+  profiling = {
+    -- Enables extra stats on the debug tab related to the loader cache.
+    -- Additionally gathers stats about all package.loaders
+    loader = true,
+    -- Track each new require in the Lazy profiling tab
+    require = false,
+  },
 }
+-- In Lazy UI
+-- "<localleader>l" is open lazygit log
+-- "<localleader>i" is inspect plugins
+-- "<localleader>t" is open terminal in plugin dir
 
 vim.cmd.colorscheme 'tokyonight'
 
