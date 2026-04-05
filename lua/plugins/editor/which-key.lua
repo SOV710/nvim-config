@@ -2,31 +2,31 @@ return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
   opts = {
-    delay = 0,                          -- ms before popup shows (0 = instant)
+    delay = 0, -- ms before popup shows (0 = instant)
 
     plugins = {
-      marks = true,                     -- show marks on ' and `
-      registers = true,                 -- show registers on " and <C-r>
+      marks = true, -- show marks on ' and `
+      registers = true, -- show registers on " and <C-r>
       spelling = {
-        enabled = true,                 -- show spelling suggestions on z=
-        suggestions = 20,               -- max suggestions to show
+        enabled = true, -- show spelling suggestions on z=
+        suggestions = 20, -- max suggestions to show
       },
     },
 
     win = {
-      border = 'rounded',              -- popup border style
-      padding = { 1, 2 },              -- { top/bottom, left/right } padding
+      border = 'rounded', -- popup border style
+      padding = { 1, 2 }, -- { top/bottom, left/right } padding
     },
 
     layout = {
-      spacing = 3,                      -- gap between columns
-      align = 'left',                   -- column alignment: "left"|"center"|"right"
+      spacing = 3, -- gap between columns
+      align = 'left', -- column alignment: "left"|"center"|"right"
     },
 
     icons = {
-      breadcrumb = '»',               -- separator in command line
-      separator = '➜',                -- separator between key and description
-      group = '+ ',                     -- prepended to group labels
+      breadcrumb = '»', -- separator in command line
+      separator = '➜', -- separator between key and description
+      group = '+ ', -- prepended to group labels
       keys = {
         Up = ' ',
         Down = ' ',
@@ -61,14 +61,14 @@ return {
   },
 
   config = function(_, opts)
-    local wk = require('which-key')
+    local wk = require 'which-key'
     wk.setup(opts)
 
     local _search = { icon = '', color = 'blue' }
     local _lsp = { icon = '', color = 'cyan' }
     local _debug = { icon = '󰃤', color = 'red' }
 
-    wk.add({
+    wk.add {
       -- ── Search (Snacks.picker) ────────────────────────────────────
       { '<leader>s', group = 'Search', icon = _search },
 
@@ -90,6 +90,6 @@ return {
       { '<leader>u', group = 'UI Toggle' },
       { '<leader>w', group = 'Window' },
       { '<leader><tab>', group = 'Tab' },
-    })
+    }
   end,
 }

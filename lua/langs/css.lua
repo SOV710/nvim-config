@@ -1,37 +1,37 @@
 return {
-  filetypes = { "css", "scss", "sass" },
-  treesitter = { "css", "scss" },
+  filetypes = { 'css', 'scss', 'sass' },
+  treesitter = { 'css', 'scss' },
 
   lsp = {
     cssls = {
-      cmd = { "vscode-css-language-server", "--stdio" },
-      root_markers = { "package.json", ".git" },
+      cmd = { 'vscode-css-language-server', '--stdio' },
+      root_markers = { 'package.json', '.git' },
       settings = {
         css = {
           validate = true,
           lint = {
-            unknownAtRules = "ignore",
+            unknownAtRules = 'ignore',
           },
         },
         scss = {
           validate = true,
           lint = {
-            unknownAtRules = "ignore",
+            unknownAtRules = 'ignore',
           },
         },
       },
     },
 
     biome = {
-      cmd = { "biome", "lsp-proxy" },
-      root_markers = { "biome.json", "biome.jsonc" },
+      cmd = { 'biome', 'lsp-proxy' },
+      root_markers = { 'biome.json', 'biome.jsonc' },
     },
   },
 
-  formatter = "biome",
-  linter = "stylelint",
+  formatter = 'biome',
+  linter = 'stylelint',
 
-  mason = { "css-lsp", "biome", "stylelint" },
+  mason = { 'css-lsp', 'biome', 'stylelint' },
 
   options = {
     tabstop = 2,

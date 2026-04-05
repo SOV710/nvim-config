@@ -1,14 +1,14 @@
 return {
-  treesitter = { "typst" },
+  treesitter = { 'typst' },
 
   lsp = {
     tinymist = {
-      cmd = { "tinymist" },
-      root_markers = { ".git" },
+      cmd = { 'tinymist' },
+      root_markers = { '.git' },
       settings = {
-        formatterMode = "typstyle",
-        exportPdf = "onSave",
-        semanticTokens = "enable",
+        formatterMode = 'typstyle',
+        exportPdf = 'onSave',
+        semanticTokens = 'enable',
       },
     },
   },
@@ -16,7 +16,7 @@ return {
   -- formatter: not set — tinymist formats via LSP (typstyle bundled)
   -- linter: not set — tinymist provides diagnostics
 
-  mason = { "tinymist" },
+  mason = { 'tinymist' },
 
   options = {
     tabstop = 2,

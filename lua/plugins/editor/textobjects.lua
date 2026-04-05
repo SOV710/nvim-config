@@ -15,10 +15,10 @@ return {
         },
       }
 
-      local select = require('nvim-treesitter-textobjects.select')
-      local move = require('nvim-treesitter-textobjects.move')
-      local swap = require('nvim-treesitter-textobjects.swap')
-      local ts_repeat = require('nvim-treesitter-textobjects.repeatable_move')
+      local select = require 'nvim-treesitter-textobjects.select'
+      local move = require 'nvim-treesitter-textobjects.move'
+      local swap = require 'nvim-treesitter-textobjects.swap'
+      local ts_repeat = require 'nvim-treesitter-textobjects.repeatable_move'
 
       -- ── select textobjects ──────────────────────────────────────────
       local select_maps = {
@@ -60,10 +60,10 @@ return {
 
       -- ── swap textobjects ────────────────────────────────────────────
       vim.keymap.set('n', '<leader>a', function()
-        swap.swap_next('@parameter.inner')
+        swap.swap_next '@parameter.inner'
       end, { desc = 'Swap next parameter' })
       vim.keymap.set('n', '<leader>A', function()
-        swap.swap_previous('@parameter.inner')
+        swap.swap_previous '@parameter.inner'
       end, { desc = 'Swap prev parameter' })
 
       -- ── repeatable move (;/,) ───────────────────────────────────────
@@ -79,20 +79,20 @@ return {
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
     opts = {
-      n_lines = 500,                       -- lines within which textobject is searched
-      custom_textobjects = nil,            -- custom textobjects (nil = use defaults + treesitter)
+      n_lines = 500, -- lines within which textobject is searched
+      custom_textobjects = nil, -- custom textobjects (nil = use defaults + treesitter)
       mappings = {
-        around = 'a',                      -- prefix for "around" textobjects
-        inside = 'i',                      -- prefix for "inside" textobjects
-        around_next = 'an',                -- prefix for "around next" textobjects
-        inside_next = 'in',                -- prefix for "inside next" textobjects
-        around_last = 'al',                -- prefix for "around last" textobjects
-        inside_last = 'il',                -- prefix for "inside last" textobjects
-        goto_left = 'g[',                  -- goto left boundary of textobject
-        goto_right = 'g]',                 -- goto right boundary of textobject
+        around = 'a', -- prefix for "around" textobjects
+        inside = 'i', -- prefix for "inside" textobjects
+        around_next = 'an', -- prefix for "around next" textobjects
+        inside_next = 'in', -- prefix for "inside next" textobjects
+        around_last = 'al', -- prefix for "around last" textobjects
+        inside_last = 'il', -- prefix for "inside last" textobjects
+        goto_left = 'g[', -- goto left boundary of textobject
+        goto_right = 'g]', -- goto right boundary of textobject
       },
-      search_method = 'cover_or_next',    -- search method: "cover"|"cover_or_next"|"cover_or_prev"|"cover_or_nearest"|"next"|"prev"|"nearest"
-      silent = false,                      -- suppress "no textobject found" messages
+      search_method = 'cover_or_next', -- search method: "cover"|"cover_or_next"|"cover_or_prev"|"cover_or_nearest"|"next"|"prev"|"nearest"
+      silent = false, -- suppress "no textobject found" messages
     },
     config = function(_, opts)
       require('mini.ai').setup(opts)

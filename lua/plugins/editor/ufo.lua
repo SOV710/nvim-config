@@ -6,30 +6,30 @@ return {
 
   init = function()
     -- Fold options co-located with the plugin that manages them
-    vim.o.foldcolumn = '1'                 -- show fold column (1 char wide)
-    vim.o.foldlevel = 99                   -- open all folds by default
-    vim.o.foldlevelstart = 99              -- open all folds when opening a file
-    vim.o.foldenable = true                -- enable folding
+    vim.o.foldcolumn = '1' -- show fold column (1 char wide)
+    vim.o.foldlevel = 99 -- open all folds by default
+    vim.o.foldlevelstart = 99 -- open all folds when opening a file
+    vim.o.foldenable = true -- enable folding
   end,
 
   opts = {
     provider_selector = function()
-      return { 'lsp', 'indent' }            -- fold providers: LSP first, indent fallback
+      return { 'lsp', 'indent' } -- fold providers: LSP first, indent fallback
     end,
-    open_fold_hl_timeout = 400,            -- ms to highlight newly opened fold (0 = disable)
-    close_fold_kinds_for_ft = {},          -- fold kinds to keep closed per filetype
+    open_fold_hl_timeout = 400, -- ms to highlight newly opened fold (0 = disable)
+    close_fold_kinds_for_ft = {}, -- fold kinds to keep closed per filetype
 
     preview = {
       win_config = {
-        border = 'rounded',               -- preview window border style
-        winhighlight = 'Normal:Folded',   -- preview window highlight
-        winblend = 0,                      -- preview window transparency
+        border = 'rounded', -- preview window border style
+        winhighlight = 'Normal:Folded', -- preview window highlight
+        winblend = 0, -- preview window transparency
       },
       mappings = {
-        scrollU = '<C-u>',                 -- scroll up in preview
-        scrollD = '<C-d>',                 -- scroll down in preview
-        jumpTop = '[',                     -- jump to top of preview
-        jumpBot = ']',                     -- jump to bottom of preview
+        scrollU = '<C-u>', -- scroll up in preview
+        scrollD = '<C-d>', -- scroll down in preview
+        jumpTop = '[', -- jump to top of preview
+        jumpBot = ']', -- jump to bottom of preview
       },
     },
 

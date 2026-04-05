@@ -1,1 +1,1 @@
-pcall(vim.treesitter.start, 0, "taskwarrior")
+pcall(vim.treesitter.start, 0, 'taskwarrior')

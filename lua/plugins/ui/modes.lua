@@ -1,12 +1,12 @@
 return {
-  "mvllow/modes.nvim",
-  event = "VeryLazy",
+  'mvllow/modes.nvim',
+  event = 'VeryLazy',
   opts = {
     colors = {
-      insert = "#c3e88d",    -- green (Tokyo Night green)
-      replace = "#ff757f",   -- red
-      visual = "#c099ff",    -- purple
+      insert = '#c3e88d', -- green (Tokyo Night green)
+      replace = '#ff757f', -- red
+      visual = '#c099ff', -- purple
     },
-    line_opacity = 0.15,     -- subtle background tint
+    line_opacity = 0.15, -- subtle background tint
   },
 }

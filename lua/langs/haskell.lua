@@ -1,6 +1,6 @@
 return {
-  filetypes = { "haskell", "lhaskell", "cabal", "cabalproject" },
-  treesitter = { "haskell" },
+  filetypes = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
+  treesitter = { 'haskell' },
 
   -- NO lsp field: haskell-tools.nvim handles HLS startup internally
   -- HLS is NOT in mason — install via: ghcup install hls
@@ -10,9 +10,9 @@ return {
 
   dap = {
     adapter = {
-      ["haskell-debug-adapter"] = {
-        type = "executable",
-        command = "haskell-debug-adapter",
+      ['haskell-debug-adapter'] = {
+        type = 'executable',
+        command = 'haskell-debug-adapter',
         -- Assumes haskell-debug-adapter is in PATH
         -- Install via: cabal install haskell-debug-adapter haskell-dap ghci-dap
       },
@@ -20,18 +20,18 @@ return {
     configurations = {
       haskell = {
         {
-          name = "Launch",
-          type = "haskell-debug-adapter",
-          request = "launch",
-          workspace = "${workspaceFolder}",
-          startup = "${file}",
+          name = 'Launch',
+          type = 'haskell-debug-adapter',
+          request = 'launch',
+          workspace = '${workspaceFolder}',
+          startup = '${file}',
           stopOnEntry = true,
-          logFile = vim.fn.stdpath("data") .. "/haskell-dap.log",
-          logLevel = "WARNING",
+          logFile = vim.fn.stdpath 'data' .. '/haskell-dap.log',
+          logLevel = 'WARNING',
           ghciEnv = vim.empty_dict(),
-          ghciPrompt = "λ> ",
-          ghciInitialPrompt = "ghci> ",
-          ghciCmd = "stack ghci --test --no-load --no-build --main-is TARGET --ghci-options -fprint-evld-with-show",
+          ghciPrompt = 'λ> ',
+          ghciInitialPrompt = 'ghci> ',
+          ghciCmd = 'stack ghci --test --no-load --no-build --main-is TARGET --ghci-options -fprint-evld-with-show',
         },
       },
     },
@@ -43,15 +43,15 @@ return {
 
   plugins = {
     {
-      "mrcjkb/haskell-tools.nvim",
-      version = "^4",
-      ft = { "haskell", "lhaskell", "cabal", "cabalproject" },
+      'mrcjkb/haskell-tools.nvim',
+      version = '^4',
+      ft = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
       init = function()
         vim.g.haskell_tools = {
           hls = {
             settings = {
               haskell = {
-                formattingProvider = "ormolu",
+                formattingProvider = 'ormolu',
                 checkProject = true,
                 plugin = {
                   hlint = { globalOn = true },
@@ -61,7 +61,7 @@ return {
           },
           tools = {
             repl = {
-              handler = "toggleterm",
+              handler = 'toggleterm',
               auto_focus = true,
             },
             hover = {
@@ -69,7 +69,7 @@ return {
             },
           },
           dap = {
-            cmd = { "haskell-debug-adapter" },
+            cmd = { 'haskell-debug-adapter' },
           },
         }
       end,

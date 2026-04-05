@@ -1,33 +1,34 @@
-local vue_language_server_path = vim.fn.stdpath("data")
-  .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+local vue_language_server_path = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server'
 
 return {
-  filetypes = { "vue" },
-  treesitter = { "vue" },
+  filetypes = { 'vue' },
+  treesitter = { 'vue' },
 
   lsp = {
     vue_ls = {
-      cmd = { "vue-language-server", "--stdio" },
-      root_markers = { "package.json" },
+      cmd = { 'vue-language-server', '--stdio' },
+      root_markers = { 'package.json' },
     },
 
     vtsls = {
-      cmd = { "vtsls", "--stdio" },
-      root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
+      cmd = { 'vtsls', '--stdio' },
+      root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
       filetypes = {
-        "typescript", "javascript",
-        "javascriptreact", "typescriptreact",
-        "vue",
+        'typescript',
+        'javascript',
+        'javascriptreact',
+        'typescriptreact',
+        'vue',
       },
       settings = {
         vtsls = {
           tsserver = {
             globalPlugins = {
               {
-                name = "@vue/typescript-plugin",
+                name = '@vue/typescript-plugin',
                 location = vue_language_server_path,
-                languages = { "vue" },
-                configNamespace = "typescript",
+                languages = { 'vue' },
+                configNamespace = 'typescript',
               },
             },
           },
@@ -36,8 +37,8 @@ return {
     },
 
     biome = {
-      cmd = { "biome", "lsp-proxy" },
-      root_markers = { "biome.json", "biome.jsonc" },
+      cmd = { 'biome', 'lsp-proxy' },
+      root_markers = { 'biome.json', 'biome.jsonc' },
       settings = {
         biome = {
           html = {
@@ -48,9 +49,9 @@ return {
     },
   },
 
-  formatter = "biome",
+  formatter = 'biome',
 
-  mason = { "vue-language-server", "vtsls", "biome" },
+  mason = { 'vue-language-server', 'vtsls', 'biome' },
 
   options = {
     tabstop = 2,

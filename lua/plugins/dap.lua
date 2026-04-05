@@ -163,7 +163,7 @@ return {
     vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
     local breakpoint_icons = vim.g.have_nerd_font
         and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-        or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
+      or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
     for type, icon in pairs(breakpoint_icons) do
       local tp = 'Dap' .. type
       local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
@@ -189,15 +189,14 @@ return {
 
     local function find_root(buf)
       local path = vim.fs.dirname(vim.api.nvim_buf_get_name(buf))
-      return vim.fs.find({ 'CMakeLists.txt', '.git', 'compile_commands.json' }, { upward = true, path = path })
-          [1] -- return full path or nil
+      return vim.fs.find({ 'CMakeLists.txt', '.git', 'compile_commands.json' }, { upward = true, path = path })[1] -- return full path or nil
     end
 
     local function make_c_or_cpp_config(lang)
       local buf = vim.api.nvim_get_current_buf()
       local rootf = find_root(buf)
       local proj = rootf and vim.fs.dirname(rootf) -- CMakeLists dir
-          or vim.fn.expand '%:p:h'                 -- simgle file dir
+        or vim.fn.expand '%:p:h' -- simgle file dir
       local build = proj .. '/build'
       local exe = build .. '/foo'
       local file = vim.api.nvim_buf_get_name(buf)
@@ -206,8 +205,7 @@ return {
       if rootf then -- cmake project
         cmds = {
           ('platform shell mkdir -p %s'):format(build),
-          ('platform shell cmake -S %s -B %s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON')
-              :format(proj, build),
+          ('platform shell cmake -S %s -B %s -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'):format(proj, build),
           ('platform shell cmake --build %s --config Debug -j32'):format(build),
         }
       else -- single file
@@ -292,34 +290,34 @@ return {
 
     local function venv_python()
       local cwd = vim.fn.getcwd()
-      if vim.fn.has("win32") == 1 then
-        return cwd .. "\\.venv\\Scripts\\python.exe"
+      if vim.fn.has 'win32' == 1 then
+        return cwd .. '\\.venv\\Scripts\\python.exe'
       else
-        return cwd .. "/.venv/bin/python"
+        return cwd .. '/.venv/bin/python'
       end
     end
 
     dap.adapters.python = function(cb, config)
       -- config.port / config.host 来自 dap.configurations.python
-      cb({
-        type = "server",
-        host = config.host or "127.0.0.1",
+      cb {
+        type = 'server',
+        host = config.host or '127.0.0.1',
         port = config.port or 5678,
-        options = { source_filetype = "python" },
-      })
+        options = { source_filetype = 'python' },
+      }
     end
 
     dap.configurations.python = {
       {
-        name = "Python: Attach (debugpy --listen 5678)",
-        type = "python",
-        request = "attach",
-        host = "127.0.0.1",
+        name = 'Python: Attach (debugpy --listen 5678)',
+        type = 'python',
+        request = 'attach',
+        host = '127.0.0.1',
         port = 5678,
 
         justMyCode = false,
         pathMappings = {
-          { localRoot = "${workspaceFolder}/src", remoteRoot = "${workspaceFolder}/src" },
+          { localRoot = '${workspaceFolder}/src', remoteRoot = '${workspaceFolder}/src' },
         },
       },
     }

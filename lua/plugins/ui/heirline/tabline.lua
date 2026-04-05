@@ -1,15 +1,15 @@
 local M = {}
-local utils = require("heirline.utils")
+local utils = require 'heirline.utils'
 
 -- ══════════════════════════════════════════════════════════════════════
 -- State
 -- ══════════════════════════════════════════════════════════════════════
 
-local tab_names = {}      -- tabpage handle → custom name
+local tab_names = {} -- tabpage handle → custom name
 local show_picker = false -- picker mode active?
 
 -- Home-row key sequence for tab picker
-local picker_keys = "asdfjklghvbnyuio"
+local picker_keys = 'asdfjklghvbnyuio'
 
 -- Build reverse map: char → index
 local label_map = {}
@@ -19,13 +19,29 @@ end
 
 -- Numbered tab icons (Nerd Font)
 local tab_icons = {
-  "󰲡", "󰲣", "󰲥", "󰲧", "󰲩", "󰲫", "󰲭", "󰲯", "󰲱", "󰿭",
+  '󰲡',
+  '󰲣',
+  '󰲥',
+  '󰲧',
+  '󰲩',
+  '󰲫',
+  '󰲭',
+  '󰲯',
+  '󰲱',
+  '󰿭',
 }
 
 local update_events = {
-  "TabEnter", "TabNew", "TabClosed",
-  "WinNew", "WinClosed", "WinLeave", "WinEnter",
-  "BufWinEnter", "BufWinLeave", "BufDelete",
+  'TabEnter',
+  'TabNew',
+  'TabClosed',
+  'WinNew',
+  'WinClosed',
+  'WinLeave',
+  'WinEnter',
+  'BufWinEnter',
+  'BufWinLeave',
+  'BufDelete',
 }
 
 -- ══════════════════════════════════════════════════════════════════════
@@ -51,8 +67,8 @@ function M.pick()
 end
 
 function M.rename()
-  vim.ui.input({ prompt = "Tab name: " }, function(name)
-    if name and name ~= "" then
+  vim.ui.input({ prompt = 'Tab name: ' }, function(name)
+    if name and name ~= '' then
       tab_names[vim.api.nvim_get_current_tabpage()] = name
     else
       tab_names[vim.api.nvim_get_current_tabpage()] = nil
@@ -76,8 +92,10 @@ local TabComponent = {
     if not name then
       local win = vim.api.nvim_tabpage_get_win(tabpage)
       local buf = vim.api.nvim_win_get_buf(win)
-      name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
-      if name == "" then name = "[No Name]" end
+      name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ':t')
+      if name == '' then
+        name = '[No Name]'
+      end
     end
 
     self.tab_name = name
@@ -87,7 +105,7 @@ local TabComponent = {
       local key = picker_keys:sub(tabnr, tabnr):upper()
       self.tab_icon = key
     elseif is_active then
-      self.tab_icon = "󰻂"
+      self.tab_icon = '󰻂'
     else
       local icon_idx = tabnr <= #tab_icons and tabnr or #tab_icons
       self.tab_icon = tab_icons[icon_idx]
@@ -95,14 +113,14 @@ local TabComponent = {
   end,
 
   provider = function(self)
-    return " " .. self.tab_icon .. " " .. self.tab_name .. " "
+    return ' ' .. self.tab_icon .. ' ' .. self.tab_name .. ' '
   end,
 
   hl = function(self)
     if self.is_active then
-      return "TabLineSel"
+      return 'TabLineSel'
     end
-    return { fg = "gray" }
+    return { fg = 'gray' }
   end,
 }
 
@@ -126,17 +144,23 @@ local function get_file_icon(bufname)
   local ok, icon = pcall(function()
     return Snacks.util.icon(bufname)
   end)
-  return ok and icon or ""
+  return ok and icon or ''
 end
 
 -- Check if a buffer is tagged in grapple and return its index
 local function grapple_index(buf)
-  local ok, grapple = pcall(require, "grapple")
-  if not ok then return nil end
+  local ok, grapple = pcall(require, 'grapple')
+  if not ok then
+    return nil
+  end
   local exists = pcall(grapple.find, { buffer = buf })
-  if not exists then return nil end
+  if not exists then
+    return nil
+  end
   local tags_ok, tags = pcall(grapple.tags)
-  if not tags_ok or not tags then return nil end
+  if not tags_ok or not tags then
+    return nil
+  end
   for i, tag in ipairs(tags) do
     if tag.path == vim.api.nvim_buf_get_name(buf) then
       return i
@@ -156,23 +180,25 @@ local Windows = {
 
       for _, win in ipairs(wins) do
         local config = vim.api.nvim_win_get_config(win)
-        if config.relative == "" then
+        if config.relative == '' then
           local buf = vim.api.nvim_win_get_buf(win)
           local bufname = vim.api.nvim_buf_get_name(buf)
-          local name = vim.fn.fnamemodify(bufname, ":t")
-          if name == "" then name = "[No Name]" end
+          local name = vim.fn.fnamemodify(bufname, ':t')
+          if name == '' then
+            name = '[No Name]'
+          end
           local icon = get_file_icon(bufname)
           local is_active = (win == cur_win)
 
           local gidx = grapple_index(buf)
           table.insert(children, {
-            provider = " " .. icon .. " " .. name,
-            hl = is_active and "TabLineSel" or { fg = "gray" },
+            provider = ' ' .. icon .. ' ' .. name,
+            hl = is_active and 'TabLineSel' or { fg = 'gray' },
           })
           if gidx then
             table.insert(children, {
-              provider = " 󰛢" .. gidx,
-              hl = { fg = "yellow" },
+              provider = ' 󰛢' .. gidx,
+              hl = { fg = 'yellow' },
             })
           end
         end
@@ -180,7 +206,7 @@ local Windows = {
 
       self[1] = self:new(children, 1)
     end,
-    provider = "",
+    provider = '',
   },
   -- Compressed: icons only
   {
@@ -191,7 +217,7 @@ local Windows = {
 
       for _, win in ipairs(wins) do
         local config = vim.api.nvim_win_get_config(win)
-        if config.relative == "" then
+        if config.relative == '' then
           local buf = vim.api.nvim_win_get_buf(win)
           local bufname = vim.api.nvim_buf_get_name(buf)
           local icon = get_file_icon(bufname)
@@ -199,15 +225,15 @@ local Windows = {
           local gidx = grapple_index(buf)
 
           table.insert(children, {
-            provider = " " .. icon .. (gidx and " 󰛢" or ""),
-            hl = is_active and "TabLineSel" or { fg = "gray" },
+            provider = ' ' .. icon .. (gidx and ' 󰛢' or ''),
+            hl = is_active and 'TabLineSel' or { fg = 'gray' },
           })
         end
       end
 
       self[1] = self:new(children, 1)
     end,
-    provider = "",
+    provider = '',
   },
 }
 
@@ -217,9 +243,9 @@ local Windows = {
 
 M.tabline = {
   Tabpages,
-  { provider = "%=", hl = "TabLine" }, -- fill space
+  { provider = '%=', hl = 'TabLine' }, -- fill space
   Windows,
-  { provider = "  ", hl = "TabLine" }, -- trailing padding
+  { provider = '  ', hl = 'TabLine' }, -- trailing padding
 }
 
 return M

@@ -1,15 +1,15 @@
 return {
-  filetypes = { "json", "jsonc" },
-  treesitter = { "json", "jsonc", "json5" },
+  filetypes = { 'json', 'jsonc' },
+  treesitter = { 'json', 'jsonc', 'json5' },
 
   lsp = {
     jsonls = {
-      cmd = { "vscode-json-language-server", "--stdio" },
-      root_markers = { ".git" },
+      cmd = { 'vscode-json-language-server', '--stdio' },
+      root_markers = { '.git' },
       settings = {
         json = {
           schemas = (function()
-            local ok, schemastore = pcall(require, "schemastore")
+            local ok, schemastore = pcall(require, 'schemastore')
             return ok and schemastore.json.schemas() or {}
           end)(),
           validate = { enable = true },
@@ -18,16 +18,16 @@ return {
     },
 
     biome = {
-      cmd = { "biome", "lsp-proxy" },
-      root_markers = { "biome.json", "biome.jsonc" },
+      cmd = { 'biome', 'lsp-proxy' },
+      root_markers = { 'biome.json', 'biome.jsonc' },
     },
   },
 
-  formatter = "biome",
+  formatter = 'biome',
 
-  mason = { "json-lsp", "biome" },
+  mason = { 'json-lsp', 'biome' },
 
   plugins = {
-    { "b0o/SchemaStore.nvim", lazy = true, version = false },
+    { 'b0o/SchemaStore.nvim', lazy = true, version = false },
   },
 }

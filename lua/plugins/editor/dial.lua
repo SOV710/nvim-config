@@ -2,48 +2,48 @@ return {
   'monaqa/dial.nvim',
   keys = require 'core.keymaps.editor.dial',
   config = function()
-    local augend = require('dial.augend')
+    local augend = require 'dial.augend'
 
     require('dial.config').augends:register_group {
       default = {
-        augend.integer.alias.decimal,      -- decimal integers
-        augend.integer.alias.hex,          -- hex integers (0x...)
-        augend.integer.alias.octal,        -- octal integers (0o...)
-        augend.integer.alias.binary,       -- binary integers (0b...)
+        augend.integer.alias.decimal, -- decimal integers
+        augend.integer.alias.hex, -- hex integers (0x...)
+        augend.integer.alias.octal, -- octal integers (0o...)
+        augend.integer.alias.binary, -- binary integers (0b...)
 
-        augend.date.alias['%Y/%m/%d'],     -- date: 2024/01/15
-        augend.date.alias['%Y-%m-%d'],     -- date: 2024-01-15
-        augend.date.alias['%m/%d'],        -- date: 01/15
-        augend.date.alias['%H:%M'],        -- time: 14:30
+        augend.date.alias['%Y/%m/%d'], -- date: 2024/01/15
+        augend.date.alias['%Y-%m-%d'], -- date: 2024-01-15
+        augend.date.alias['%m/%d'], -- date: 01/15
+        augend.date.alias['%H:%M'], -- time: 14:30
 
-        augend.constant.alias.bool,        -- true/false
+        augend.constant.alias.bool, -- true/false
 
-        augend.constant.new {              -- logical operators
+        augend.constant.new { -- logical operators
           elements = { '&&', '||' },
           word = false,
           cyclic = true,
         },
-        augend.constant.new {              -- equality operators
+        augend.constant.new { -- equality operators
           elements = { '===', '!==' },
           word = false,
           cyclic = true,
         },
-        augend.constant.new {              -- yes/no
+        augend.constant.new { -- yes/no
           elements = { 'yes', 'no' },
           word = true,
           cyclic = true,
         },
-        augend.constant.new {              -- on/off
+        augend.constant.new { -- on/off
           elements = { 'on', 'off' },
           word = true,
           cyclic = true,
         },
-        augend.constant.new {              -- enable/disable
+        augend.constant.new { -- enable/disable
           elements = { 'enable', 'disable' },
           word = true,
           cyclic = true,
         },
-        augend.semver.alias.semver,        -- semantic versioning (1.2.3)
+        augend.semver.alias.semver, -- semantic versioning (1.2.3)
         augend.hexcolor.new { case = 'lower' }, -- hex colors (#ff0000)
       },
 

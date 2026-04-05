@@ -1,10 +1,10 @@
 return {
-  treesitter = { "cmake" },
+  treesitter = { 'cmake' },
 
   lsp = {
     neocmakelsp = {
-      cmd = { "neocmakelsp", "stdio" },
-      root_markers = { "CMakeLists.txt", "cmake", ".git" },
+      cmd = { 'neocmakelsp', 'stdio' },
+      root_markers = { 'CMakeLists.txt', 'cmake', '.git' },
       -- Disable LSP formatting capability — we use gersemi through conform instead
       on_attach = function(client, _)
         client.server_capabilities.documentFormattingProvider = false
@@ -15,13 +15,13 @@ return {
 
   -- gersemi: Python-based CMake formatter
   -- conform.nvim name: "gersemi"
-  formatter = "gersemi",
+  formatter = 'gersemi',
 
   -- cmakelint: CMake linter
   -- nvim-lint name: "cmakelint"
-  linter = "cmakelint",
+  linter = 'cmakelint',
 
-  mason = { "neocmakelsp", "gersemi", "cmakelint" },
+  mason = { 'neocmakelsp', 'gersemi', 'cmakelint' },
   -- NOTE: if gersemi or cmakelint are not in mason, install via:
   --   pip install gersemi cmakelint
 }

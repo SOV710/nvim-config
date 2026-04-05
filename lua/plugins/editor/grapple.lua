@@ -4,19 +4,19 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   keys = require 'core.keymaps.editor.grapple',
   opts = {
-    scope = 'git',                         -- tag scope: "git"|"git_branch"|"cwd"|"global"|"static"|"lsp"
-    icons = true,                          -- show icons in the tags menu
-    quick_select = '1234567890',           -- keys for quick-selecting tags in the menu
-    status = true,                         -- show grapple statusline component
-    style = 'relative',                    -- path display style: "relative"|"basename"|"unique"
-    prune = 'cwd',                         -- prune missing files: "cwd"|false
+    scope = 'git', -- tag scope: "git"|"git_branch"|"cwd"|"global"|"static"|"lsp"
+    icons = true, -- show icons in the tags menu
+    quick_select = '1234567890', -- keys for quick-selecting tags in the menu
+    status = true, -- show grapple statusline component
+    style = 'relative', -- path display style: "relative"|"basename"|"unique"
+    prune = 'cwd', -- prune missing files: "cwd"|false
 
     win_opts = {
-      width = 80,                          -- tags menu window width
-      height = 12,                         -- tags menu window height
-      border = 'rounded',                 -- border style: "none"|"single"|"double"|"rounded"
-      footer = '',                         -- footer text
-      title_pos = 'center',               -- title position: "left"|"center"|"right"
+      width = 80, -- tags menu window width
+      height = 12, -- tags menu window height
+      border = 'rounded', -- border style: "none"|"single"|"double"|"rounded"
+      footer = '', -- footer text
+      title_pos = 'center', -- title position: "left"|"center"|"right"
     },
   },
 

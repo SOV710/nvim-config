@@ -1,22 +1,22 @@
 return {
-  filetypes = { "sh", "bash", "zsh" },
-  treesitter = { "bash" },
+  filetypes = { 'sh', 'bash', 'zsh' },
+  treesitter = { 'bash' },
 
   lsp = {
     bashls = {
-      cmd = { "bash-language-server", "start" },
-      root_markers = { ".git" },
+      cmd = { 'bash-language-server', 'start' },
+      root_markers = { '.git' },
       settings = {
         bashIde = {
-          globPattern = "*@(.sh|.inc|.bash|.command)",
+          globPattern = '*@(.sh|.inc|.bash|.command)',
         },
       },
     },
   },
 
-  formatter = "shfmt",
+  formatter = 'shfmt',
 
-  mason = { "bash-language-server", "shfmt" },
+  mason = { 'bash-language-server', 'shfmt' },
 
   options = {
     tabstop = 2,

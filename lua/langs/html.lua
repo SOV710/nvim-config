@@ -1,22 +1,22 @@
 return {
-  treesitter = { "html" },
+  treesitter = { 'html' },
 
   lsp = {
     html = {
-      cmd = { "vscode-html-language-server", "--stdio" },
-      root_markers = { "package.json", ".git" },
+      cmd = { 'vscode-html-language-server', '--stdio' },
+      root_markers = { 'package.json', '.git' },
       init_options = {
         provideFormatter = false,
       },
     },
 
     biome = {
-      cmd = { "biome", "lsp-proxy" },
-      root_markers = { "biome.json", "biome.jsonc" },
+      cmd = { 'biome', 'lsp-proxy' },
+      root_markers = { 'biome.json', 'biome.jsonc' },
     },
   },
 
-  formatter = "biome",
+  formatter = 'biome',
 
-  mason = { "html-lsp", "biome" },
+  mason = { 'html-lsp', 'biome' },
 }

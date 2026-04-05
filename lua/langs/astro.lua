@@ -1,29 +1,31 @@
 return {
-  filetypes = { "astro" },
-  treesitter = { "astro" },
+  filetypes = { 'astro' },
+  treesitter = { 'astro' },
 
   lsp = {
     astro = {
-      cmd = { "astro-ls", "--stdio" },
-      root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
+      cmd = { 'astro-ls', '--stdio' },
+      root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
     },
 
     vtsls = {
-      cmd = { "vtsls", "--stdio" },
-      root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
+      cmd = { 'vtsls', '--stdio' },
+      root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
       filetypes = {
-        "typescript", "javascript",
-        "javascriptreact", "typescriptreact",
-        "astro",
+        'typescript',
+        'javascript',
+        'javascriptreact',
+        'typescriptreact',
+        'astro',
       },
       settings = {
         vtsls = {
           tsserver = {
             globalPlugins = {
               {
-                name = "@astrojs/ts-plugin",
-                location = "",
-                languages = { "astro" },
+                name = '@astrojs/ts-plugin',
+                location = '',
+                languages = { 'astro' },
               },
             },
           },
@@ -32,8 +34,8 @@ return {
     },
 
     biome = {
-      cmd = { "biome", "lsp-proxy" },
-      root_markers = { "biome.json", "biome.jsonc" },
+      cmd = { 'biome', 'lsp-proxy' },
+      root_markers = { 'biome.json', 'biome.jsonc' },
       settings = {
         biome = {
           html = {
@@ -44,9 +46,9 @@ return {
     },
   },
 
-  formatter = "biome",
+  formatter = 'biome',
 
-  mason = { "astro-language-server", "vtsls", "biome" },
+  mason = { 'astro-language-server', 'vtsls', 'biome' },
 
   options = {
     tabstop = 2,

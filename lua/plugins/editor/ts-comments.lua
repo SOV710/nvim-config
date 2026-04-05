@@ -3,5 +3,5 @@
 return {
   'folke/ts-comments.nvim',
   event = 'VeryLazy',
-  opts = {},                               -- zero-config: automatically augments native gc/gcc
+  opts = {}, -- zero-config: automatically augments native gc/gcc
 }

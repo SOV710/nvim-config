@@ -3,12 +3,12 @@
 return {
   -- ── Open / Close ──────────────────────────────────────────────────
 
-  { '<leader>gd', '<cmd>DiffviewOpen<cr>',            desc = 'Diffview open' },
-  { '<leader>gD', '<cmd>DiffviewOpen HEAD~1<cr>',     desc = 'Diffview diff HEAD~1' },
-  { '<leader>gq', '<cmd>DiffviewClose<cr>',           desc = 'Diffview close' },
+  { '<leader>gd', '<cmd>DiffviewOpen<cr>', desc = 'Diffview open' },
+  { '<leader>gD', '<cmd>DiffviewOpen HEAD~1<cr>', desc = 'Diffview diff HEAD~1' },
+  { '<leader>gq', '<cmd>DiffviewClose<cr>', desc = 'Diffview close' },
 
   -- ── File history ──────────────────────────────────────────────────
 
-  { '<leader>gh', '<cmd>DiffviewFileHistory %<cr>',   desc = 'File history (current file)' },
-  { '<leader>gH', '<cmd>DiffviewFileHistory<cr>',     desc = 'File history (repo)' },
+  { '<leader>gh', '<cmd>DiffviewFileHistory %<cr>', desc = 'File history (current file)' },
+  { '<leader>gH', '<cmd>DiffviewFileHistory<cr>', desc = 'File history (repo)' },
 }

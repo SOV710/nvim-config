@@ -1,6 +1,6 @@
 local function apply(keymaps)
   for _, km in ipairs(keymaps) do
-    vim.keymap.set(km.mode or "n", km[1], km[2], {
+    vim.keymap.set(km.mode or 'n', km[1], km[2], {
       desc = km.desc,
       expr = km.expr,
       silent = km.silent ~= false,
@@ -10,8 +10,8 @@ local function apply(keymaps)
 end
 
 -- Standalone keymaps (not tied to any plugin)
-apply(require("core.keymaps.editing"))
-apply(require("core.keymaps.winbuf"))
+apply(require 'core.keymaps.editing')
+apply(require 'core.keymaps.winbuf')
 
 -- LSP keymaps (special: uses LspAttach autocmd)
-require("core.keymaps.lsp").setup()
+require('core.keymaps.lsp').setup()

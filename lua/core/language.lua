@@ -76,8 +76,12 @@ local M = {
 ---@param val string|string[]|nil
 ---@return string[]
 local function to_list(val)
-  if val == nil then return {} end
-  if type(val) == "string" then return { val } end
+  if val == nil then
+    return {}
+  end
+  if type(val) == 'string' then
+    return { val }
+  end
   return val
 end
 
@@ -85,12 +89,16 @@ end
 ---@param lsp string|table|nil
 ---@return table<string, table>
 local function normalize_lsp(lsp)
-  if lsp == nil then return {} end
-  if type(lsp) == "string" then return { [lsp] = {} } end
+  if lsp == nil then
+    return {}
+  end
+  if type(lsp) == 'string' then
+    return { [lsp] = {} }
+  end
 
   local result = {}
   for k, v in pairs(lsp) do
-    if type(k) == "number" then
+    if type(k) == 'number' then
       -- { "pyright", "ruff" } style
       result[v] = {}
     else
@@ -111,15 +119,19 @@ end
 ---@return table
 local function deep_merge(base, override, depth)
   depth = depth or 0
-  local result = vim.tbl_deep_extend("force", base, override)
+  local result = vim.tbl_deep_extend('force', base, override)
   for k, v in pairs(override) do
-    if type(v) == "table" and type(base[k]) == "table" then
+    if type(v) == 'table' and type(base[k]) == 'table' then
       if vim.islist(v) and vim.islist(base[k]) then
         if depth > 0 then
           -- Concatenate nested lists (e.g. globalPlugins inside settings)
           local merged = {}
-          for _, item in ipairs(base[k]) do merged[#merged + 1] = item end
-          for _, item in ipairs(v) do merged[#merged + 1] = item end
+          for _, item in ipairs(base[k]) do
+            merged[#merged + 1] = item
+          end
+          for _, item in ipairs(v) do
+            merged[#merged + 1] = item
+          end
           result[k] = merged
         end
         -- depth == 0: tbl_deep_extend already replaced, which is correct
@@ -137,17 +149,21 @@ end
 
 --- Scan lua/langs/ directory and load all language configs
 function M._scan()
-  local dir = vim.fn.stdpath("config") .. "/lua/langs"
+  local dir = vim.fn.stdpath 'config' .. '/lua/langs'
   local handle = vim.uv.fs_scandir(dir)
-  if not handle then return end
+  if not handle then
+    return
+  end
 
   while true do
     local file, ftype = vim.uv.fs_scandir_next(handle)
-    if not file then break end
-    if ftype == "file" and file:match("%.lua$") then
+    if not file then
+      break
+    end
+    if ftype == 'file' and file:match '%.lua$' then
       local name = file:sub(1, -5) -- "rust.lua" → "rust"
-      local ok, config = pcall(require, "langs." .. name)
-      if ok and type(config) == "table" and config.enabled ~= false then
+      local ok, config = pcall(require, 'langs.' .. name)
+      if ok and type(config) == 'table' and config.enabled ~= false then
         config.filetypes = config.filetypes or { name }
         M._langs[name] = config
       end
@@ -271,7 +287,7 @@ function M._aggregate()
         end
         -- Deep-merge the rest (settings, init_options, etc.)
         local fts_backup = existing.filetypes
-        local merge_config = vim.tbl_extend("force", {}, config)
+        local merge_config = vim.tbl_extend('force', {}, config)
         merge_config.filetypes = nil -- filetypes already handled above
         if next(merge_config) then
           M._lsp_configs[server] = deep_merge(existing, merge_config)
@@ -301,9 +317,9 @@ function M.enable_options()
   for _, lang in pairs(M._langs) do
     if lang.options then
       for _, ft in ipairs(lang.filetypes) do
-        vim.api.nvim_create_autocmd("FileType", {
+        vim.api.nvim_create_autocmd('FileType', {
           pattern = ft,
-          desc = ("lang(%s): set options"):format(ft),
+          desc = ('lang(%s): set options'):format(ft),
           callback = function()
             for opt, val in pairs(lang.options) do
               vim.opt_local[opt] = val
@@ -325,7 +341,7 @@ end
 --- Register custom treesitter parsers (call before nvim-treesitter setup)
 function M.register_treesitter_parsers()
   for name, config in pairs(M.treesitter_parsers) do
-    local parsers = require("nvim-treesitter.parsers")
+    local parsers = require 'nvim-treesitter.parsers'
     parsers.list[name] = {
       install_info = {
         url = config.url,

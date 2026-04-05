@@ -28,39 +28,53 @@ return {
 
   {
     '<leader>hs',
-    function() require('gitsigns').stage_hunk() end,
+    function()
+      require('gitsigns').stage_hunk()
+    end,
     desc = 'Stage hunk',
   },
   {
     '<leader>hs',
-    function() require('gitsigns').stage_hunk { vim.fn.line '.', vim.fn.line 'v' } end,
+    function()
+      require('gitsigns').stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
+    end,
     desc = 'Stage hunk (visual)',
     mode = 'v',
   },
   {
     '<leader>hr',
-    function() require('gitsigns').reset_hunk() end,
+    function()
+      require('gitsigns').reset_hunk()
+    end,
     desc = 'Reset hunk',
   },
   {
     '<leader>hr',
-    function() require('gitsigns').reset_hunk { vim.fn.line '.', vim.fn.line 'v' } end,
+    function()
+      require('gitsigns').reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
+    end,
     desc = 'Reset hunk (visual)',
     mode = 'v',
   },
   {
     '<leader>hS',
-    function() require('gitsigns').stage_buffer() end,
+    function()
+      require('gitsigns').stage_buffer()
+    end,
     desc = 'Stage buffer',
   },
   {
     '<leader>hR',
-    function() require('gitsigns').reset_buffer() end,
+    function()
+      require('gitsigns').reset_buffer()
+    end,
     desc = 'Reset buffer',
   },
   {
     '<leader>hu',
-    function() require('gitsigns').undo_stage_hunk() end,
+    function()
+      require('gitsigns').undo_stage_hunk()
+    end,
     desc = 'Undo stage hunk',
   },
 
@@ -68,27 +82,37 @@ return {
 
   {
     '<leader>hp',
-    function() require('gitsigns').preview_hunk() end,
+    function()
+      require('gitsigns').preview_hunk()
+    end,
     desc = 'Preview hunk',
   },
   {
     '<leader>hb',
-    function() require('gitsigns').blame_line() end,
+    function()
+      require('gitsigns').blame_line()
+    end,
     desc = 'Blame line',
   },
   {
     '<leader>hB',
-    function() require('gitsigns').blame_line { full = true } end,
+    function()
+      require('gitsigns').blame_line { full = true }
+    end,
     desc = 'Blame line (full)',
   },
   {
     '<leader>hd',
-    function() require('gitsigns').diffthis() end,
+    function()
+      require('gitsigns').diffthis()
+    end,
     desc = 'Diff against index',
   },
   {
     '<leader>hD',
-    function() require('gitsigns').diffthis '@' end,
+    function()
+      require('gitsigns').diffthis '@'
+    end,
     desc = 'Diff against last commit',
   },
 
@@ -96,12 +120,16 @@ return {
 
   {
     '<leader>tb',
-    function() require('gitsigns').toggle_current_line_blame() end,
+    function()
+      require('gitsigns').toggle_current_line_blame()
+    end,
     desc = 'Toggle git line blame',
   },
   {
     '<leader>td',
-    function() require('gitsigns').toggle_deleted() end,
+    function()
+      require('gitsigns').toggle_deleted()
+    end,
     desc = 'Toggle git show deleted',
   },
 
@@ -109,7 +137,9 @@ return {
 
   {
     'ih',
-    function() require('gitsigns').select_hunk() end,
+    function()
+      require('gitsigns').select_hunk()
+    end,
     desc = 'Inner hunk',
     mode = { 'o', 'x' },
   },

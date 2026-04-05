@@ -1,5 +1,5 @@
 return {
-  treesitter = { "make" },
+  treesitter = { 'make' },
 
   -- no LSP, no formatter, no linter
 
