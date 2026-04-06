@@ -206,6 +206,7 @@ end
 
 local Windows = {
   flexible = 3,
+  update = update_events,
   {
     provider = function()
       return render_windows(false)
