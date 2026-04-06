@@ -210,6 +210,14 @@ return {
               padding = 1,
               pane = 2,
             },
+            {
+              icon = ' ',
+              section = 'terminal',
+              title = 'Git Status',
+              cmd = 'git --no-pager diff --stat -B -M -C',
+              height = 5,
+              pane = 2,
+            },
             vim.tbl_extend('force', heatmap.section { palette = 'tokyo_night' }, { pane = 2 }),
           }
         else
