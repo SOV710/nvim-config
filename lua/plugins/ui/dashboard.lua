@@ -157,7 +157,7 @@ return {
           { icon = ' ', key = 'f', desc = 'Find File', action = pick 'files' },
           { icon = '󱎸 ', key = 'g', desc = 'Grep', action = pick 'grep' },
           { icon = '󰋚 ', key = 'r', desc = 'Recent Files', action = pick 'recent' },
-          { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy' },
+          { icon = '󰒲 ', key = 'L', desc = 'Lazy', action = ':Lazy' },
           { icon = ' ', key = 'm', desc = 'Mason', action = ':Mason' },
           {
             icon = '󰊢 ',
