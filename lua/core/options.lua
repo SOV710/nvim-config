@@ -57,7 +57,7 @@ vim.opt.updatetime = 250 -- ms idle before CursorHold fires / swap writes
 vim.opt.timeoutlen = 300 -- ms to wait for next key in a mapped sequence
 
 -- ── Appearance ─────────────────────────────────────────────────────
-vim.opt.termguicolors = true -- enable 24-bit RGB color in the TUI
+vim.opt.termguicolors = true -- enable 24-bit RGB color in the TUI, also for nvim-highlight-colors
 vim.opt.showmode = false -- don't show "-- INSERT --", statusline handles it
 vim.opt.ruler = false -- don't show line/col in bottom-right, statusline handles it
 vim.opt.conceallevel = 2 -- hide markup symbols (e.g. ** in markdown)
