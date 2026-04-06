@@ -398,7 +398,7 @@ end
 local Ruler = {
   -- Left separator: default → bright_bg
   {
-    provider = '',
+    provider = '◢',
     hl = { fg = 'bright_bg' },
   },
 
@@ -418,7 +418,7 @@ local Ruler = {
 
   -- Separator: bright_bg → mode_color
   {
-    provider = '',
+    provider = '◥',
     hl = function(self)
       return { fg = self.mode_color, bg = 'bright_bg' }
     end,
