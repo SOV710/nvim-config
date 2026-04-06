@@ -175,6 +175,7 @@ return {
               text = { { clock_line(), hl = 'SnacksDashboardDesc' } },
               align = 'center',
               padding = 1,
+              pane = 1,
             },
             {
               text = {
@@ -191,7 +192,7 @@ return {
             {
               section = 'projects',
               title = 'Projects',
-              icon = ' ',
+              icon = ' ',
               indent = 2,
               padding = 1,
               pane = 2,
@@ -199,7 +200,7 @@ return {
             {
               section = 'recent_files',
               title = 'Recent',
-              icon = ' ',
+              icon = '󰋚 ',
               indent = 2,
               padding = 1,
               pane = 2,
