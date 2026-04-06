@@ -140,10 +140,12 @@ local Tabpages = {
 -- Windows list (right side)
 -- ══════════════════════════════════════════════════════════════════════
 
-local function get_file_icon(bufname)
-  local ok, icon = pcall(function()
-    return Snacks.util.icon(bufname)
-  end)
+local function get_file_icon(buf)
+  local ft = vim.bo[buf].filetype
+  if ft == '' then
+    ft = 'file'
+  end
+  local ok, icon = pcall(Snacks.util.icon, ft, 'filetype')
   return ok and icon or ''
 end
 
@@ -187,7 +189,7 @@ local Windows = {
           if name == '' then
             name = '[No Name]'
           end
-          local icon = get_file_icon(bufname)
+          local icon = get_file_icon(buf)
           local is_active = (win == cur_win)
 
           local gidx = grapple_index(buf)
@@ -220,7 +222,7 @@ local Windows = {
         if config.relative == '' then
           local buf = vim.api.nvim_win_get_buf(win)
           local bufname = vim.api.nvim_buf_get_name(buf)
-          local icon = get_file_icon(bufname)
+          local icon = get_file_icon(buf)
           local is_active = (win == cur_win)
           local gidx = grapple_index(buf)
 
