@@ -20,7 +20,6 @@ return {
 
     layout = {
       spacing = 3, -- gap between columns
-      align = 'left', -- column alignment: "left"|"center"|"right"
     },
 
     icons = {
