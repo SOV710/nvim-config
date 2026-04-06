@@ -21,9 +21,9 @@ return {
 
     messages = {
       enabled = true, -- take over message display
-      view = 'notify', -- default: show as notification
-      view_error = 'notify', -- errors as notifications
-      view_warn = 'notify', -- warnings as notifications
+      view = 'mini', -- default: show as notification
+      view_error = 'mini', -- errors as notifications
+      view_warn = 'mini', -- warnings as notifications
       view_history = 'messages', -- :Noice history → normal buffer
       view_search = 'virtualtext', -- search count as virtual text
     },
