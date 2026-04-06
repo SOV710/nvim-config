@@ -10,10 +10,10 @@ return {
     -- Always show tabline (even with 1 tab, we show the window list)
     vim.o.showtabline = 2
 
+    require('heirline').load_colors(colors.get())
     require('heirline').setup {
       statusline = statusline,
       tabline = tabline_mod.tabline,
-      opts = { colors = colors.get() },
     }
 
     vim.api.nvim_create_autocmd('ColorScheme', {
