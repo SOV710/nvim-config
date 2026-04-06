@@ -374,7 +374,7 @@ local LSPActive = {
       provider = function(self)
         return ' 󰄭 ' .. table.concat(self.lsp_names, ' ') .. ' '
       end,
-      hl = { fg = 'green', bg = 'mid_bg', bold = true },
+      hl = { fg = 'aqua', bg = 'mid_bg', bold = true },
     },
     { provider = '◤', hl = { fg = 'mid_bg' } },
   },
@@ -386,7 +386,7 @@ local LSPActive = {
       provider = function(self)
         return ' 󰄭 ' .. #self.lsp_names .. ' '
       end,
-      hl = { fg = 'green', bg = 'mid_bg', bold = true },
+      hl = { fg = 'aqua', bg = 'mid_bg', bold = true },
     },
     { provider = '◤', hl = { fg = 'mid_bg' } },
   },
