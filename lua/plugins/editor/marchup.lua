@@ -4,6 +4,9 @@ return {
     -- modify your configuration vars here
     vim.g.matchup_treesitter_stopline = 1000
 
+    -- Don't block heirline plz
+    vim.g.matchup_matchparen_offscreen = { method = 'popup' }
+
     -- or call the setup function provided as a helper. It defines the
     -- configuration vars for you
     require('match-up').setup {
