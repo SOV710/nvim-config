@@ -2,7 +2,10 @@ return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
   opts = {
-    delay = 0, -- ms before popup shows (0 = instant)
+    preset = 'classic',
+    delay = function(ctx)
+      return ctx.plugin and 0 or 150
+    end,
 
     plugins = {
       marks = true, -- show marks on ' and `
