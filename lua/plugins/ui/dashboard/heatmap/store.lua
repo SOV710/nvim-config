@@ -2,7 +2,7 @@ local M = {}
 
 ---@return string
 function M.path()
-  return vim.fn.stdpath('data') .. '/heatmap.json'
+  return vim.fn.stdpath 'data' .. '/heatmap.json'
 end
 
 ---@return table<string, integer>
@@ -11,7 +11,7 @@ function M.load()
   if not f then
     return {}
   end
-  local content = f:read('*a')
+  local content = f:read '*a'
   f:close()
   if not content or content == '' then
     return {}
@@ -37,7 +37,7 @@ end
 ---@return integer  new count for today
 function M.increment_today()
   local data = M.load()
-  local today = os.date('%Y-%m-%d')
+  local today = os.date '%Y-%m-%d'
   data[today] = (data[today] or 0) + 1
   M.save(data)
   return data[today]

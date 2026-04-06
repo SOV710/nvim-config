@@ -159,7 +159,14 @@ return {
           { icon = '󰋚 ', key = 'r', desc = 'Recent Files', action = pick 'recent' },
           { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy' },
           { icon = ' ', key = 'm', desc = 'Mason', action = ':Mason' },
-          { icon = '󰊢 ', key = 'b', desc = 'Git Browse', action = function() Snacks.gitbrowse() end },
+          {
+            icon = '󰊢 ',
+            key = 'b',
+            desc = 'Git Browse',
+            action = function()
+              Snacks.gitbrowse()
+            end,
+          },
           { icon = '󰩈 ', key = 'q', desc = 'Quit', action = ':qa' },
         },
       },

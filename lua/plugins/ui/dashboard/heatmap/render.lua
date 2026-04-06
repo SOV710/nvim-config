@@ -15,7 +15,7 @@ end
 ---@param today? table  os.date('*t') override for testing
 ---@return table
 local function resolve_today(today)
-  return today or os.date('*t')
+  return today or os.date '*t'
 end
 
 --- Format integer with comma separators (e.g. 1247 → "1,247")
@@ -47,10 +47,10 @@ function M.build_grid(data, today)
   local iw = iso_weekday(t.wday)
 
   -- Monday of the current week (col 26)
-  local mon_ts = os.time({ year = t.year, month = t.month, day = t.day - (iw - 1), hour = 12 })
+  local mon_ts = os.time { year = t.year, month = t.month, day = t.day - (iw - 1), hour = 12 }
   local mon_d = os.date('*t', mon_ts)
   -- Monday of col 1 (25 weeks earlier)
-  local start_ts = os.time({ year = mon_d.year, month = mon_d.month, day = mon_d.day - 25 * 7, hour = 12 })
+  local start_ts = os.time { year = mon_d.year, month = mon_d.month, day = mon_d.day - 25 * 7, hour = 12 }
   local start_d = os.date('*t', start_ts)
 
   local today_str = string.format('%04d-%02d-%02d', t.year, t.month, t.day)
@@ -60,12 +60,12 @@ function M.build_grid(data, today)
     grid[row] = {}
     for col = 1, 26 do
       local offset = (col - 1) * 7 + (row - 1)
-      local cell_ts = os.time({
+      local cell_ts = os.time {
         year = start_d.year,
         month = start_d.month,
         day = start_d.day + offset,
         hour = 12,
-      })
+      }
       local cell_str = os.date('%Y-%m-%d', cell_ts)
       if cell_str > today_str then
         grid[row][col] = FUTURE
@@ -100,9 +100,9 @@ function M.stats(data, today)
 
   local check_ts
   if data[today_str] and data[today_str] > 0 then
-    check_ts = os.time({ year = t.year, month = t.month, day = t.day, hour = 12 })
+    check_ts = os.time { year = t.year, month = t.month, day = t.day, hour = 12 }
   else
-    check_ts = os.time({ year = t.year, month = t.month, day = t.day - 1, hour = 12 })
+    check_ts = os.time { year = t.year, month = t.month, day = t.day - 1, hour = 12 }
   end
 
   while true do
@@ -110,7 +110,7 @@ function M.stats(data, today)
     if data[ds] and data[ds] > 0 then
       streak = streak + 1
       local d = os.date('*t', check_ts)
-      check_ts = os.time({ year = d.year, month = d.month, day = d.day - 1, hour = 12 })
+      check_ts = os.time { year = d.year, month = d.month, day = d.day - 1, hour = 12 }
     else
       break
     end
@@ -127,20 +127,20 @@ function M.month_labels_row(today)
   local t = resolve_today(today)
   local iw = iso_weekday(t.wday)
 
-  local mon_ts = os.time({ year = t.year, month = t.month, day = t.day - (iw - 1), hour = 12 })
+  local mon_ts = os.time { year = t.year, month = t.month, day = t.day - (iw - 1), hour = 12 }
   local mon_d = os.date('*t', mon_ts)
-  local start_ts = os.time({ year = mon_d.year, month = mon_d.month, day = mon_d.day - 25 * 7, hour = 12 })
+  local start_ts = os.time { year = mon_d.year, month = mon_d.month, day = mon_d.day - 25 * 7, hour = 12 }
   local start_d = os.date('*t', start_ts)
 
   -- Determine the month of each column's Monday
   local col_months = {}
   for col = 1, 26 do
-    local ts = os.time({
+    local ts = os.time {
       year = start_d.year,
       month = start_d.month,
       day = start_d.day + (col - 1) * 7,
       hour = 12,
-    })
+    }
     col_months[col] = os.date('*t', ts).month
   end
 

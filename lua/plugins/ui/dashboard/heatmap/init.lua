@@ -10,8 +10,8 @@ function M.section(opts)
 
   require('plugins.ui.dashboard.heatmap.palette').apply(palette_name)
 
-  local store = require('plugins.ui.dashboard.heatmap.store')
-  local render = require('plugins.ui.dashboard.heatmap.render')
+  local store = require 'plugins.ui.dashboard.heatmap.store'
+  local render = require 'plugins.ui.dashboard.heatmap.render'
 
   local data = store.load()
   local grid = render.build_grid(data)
