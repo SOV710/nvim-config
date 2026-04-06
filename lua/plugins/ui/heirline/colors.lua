@@ -12,6 +12,7 @@ function M.get()
     -- Base
     white = hl('Normal').fg,
     dark = hl('IncSearch').fg,
+    mid_bg = hl('CursorLine').bg,
     bright_bg = hl('Folded').bg,
     bright_fg = hl('Folded').fg,
     gray = hl('NonText').fg,

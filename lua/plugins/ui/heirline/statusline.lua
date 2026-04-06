@@ -351,6 +351,51 @@ local NoiceStatus = {
 }
 
 -- ══════════════════════════════════════════════════════════════════════
+-- LSP clients
+-- ══════════════════════════════════════════════════════════════════════
+
+local LSPActive = {
+  condition = conditions.lsp_attached,
+  update = { 'LspAttach', 'LspDetach', 'BufEnter' },
+  init = function(self)
+    local names = {}
+    for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
+      table.insert(names, client.name)
+    end
+    self.lsp_names = names
+  end,
+
+  flexible = 2, -- 压缩优先级，比 GitDiff(4) 先压，比 WorkDir(1) 后压
+
+  -- 完整版：分隔符 + 全部名字 + 分隔符
+  {
+    { provider = '◥', hl = { fg = 'mid_bg' } },
+    {
+      provider = function(self)
+        return ' 󰄭 ' .. table.concat(self.lsp_names, ' ') .. ' '
+      end,
+      hl = { fg = 'green', bg = 'mid_bg', bold = true },
+    },
+    { provider = '◤', hl = { fg = 'mid_bg' } },
+  },
+
+  -- 压缩版：只显示一个图标 + 数量
+  {
+    { provider = '◥', hl = { fg = 'mid_bg' } },
+    {
+      provider = function(self)
+        return ' 󰄭 ' .. #self.lsp_names .. ' '
+      end,
+      hl = { fg = 'green', bg = 'mid_bg', bold = true },
+    },
+    { provider = '◤', hl = { fg = 'mid_bg' } },
+  },
+
+  -- 完全消失
+  { provider = '' },
+}
+
+-- ══════════════════════════════════════════════════════════════════════
 -- Ruler + Clock
 -- ══════════════════════════════════════════════════════════════════════
 
@@ -460,5 +505,6 @@ return {
   { provider = '%=' }, -- right-align
   NoiceStatus,
   GitDiff,
+  LSPActive,
   Ruler,
 }
