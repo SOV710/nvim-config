@@ -17,6 +17,7 @@ return {
       },
       animate = {
         enabled = true, -- animate scope changes
+        easing = 'outQuad',
       },
       filter = function(buf)
         -- disable for specific filetypes/buftypes
