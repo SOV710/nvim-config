@@ -74,7 +74,7 @@ local ModeWithBranch = {
     ModeBlock,
     -- Separator: mode_color → bright_bg
     {
-      provider = '',
+      provider = '◣',
       hl = function(self)
         return { fg = self.mode_color, bg = 'bright_bg' }
       end,
@@ -89,7 +89,7 @@ local ModeWithBranch = {
     },
     -- Separator: bright_bg → default
     {
-      provider = '',
+      provider = '◤',
       hl = { fg = 'bright_bg' },
     },
   },
@@ -99,7 +99,7 @@ local ModeWithBranch = {
     ModeBlock,
     -- Separator: mode_color → default
     {
-      provider = '',
+      provider = '◤',
       hl = function(self)
         return { fg = self.mode_color }
       end,
