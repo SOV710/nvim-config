@@ -168,70 +168,53 @@ local function grapple_index(buf)
   return nil
 end
 
+local function render_windows(compressed)
+  local wins = vim.api.nvim_tabpage_list_wins(0)
+  local cur_win = vim.api.nvim_get_current_win()
+  local parts = {}
+
+  for _, win in ipairs(wins) do
+    local config = vim.api.nvim_win_get_config(win)
+    if config.relative == '' then
+      local buf = vim.api.nvim_win_get_buf(win)
+      local bufname = vim.api.nvim_buf_get_name(buf)
+      local icon = get_file_icon(buf)
+      local is_active = (win == cur_win)
+      local gidx = grapple_index(buf)
+      local hl_group = is_active and 'TabLineSel' or 'TabLine'
+
+      local segment
+      if compressed then
+        segment = string.format('%%#%s# %s%s%%*', hl_group, icon, gidx and ' 󰛢' or '')
+      else
+        local name = vim.fn.fnamemodify(bufname, ':t')
+        if name == '' then
+          name = '[No Name]'
+        end
+        segment = string.format('%%#%s# %s %s %%*', hl_group, icon, name)
+        if gidx then
+          segment = segment .. string.format('%%#WarningMsg# 󰛢%d%%*', gidx)
+        end
+      end
+
+      table.insert(parts, segment)
+    end
+  end
+
+  return table.concat(parts)
+end
+
 local Windows = {
   flexible = 3,
-  -- Full: icon + filename
   {
-    init = function(self)
-      local wins = vim.api.nvim_tabpage_list_wins(0)
-      local cur_win = vim.api.nvim_get_current_win()
-      local children = {}
-
-      for _, win in ipairs(wins) do
-        local config = vim.api.nvim_win_get_config(win)
-        if config.relative == '' then
-          local buf = vim.api.nvim_win_get_buf(win)
-          local bufname = vim.api.nvim_buf_get_name(buf)
-          local name = vim.fn.fnamemodify(bufname, ':t')
-          if name == '' then
-            name = '[No Name]'
-          end
-          local icon = get_file_icon(buf)
-          local is_active = (win == cur_win)
-
-          local gidx = grapple_index(buf)
-          table.insert(children, {
-            provider = ' ' .. icon .. ' ' .. name,
-            hl = is_active and 'TabLineSel' or { fg = 'gray' },
-          })
-          if gidx then
-            table.insert(children, {
-              provider = ' 󰛢' .. gidx,
-              hl = { fg = 'yellow' },
-            })
-          end
-        end
-      end
-
-      self[1] = self:new(children, 1)
+    provider = function()
+      return render_windows(false)
     end,
-    provider = '',
   },
-  -- Compressed: icons only
   {
-    init = function(self)
-      local wins = vim.api.nvim_tabpage_list_wins(0)
-      local cur_win = vim.api.nvim_get_current_win()
-      local children = {}
-
-      for _, win in ipairs(wins) do
-        local config = vim.api.nvim_win_get_config(win)
-        if config.relative == '' then
-          local buf = vim.api.nvim_win_get_buf(win)
-          local icon = get_file_icon(buf)
-          local is_active = (win == cur_win)
-          local gidx = grapple_index(buf)
-
-          table.insert(children, {
-            provider = ' ' .. icon .. (gidx and ' 󰛢' or ''),
-            hl = is_active and 'TabLineSel' or { fg = 'gray' },
-          })
-        end
-      end
-
-      self[1] = self:new(children, 1)
+    provider = function()
+      return render_windows(true)
     end,
-    provider = '',
   },
 }
 
