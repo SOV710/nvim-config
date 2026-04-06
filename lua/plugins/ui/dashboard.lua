@@ -1,4 +1,4 @@
-local heatmap = require('plugins.ui.dashboard.heatmap')
+local heatmap = require 'plugins.ui.dashboard.heatmap'
 
 local function pick(cmd)
   return function()
@@ -210,7 +210,7 @@ return {
               padding = 1,
               pane = 2,
             },
-            vim.tbl_extend('force', heatmap.section({ palette = 'tokyo_night' }), { pane = 2 }),
+            vim.tbl_extend('force', heatmap.section { palette = 'tokyo_night' }, { pane = 2 }),
           }
         else
           return {
@@ -237,7 +237,7 @@ return {
               padding = 1,
             },
             keys,
-            heatmap.section({ palette = 'tokyo_night' }),
+            heatmap.section { palette = 'tokyo_night' },
             startup,
           }
         end
