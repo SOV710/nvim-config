@@ -177,6 +177,18 @@ return {
               padding = 1,
             },
             {
+              text = {
+                { os_info(), hl = 'SnacksDashboardDesc' },
+                { '  |  ', hl = 'SnacksDashboardDimmed' },
+                { nvim_version(), hl = 'SnacksDashboardDesc' },
+              },
+              align = 'center',
+              padding = 1,
+              pane = 1,
+            },
+            keys,
+            { section = 'startup', padding = 1, pane = 1 },
+            {
               section = 'projects',
               title = 'Projects',
               icon = ' ',
@@ -192,18 +204,6 @@ return {
               padding = 1,
               pane = 2,
             },
-            {
-              text = {
-                { os_info(), hl = 'SnacksDashboardDesc' },
-                { '  |  ', hl = 'SnacksDashboardDimmed' },
-                { nvim_version(), hl = 'SnacksDashboardDesc' },
-              },
-              align = 'center',
-              padding = 1,
-              pane = 1,
-            },
-            keys,
-            { section = 'startup', padding = 1, pane = 2 },
           }
         else
           return {
