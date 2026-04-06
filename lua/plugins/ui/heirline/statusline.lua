@@ -213,7 +213,7 @@ local FileName = {
 local FileFlags = {
   provider = function()
     if not vim.bo.modifiable or vim.bo.readonly then
-      return '  '
+      return ' 󰌾'
     end
     return ''
   end,
