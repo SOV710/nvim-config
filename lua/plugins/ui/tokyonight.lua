@@ -11,8 +11,5 @@ return {
   config = function(_, opts)
     require('tokyonight').setup(opts)
     vim.cmd.colorscheme 'tokyonight-night'
-
-    -- You can configure highlights by doing something like:
-    vim.cmd.hi 'Comment gui=none'
   end,
 }
