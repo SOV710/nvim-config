@@ -237,7 +237,6 @@ return {
               padding = 1,
             },
             keys,
-            heatmap.section { palette = 'tokyo_night' },
             startup,
           }
         end
