@@ -123,19 +123,19 @@ local Diagnostics = {
   { provider = ' ' },
   {
     provider = function(self)
-      return self.errors > 0 and (' ' .. self.errors .. ' ') or ''
+      return self.errors > 0 and ('󰅚 ' .. self.errors .. ' ') or ''
     end,
     hl = { fg = 'diag_error' },
   },
   {
     provider = function(self)
-      return self.warns > 0 and (' ' .. self.warns .. ' ') or ''
+      return self.warns > 0 and ('󰀪 ' .. self.warns .. ' ') or ''
     end,
     hl = { fg = 'diag_warn' },
   },
   {
     provider = function(self)
-      return self.infos > 0 and (' ' .. self.infos .. ' ') or ''
+      return self.infos > 0 and ('󰋼 ' .. self.infos .. ' ') or ''
     end,
     hl = { fg = 'diag_info' },
   },
