@@ -49,7 +49,7 @@ local mode_names = {
 
 local ModeBlock = {
   provider = function(self)
-    return ' ' .. (mode_names[self.mode] or self.mode) .. ' '
+    return '  ' .. (mode_names[self.mode] or self.mode) .. ' '
   end,
   hl = function(self)
     return { fg = 'dark', bg = self.mode_color, bold = true }
