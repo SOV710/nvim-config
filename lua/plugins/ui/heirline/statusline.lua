@@ -60,7 +60,8 @@ local ModeWithBranch = {
   fallthrough = false,
   update = {
     'ModeChanged',
-    pattern = '*:*',
+    'User',
+    pattern = { '*:*', 'GitSigns*' },
     callback = vim.schedule_wrap(function()
       vim.cmd 'redrawstatus'
     end),
