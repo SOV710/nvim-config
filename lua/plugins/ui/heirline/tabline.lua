@@ -155,16 +155,13 @@ local function grapple_index(buf)
   if not ok then
     return nil
   end
-  local exists = pcall(grapple.find, { buffer = buf })
-  if not exists then
-    return nil
-  end
   local tags_ok, tags = pcall(grapple.tags)
   if not tags_ok or not tags then
     return nil
   end
+  local path = vim.api.nvim_buf_get_name(buf)
   for i, tag in ipairs(tags) do
-    if tag.path == vim.api.nvim_buf_get_name(buf) then
+    if tag.path == path then
       return i
     end
   end
