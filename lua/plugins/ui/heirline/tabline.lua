@@ -117,10 +117,7 @@ local TabComponent = {
   end,
 
   hl = function(self)
-    if self.is_active then
-      return 'TabLineSel'
-    end
-    return { fg = 'gray' }
+    return self.is_active and 'TabLineSel' or 'TabLine'
   end,
 }
 
