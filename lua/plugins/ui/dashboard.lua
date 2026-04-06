@@ -1,3 +1,5 @@
+local heatmap = require('plugins.ui.dashboard.heatmap')
+
 local function pick(cmd)
   return function()
     Snacks.dashboard.pick(cmd)
@@ -139,6 +141,9 @@ end
 
 return {
   'folke/snacks.nvim',
+  init = function()
+    heatmap.setup()
+  end,
   opts = {
     dashboard = {
       enabled = true,
@@ -205,6 +210,7 @@ return {
               padding = 1,
               pane = 2,
             },
+            vim.tbl_extend('force', heatmap.section({ palette = 'tokyo_night' }), { pane = 2 }),
           }
         else
           return {
@@ -231,6 +237,7 @@ return {
               padding = 1,
             },
             keys,
+            heatmap.section({ palette = 'tokyo_night' }),
             startup,
           }
         end
