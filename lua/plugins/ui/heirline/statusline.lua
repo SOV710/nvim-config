@@ -153,9 +153,8 @@ local Diagnostics = {
 
 local FileIcon = {
   init = function(self)
-    local ok, icon, hl = pcall(function()
-      return Snacks.util.icon(self.filename)
-    end)
+    local ft = vim.bo.filetype
+    local ok, icon, hl = pcall(Snacks.util.icon, ft, 'filetype')
     if ok then
       self.icon, self.icon_hl = icon, hl
     else
