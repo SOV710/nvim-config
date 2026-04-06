@@ -279,7 +279,6 @@ local OilName = {
 local File = {
   fallthrough = false,
   update = { 'BufWritePost', 'BufEnter', 'TextChanged', 'VimResized' },
-  { provider = ' ' }, -- left padding
   TerminalName,
   HelpName,
   OilName,
@@ -466,6 +465,7 @@ return {
 
   ModeWithBranch,
   Diagnostics,
+  { provider = ' ' }, -- left padding
   File,
   { provider = '%=' }, -- right-align
   NoiceStatus,
