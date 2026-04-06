@@ -29,6 +29,9 @@ return {
         max_width = 60, -- max image width in columns
         max_height = 30, -- max image height in rows
       },
+      convert = {
+        notify = true,
+      },
       math = {
         enabled = true,
         typst = {
