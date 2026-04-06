@@ -10,6 +10,7 @@ return {
       },
       scope = {
         enabled = true, -- highlight current scope
+        priority = 200,
         char = '│',
         underline = false, -- no underline at scope boundaries
         only_current = false, -- show scope in all windows
