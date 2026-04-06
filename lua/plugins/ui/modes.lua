@@ -7,6 +7,6 @@ return {
       replace = '#ff757f', -- red
       visual = '#c099ff', -- purple
     },
-    line_opacity = 0.15, -- subtle background tint
+    line_opacity = 0.30, -- subtle background tint
   },
 }
