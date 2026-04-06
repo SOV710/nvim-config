@@ -118,8 +118,6 @@ require('lazy').setup {
 -- "<localleader>i" is inspect plugins
 -- "<localleader>t" is open terminal in plugin dir
 
-vim.cmd.colorscheme 'tokyonight'
-
 -- Ensure mason bin is in PATH before enabling LSP servers
 vim.env.PATH = vim.fn.stdpath 'data' .. '/mason/bin:' .. vim.env.PATH
 
