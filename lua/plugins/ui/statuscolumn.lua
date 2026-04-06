@@ -3,7 +3,7 @@ return {
   opts = {
     statuscolumn = {
       enabled = true,
-      left = { 'mark', 'sign' }, -- left side: marks first, then signs
+      left = { 'sign' }, -- left side: signs only
       right = { 'fold', 'git' }, -- right side: fold indicators, then git signs
       folds = {
         open = true, -- show icon for open folds too
