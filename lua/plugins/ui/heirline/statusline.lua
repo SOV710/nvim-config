@@ -341,16 +341,6 @@ local NoiceStatus = {
   {
     provider = function()
       local ok, noice = pcall(require, 'noice')
-      if ok and noice.api.status.command.has() then
-        return ' ' .. noice.api.status.command.get() .. ' '
-      end
-      return ''
-    end,
-    hl = { fg = 'purple' },
-  },
-  {
-    provider = function()
-      local ok, noice = pcall(require, 'noice')
       if ok and noice.api.status.mode.has() then
         return ' ' .. noice.api.status.mode.get() .. ' '
       end
