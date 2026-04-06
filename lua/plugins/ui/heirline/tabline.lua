@@ -218,7 +218,6 @@ local Windows = {
         local config = vim.api.nvim_win_get_config(win)
         if config.relative == '' then
           local buf = vim.api.nvim_win_get_buf(win)
-          local bufname = vim.api.nvim_buf_get_name(buf)
           local icon = get_file_icon(buf)
           local is_active = (win == cur_win)
           local gidx = grapple_index(buf)
