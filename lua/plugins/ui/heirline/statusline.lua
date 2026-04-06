@@ -365,9 +365,9 @@ local LSPActive = {
     self.lsp_names = names
   end,
 
-  flexible = 2, -- 压缩优先级，比 GitDiff(4) 先压，比 WorkDir(1) 后压
+  flexible = 2, -- Shrink priority: compress before GitDiff(4), after WorkDir(1)
 
-  -- 完整版：分隔符 + 全部名字 + 分隔符
+  -- Full version: separator + all names + separator
   {
     { provider = '◥', hl = { fg = 'mid_bg' } },
     {
@@ -379,7 +379,7 @@ local LSPActive = {
     { provider = '◤', hl = { fg = 'mid_bg' } },
   },
 
-  -- 压缩版：只显示一个图标 + 数量
+  -- Compact version: show only one icon + count
   {
     { provider = '◥', hl = { fg = 'mid_bg' } },
     {
@@ -391,7 +391,7 @@ local LSPActive = {
     { provider = '◤', hl = { fg = 'mid_bg' } },
   },
 
-  -- 完全消失
+  -- Fully hidden
   { provider = '' },
 }
 
