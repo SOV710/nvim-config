@@ -3,6 +3,14 @@ return {
   event = 'InsertEnter',
   -- TODO(phase7): integrate with nvim-cmp via cmp.event:on('confirm_done', ...)
   opts = {
+    enabled = function(bufnr)
+      -- disabled in bigfiles (>1MB)
+      local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+      if ok and stats and stats.size > 1024 * 1024 then
+        return false
+      end
+      return true
+    end,
     disable_filetype = { 'TelescopePrompt', 'vim' }, -- filetypes where autopairs is disabled
     disable_in_macro = true, -- disable when recording/executing macros
     disable_in_visualblock = false, -- disable in visual block mode
