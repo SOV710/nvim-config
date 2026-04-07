@@ -18,7 +18,6 @@ return {
       find = 'gaf', -- find surrounding to the right
       find_left = 'gaF', -- find surrounding to the left
       highlight = 'gah', -- highlight surrounding
-      update_n_lines = 'gan', -- update `n_lines` option
       suffix_last = 'l', -- suffix for "prev" search (e.g. sdl, srl)
       suffix_next = 'n', -- suffix for "next" search (e.g. sdn, srn)
     },
