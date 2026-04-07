@@ -122,7 +122,6 @@ end
 --- Build the month-labels row as snacks.dashboard.Text segments.
 --- Labels appear at columns where a new month begins.
 ---@param today? table
----@return snacks.dashboard.Text[]
 function M.month_labels_row(today)
   local t = resolve_today(today)
   local iw = iso_weekday(t.wday)
@@ -184,7 +183,6 @@ end
 
 --- Build 7 data rows, one per weekday (Mon..Sun).
 ---@param grid integer[][]
----@return snacks.dashboard.Text[][]  7 elements, each an array of segments
 function M.data_rows(grid)
   local rows = {}
   for row = 1, 7 do
@@ -207,7 +205,6 @@ end
 --- Build the footer row: legend + statistics.
 ---@param data table<string, integer>
 ---@param today? table
----@return snacks.dashboard.Text[]
 function M.footer(data, today)
   local s = M.stats(data, today)
   local segments = {}
