@@ -3,6 +3,12 @@ return {
   version = '*',
   event = { 'BufReadPost', 'BufNewFile' },
   opts = {
+    custom_surroundings = {
+      b = {
+        input = { 'Box::new%(().-()%)' },
+        output = { left = 'Box::new(', right = ')' },
+      },
+    },
     mappings = {
       add = 'sa', -- add surrounding in normal/visual mode
       delete = 'sd', -- delete surrounding
