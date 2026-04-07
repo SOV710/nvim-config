@@ -35,6 +35,12 @@ return {
       },
     },
 
+    confirmation = { border = 'rounded' },
+    progress = { border = 'rounded' },
+    keymaps_help = { border = 'rounded' },
+    ssh = { border = 'rounded' },
+
+    use_default_keymaps = false, -- disable defaults since we defined all above
     keymaps = {
       ['g?'] = 'actions.show_help', -- show all oil keymaps
       ['<CR>'] = 'actions.select', -- open file / enter directory
@@ -53,7 +59,5 @@ return {
       ['g.'] = 'actions.toggle_hidden', -- toggle hidden files
       ['g\\'] = 'actions.toggle_trash', -- toggle trash mode
     },
-
-    use_default_keymaps = false, -- disable defaults since we defined all above
   },
 }
