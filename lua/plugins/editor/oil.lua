@@ -9,6 +9,7 @@ return {
     default_file_explorer = true, -- replace netrw as default file explorer
     delete_to_trash = true, -- use trash instead of permanent delete
     skip_confirm_for_simple_edits = true, -- don't prompt for simple renames/creates
+    watch_for_changes = true, -- Respond to external filesystem changes
 
     columns = { 'icon' },
 
