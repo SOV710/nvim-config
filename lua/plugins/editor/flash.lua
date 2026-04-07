@@ -2,7 +2,6 @@ return {
   'folke/flash.nvim',
   event = { 'BufReadPost', 'BufNewFile' },
   keys = require 'core.keymaps.editor.flash',
-  ---@type Flash.Config
   opts = {
     labels = 'asdfghjklqwertyuiopzxcvbnm', -- characters used for jump labels
     search = {
