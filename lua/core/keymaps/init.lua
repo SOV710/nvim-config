@@ -14,7 +14,7 @@ apply(require 'core.keymaps.editing')
 apply(require 'core.keymaps.winbuf')
 
 -- LSP keymaps (special: uses LspAttach autocmd)
-require('lua.core.keymaps.langs.lsp').setup()
+require('core.keymaps.langs.lsp').setup()
 
 -- diagnostic keymaps
 apply(require 'core.keymaps.langs.diagnostic')
