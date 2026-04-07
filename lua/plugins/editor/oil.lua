@@ -3,7 +3,7 @@ return {
   lazy = false,
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   keys = {
-    { '<leader>e', '<cmd>Oil<cr>', desc = 'File explorer (Oil)' },
+    { '<leader>o', '<cmd>Oil<cr>', desc = 'File explorer (Oil)' },
   },
   opts = {
     default_file_explorer = true, -- replace netrw as default file explorer
