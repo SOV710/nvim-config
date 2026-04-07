@@ -21,9 +21,9 @@ return {
       suffix_last = 'l', -- suffix for "prev" search (e.g. sdl, srl)
       suffix_next = 'n', -- suffix for "next" search (e.g. sdn, srn)
     },
-    n_lines = 20, -- number of lines within which surrounding is searched
-    respect_selection_type = false, -- respect visual mode type (char/line/block)
-    search_method = 'cover', -- search method: "cover"|"cover_or_next"|"cover_or_prev"|"cover_or_nearest"|"next"|"prev"|"nearest"
+    n_lines = 100, -- number of lines within which surrounding is searched
+    respect_selection_type = true, -- respect visual mode type (char/line/block)
+    search_method = 'cover_or_next', -- search method: "cover"|"cover_or_next"|"cover_or_prev"|"cover_or_nearest"|"next"|"prev"|"nearest"
     silent = false, -- suppress "no surrounding found" messages
   },
 }
