@@ -9,6 +9,8 @@ return {
         output = { left = 'Box::new(', right = ')' },
       },
     },
+    highlight_duration = 1000, -- highlight duration in ms after add/delete/replace
+
     mappings = {
       add = 'gaa', -- add surrounding in normal/visual mode
       delete = 'gad', -- delete surrounding
@@ -23,7 +25,6 @@ return {
     n_lines = 20, -- number of lines within which surrounding is searched
     respect_selection_type = false, -- respect visual mode type (char/line/block)
     search_method = 'cover', -- search method: "cover"|"cover_or_next"|"cover_or_prev"|"cover_or_nearest"|"next"|"prev"|"nearest"
-    highlight_duration = 500, -- highlight duration in ms after add/delete/replace
     silent = false, -- suppress "no surrounding found" messages
   },
 }
