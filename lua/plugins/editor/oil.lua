@@ -38,15 +38,15 @@ return {
     keymaps = {
       ['g?'] = 'actions.show_help', -- show all oil keymaps
       ['<CR>'] = 'actions.select', -- open file / enter directory
-      ['<C-v>'] = 'actions.select_vsplit', -- open in vertical split
-      ['<C-s>'] = 'actions.select_split', -- open in horizontal split
+      ['<C-v>'] = { 'actions.select', opts = { vertical = true } }, -- open in vertical split
+      ['<C-s>'] = { 'actions.select', opts = { horizontal = true } }, -- open in horizontal split
       ['<C-t>'] = 'actions.select_tab', -- open in new tab
       ['<C-p>'] = 'actions.preview', -- preview file
       ['<C-c>'] = 'actions.close', -- close oil buffer
       ['<C-r>'] = 'actions.refresh', -- refresh directory listing
-      ['-'] = 'actions.parent', -- navigate to parent directory
-      ['_'] = 'actions.open_cwd', -- open cwd in oil
-      ['`'] = 'actions.cd', -- :cd to current oil directory
+      ['-'] = { 'actions.parent', mode = 'n' }, -- navigate to parent directory
+      ['_'] = { 'actions.open_cwd', mode = 'n' }, -- open cwd in oil
+      ['`'] = { 'actions.cd', mode = 'n' }, -- :cd to current oil directory
       ['~'] = 'actions.tcd', -- :tcd to current oil directory
       ['gs'] = 'actions.change_sort', -- cycle sort order
       ['gx'] = 'actions.open_external', -- open with system handler
