@@ -64,7 +64,7 @@ return {
       },
       treesitter = {
         labels = 'asdfghjklqwertyuiopzxcvbnm',
-        jump = { pos = 'range', autojump = true },
+        jump = { pos = 'range', autojump = false },
         label = { before = true, after = true, style = 'inline' },
         highlight = {
           backdrop = false, -- dim background for treesitter mode
