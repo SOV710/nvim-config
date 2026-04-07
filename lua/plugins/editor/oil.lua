@@ -39,7 +39,7 @@ return {
       ['g?'] = 'actions.show_help', -- show all oil keymaps
       ['<CR>'] = 'actions.select', -- open file / enter directory
       ['<C-v>'] = { 'actions.select', opts = { vertical = true } }, -- open in vertical split
-      ['<C-s>'] = { 'actions.select', opts = { horizontal = true } }, -- open in horizontal split
+      ['<C-x>'] = { 'actions.select', opts = { horizontal = true } }, -- open in horizontal split
       ['<C-t>'] = 'actions.select_tab', -- open in new tab
       ['<C-p>'] = 'actions.preview', -- preview file
       ['<C-c>'] = 'actions.close', -- close oil buffer
