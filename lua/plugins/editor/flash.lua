@@ -31,14 +31,14 @@ return {
     label = {
       uppercase = true, -- allow uppercase labels
       exclude = '', -- characters to exclude from labels
-      current = true, -- include current position as label
+      current = false, -- include current position as label
       after = true, -- show labels after match
       before = false, -- show labels before match
-      style = 'overlay', -- label style: "overlay"|"right_align"|"inline"
+      style = 'inline', -- label style: "overlay"|"right_align"|"inline"
       reuse = 'lowercase', -- reuse labels: "lowercase"|"all"|"none"
       rainbow = {
-        enabled = false, -- rainbow-colored labels
-        shade = 5, -- number of rainbow shades
+        enabled = true, -- rainbow-colored labels
+        shade = 9, -- number of rainbow shades
       },
     },
     modes = {
