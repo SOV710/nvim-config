@@ -11,7 +11,13 @@ return {
       end
       return true
     end,
-    disable_filetype = { 'TelescopePrompt', 'vim' }, -- filetypes where autopairs is disabled
+    disable_filetype = {
+      'TelescopePrompt',
+      'spectre_panel',
+      'snacks_picker_input',
+      'snacks_input',
+      'grug-far',
+    },
     disable_in_macro = true, -- disable when recording/executing macros
     disable_in_visualblock = false, -- disable in visual block mode
     disable_in_replace_mode = true, -- disable in replace mode
