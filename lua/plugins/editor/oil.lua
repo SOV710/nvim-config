@@ -10,11 +10,10 @@ return {
     delete_to_trash = true, -- use trash instead of permanent delete
     skip_confirm_for_simple_edits = true, -- don't prompt for simple renames/creates
 
-    columns = {
-      'icon', -- file type icon (requires nvim-web-devicons)
-      -- 'permissions',                 -- unix permissions string
-      -- 'size',                        -- file size
-      -- 'mtime',                       -- last modified time
+    columns = { 'icon' },
+
+    lsp_file_methods = { -- automatically save import changes when rename
+      autosave_changes = 'unmodified',
     },
 
     view_options = {
