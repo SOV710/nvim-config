@@ -66,8 +66,8 @@ return {
     local wk = require 'which-key'
     wk.setup(opts)
 
-    local _search = { icon = '', color = 'blue' }
-    local _lsp = { icon = '', color = 'cyan' }
+    local _search = { icon = '󰍉 ', color = 'blue' }
+    local _lsp = { icon = '󰆍 ', color = 'cyan' }
     local _debug = { icon = '󰃤', color = 'red' }
 
     wk.add {
