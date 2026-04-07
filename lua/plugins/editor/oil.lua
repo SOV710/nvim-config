@@ -18,7 +18,7 @@ return {
 
     view_options = {
       show_hidden = true, -- show dotfiles by default
-      natural_order = true, -- sort "file2" before "file10"
+      natural_order = 'fast', -- sort "file2" before "file10"
       is_always_hidden = function(name) -- files that never appear
         return name == '.git' or name == '.DS_Store'
       end,
