@@ -8,7 +8,7 @@ return {
       multi_window = true, -- search across all open windows
       forward = true, -- search direction: forward from cursor
       wrap = true, -- wrap around the buffer
-      mode = 'exact', -- match mode: "exact"|"search"|"fuzzy"|"fuzzy_first"
+      mode = 'search', -- match mode: "exact"|"search"|"fuzzy"|"fuzzy_first"
       incremental = false, -- show results incrementally while typing
       exclude = { -- filetypes/buftypes excluded from flash
         'notify',
