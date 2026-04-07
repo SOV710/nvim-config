@@ -2,7 +2,6 @@ return {
   'stevearc/oil.nvim',
   lazy = false,
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-  cmd = 'Oil',
   keys = {
     { '<leader>e', '<cmd>Oil<cr>', desc = 'File explorer (Oil)' },
   },
