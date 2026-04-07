@@ -24,6 +24,14 @@ return {
     mode = 'o',
   },
   {
+    'R',
+    mode = { 'o', 'x' }, -- operator + visual
+    function()
+      require('flash').treesitter_search()
+    end,
+    desc = 'Treesitter Search',
+  },
+  {
     '<c-s>',
     function()
       require('flash').toggle()
