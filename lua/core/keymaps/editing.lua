@@ -84,33 +84,6 @@ return {
   { '<leader>sN', '<cmd>noautocmd w<CR>', desc = 'Save without auto-formatting' },
   { '<leader>qq', '<cmd>qa<cr>', desc = 'Quit All' },
 
-  -- ── Diagnostics ─────────────────────────────────────────────────────
-
-  {
-    '<leader>n',
-    function()
-      local float_buf, float_win = vim.diagnostic.open_float(nil, {
-        scope = 'line',
-        focus = false,
-        focusable = true,
-        close_events = {},
-      })
-
-      if float_win and vim.api.nvim_win_is_valid(float_win) then
-        vim.cmd(('noautocmd call nvim_set_current_win(%d)'):format(float_win))
-
-        vim.keymap.set('n', '<Esc>', function()
-          vim.api.nvim_win_close(float_win, true)
-        end, { buffer = float_buf, nowait = true, silent = true, desc = 'Close diagnostic float' })
-
-        vim.keymap.set('n', 'q', function()
-          vim.api.nvim_win_close(float_win, true)
-        end, { buffer = float_buf, nowait = true, silent = true, desc = 'Close diagnostic float' })
-      end
-    end,
-    desc = 'Open diagnostic float and focus',
-  },
-
   -- ── UI ──────────────────────────────────────────────────────────────
 
   { '<leader>ur', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>', desc = 'Redraw / Clear highlights' },
