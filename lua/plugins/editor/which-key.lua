@@ -26,14 +26,14 @@ return {
     },
 
     icons = {
-      breadcrumb = '»', -- separator in command line
-      separator = '➜', -- separator between key and description
-      group = '+ ', -- prepended to group labels
+      breadcrumb = '', -- separator in command line
+      separator = '', -- separator between key and description
+      group = ' ', -- prepended to group labels
       keys = {
-        Up = ' ',
-        Down = ' ',
-        Left = ' ',
-        Right = ' ',
+        Up = ' ',
+        Down = ' ',
+        Left = ' ',
+        Right = ' ',
         C = '󰘴 ',
         M = '󰘵 ',
         D = '󰘳 ',
@@ -71,6 +71,15 @@ return {
     local _debug = { icon = '󰃤', color = 'red' }
 
     wk.add {
+      -- Buffer-local Cheatsheet
+      {
+        '<leader>?',
+        function()
+          require('which-key').show { global = false }
+        end,
+        desc = 'Buffer Local Keymaps',
+      },
+
       -- ── Search (Snacks.picker) ────────────────────────────────────
       { '<leader>s', group = 'Search', icon = _search },
 
