@@ -70,6 +70,12 @@ return {
           backdrop = false, -- dim background for treesitter mode
           matches = false, -- highlight search matches in treesitter mode
         },
+        treesitter_search = {
+          jump = { pos = 'range' },
+          search = { multi_window = true, wrap = true, incremental = false },
+          remote_op = { restore = true },
+          label = { before = true, after = true, style = 'inline' },
+        },
       },
     },
     prompt = {
