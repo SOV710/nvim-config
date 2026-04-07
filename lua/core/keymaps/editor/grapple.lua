@@ -1,5 +1,5 @@
 return {
-  -- NOTE: `m` overrides native mark — intentional (use ' for marks via which-key)
+  -- NOTE: `m` overrides native mark — intentional (use ` for marks via which-key)
   {
     'm',
     function()
