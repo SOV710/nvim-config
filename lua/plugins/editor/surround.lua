@@ -10,13 +10,13 @@ return {
       },
     },
     mappings = {
-      add = 'sa', -- add surrounding in normal/visual mode
-      delete = 'sd', -- delete surrounding
-      replace = 'sr', -- replace surrounding
-      find = 'sf', -- find surrounding to the right
-      find_left = 'sF', -- find surrounding to the left
-      highlight = 'sh', -- highlight surrounding
-      update_n_lines = 'sn', -- update `n_lines` option
+      add = 'gaa', -- add surrounding in normal/visual mode
+      delete = 'gad', -- delete surrounding
+      replace = 'gar', -- replace surrounding
+      find = 'gaf', -- find surrounding to the right
+      find_left = 'gaF', -- find surrounding to the left
+      highlight = 'gah', -- highlight surrounding
+      update_n_lines = 'gan', -- update `n_lines` option
       suffix_last = 'l', -- suffix for "prev" search (e.g. sdl, srl)
       suffix_next = 'n', -- suffix for "next" search (e.g. sdn, srn)
     },
