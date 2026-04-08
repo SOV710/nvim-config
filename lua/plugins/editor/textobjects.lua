@@ -58,6 +58,8 @@ return {
         { '[c', 'goto_previous_start', '@class.outer', 'Prev class start' },
         { '[F', 'goto_previous_end', '@function.outer', 'Prev function end' },
         { '[C', 'goto_previous_end', '@class.outer', 'Prev class end' },
+        { ']a', 'goto_next_start', '@parameter.inner', 'Next parameter' },
+        { '[a', 'goto_previous_start', '@parameter.inner', 'Prev parameter' },
       }
       for _, m in ipairs(move_maps) do
         vim.keymap.set({ 'n', 'x', 'o' }, m[1], function()
