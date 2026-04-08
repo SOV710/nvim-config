@@ -38,6 +38,9 @@ return {
         { 'il', '@loop.inner', 'inner loop' },
         { 'ab', '@block.outer', 'outer block' },
         { 'ib', '@block.inner', 'inner block' },
+        { 'aN', '@comment.outer', 'outer comment' },
+        { 'iN', '@comment.inner', 'inner comment' },
+        { 'as', '@local.scope', 'a scope' },
       }
       for _, m in ipairs(select_maps) do
         vim.keymap.set({ 'x', 'o' }, m[1], function()
