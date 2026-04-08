@@ -11,6 +11,7 @@ return {
       sync_with_numbered_registers = true, -- sync ring with vim numbered registers (1-9)
       cancel_event = 'update', -- event that cancels ring cycling: "update"|"move"
       ignore_registers = { '_' }, -- registers to ignore
+      update_register_on_cycle = true, -- cycle result will move to "" register
     },
     system_clipboard = {
       sync_with_ring = true, -- sync system clipboard with yank ring
