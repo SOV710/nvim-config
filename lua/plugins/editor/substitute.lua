@@ -22,7 +22,7 @@ return {
       range = nil, -- custom range for range substitute
       suffix = '', -- suffix for range substitute command
       auto_apply = false, -- auto-apply on TextChanged
-      cursor_position = 'original', -- cursor position after: "original"|"start"|"end"
+      cursor_position = 'end', -- cursor position after: "start"|"end"
     },
     exchange = {
       motion = false, -- use motion for exchange (vs operator)
