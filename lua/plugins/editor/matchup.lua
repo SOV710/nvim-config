@@ -1,5 +1,6 @@
 return {
   'andymass/vim-matchup',
+  event = 'LazyFile',
   init = function()
     -- modify your configuration vars here
     vim.g.matchup_treesitter_stopline = 1000
