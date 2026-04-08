@@ -124,7 +124,5 @@ vim.env.PATH = vim.fn.stdpath 'data' .. '/mason/bin:' .. vim.env.PATH
 -- Enable LSP & per-language options (after lazy.nvim has set up rtp)
 language.enable()
 
-require 'core.autocmds'
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
