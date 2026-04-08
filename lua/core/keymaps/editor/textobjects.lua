@@ -21,7 +21,9 @@ for _, m in ipairs(select_maps) do
   local lhs, capture, desc = m[1], m[2], m[3]
   keys[#keys + 1] = {
     lhs,
-    function() require('nvim-treesitter-textobjects.select').select_textobject(capture) end,
+    function()
+      require('nvim-treesitter-textobjects.select').select_textobject(capture)
+    end,
     mode = { 'x', 'o' },
     desc = desc,
   }
@@ -44,7 +46,9 @@ for _, m in ipairs(move_maps) do
   local lhs, method, capture, desc = m[1], m[2], m[3], m[4]
   keys[#keys + 1] = {
     lhs,
-    function() require('nvim-treesitter-textobjects.move')[method](capture) end,
+    function()
+      require('nvim-treesitter-textobjects.move')[method](capture)
+    end,
     mode = { 'n', 'x', 'o' },
     desc = desc,
   }
@@ -53,25 +57,33 @@ end
 -- ── swap textobjects ────────────────────────────────────────────
 keys[#keys + 1] = {
   '<leader>a',
-  function() require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner' end,
+  function()
+    require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner'
+  end,
   desc = 'Swap next parameter',
 }
 keys[#keys + 1] = {
   '<leader>A',
-  function() require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.inner' end,
+  function()
+    require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.inner'
+  end,
   desc = 'Swap prev parameter',
 }
 
 -- ── repeatable move (;/,) ───────────────────────────────────────
 keys[#keys + 1] = {
   ';',
-  function() require('nvim-treesitter-textobjects.repeatable_move').repeat_last_move_next() end,
+  function()
+    require('nvim-treesitter-textobjects.repeatable_move').repeat_last_move_next()
+  end,
   mode = { 'n', 'x', 'o' },
   desc = 'Repeat last move',
 }
 keys[#keys + 1] = {
   ',',
-  function() require('nvim-treesitter-textobjects.repeatable_move').repeat_last_move_previous() end,
+  function()
+    require('nvim-treesitter-textobjects.repeatable_move').repeat_last_move_previous()
+  end,
   mode = { 'n', 'x', 'o' },
   desc = 'Repeat last move (reverse)',
 }
