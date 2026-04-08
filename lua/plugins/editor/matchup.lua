@@ -19,6 +19,10 @@ return {
   -- or use the `opts` mechanism built into `lazy.nvim`. It calls
   -- `require('match-up').setup` under the hood
   opts = {
+    enabled = 1,
+    matchparen = { enabled = 1 },
+    motion = { enabled = 1 },
+    text_obj = { enabled = 0 },
     treesitter = {
       stopline = 1000,
     },
