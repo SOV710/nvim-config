@@ -19,7 +19,7 @@ return {
     highlight = {
       on_put = true, -- highlight on put
       on_yank = true, -- highlight on yank
-      timer = 500, -- highlight duration in ms
+      timer = 200, -- highlight duration in ms
     },
     preserve_cursor_position = {
       enabled = true, -- preserve cursor position after yank
