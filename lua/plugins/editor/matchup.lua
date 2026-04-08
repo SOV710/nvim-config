@@ -1,29 +1,26 @@
 return {
   'andymass/vim-matchup',
   event = 'LazyFile',
-  init = function()
-    -- modify your configuration vars here
-    vim.g.matchup_treesitter_stopline = 1000
-
-    -- Don't block heirline plz
-    vim.g.matchup_matchparen_offscreen = { method = 'popup' }
-
-    -- or call the setup function provided as a helper. It defines the
-    -- configuration vars for you
-    require('match-up').setup {
-      treesitter = {
-        stopline = 1000,
-      },
-    }
-  end,
-  -- or use the `opts` mechanism built into `lazy.nvim`. It calls
-  -- `require('match-up').setup` under the hood
   opts = {
     enabled = 1,
-    matchparen = { enabled = 1 },
+    matchparen = {
+      enabled = 1,
+      offscreen = { method = 'popup' },
+      deferred = 1,
+      deferred_show_delay = 50,
+      deferred_hide_delay = 700,
+      timeout = 300,
+      insert_timeout = 60,
+
+      hi_surround_always = 0,
+      singleton = 0,
+    },
     motion = { enabled = 1 },
     text_obj = { enabled = 0 },
     treesitter = {
+      matchparen = {
+        stopline = 400,
+      },
       stopline = 1000,
     },
   },
