@@ -1,8 +1,8 @@
 return {
   'echasnovski/mini.ai',
   version = '*',
-  event = { 'BufReadPost', 'BufNewFile' },
-  dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+  event = 'LazyFile',
+  dependencies = { 'nvim-treesitter/nvim-treesitter' },
   opts = {
     n_lines = 500, -- lines within which textobject is searched
     custom_textobjects = nil, -- custom textobjects (nil = use defaults + treesitter)
