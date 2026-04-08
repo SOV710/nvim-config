@@ -8,6 +8,10 @@ return {
       require('nvim-treesitter-textobjects').setup {
         select = {
           lookahead = true,
+          selection_modes = {
+            ['@parameter.outer'] = 'v',
+            ['@function.outer'] = 'v',
+          },
           include_surrounding_whitespace = true,
         },
         move = {
