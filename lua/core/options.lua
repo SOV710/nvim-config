@@ -3,6 +3,7 @@ vim.g.mapleader = ' ' -- <Space> as leader key
 vim.g.maplocalleader = ',' -- <,> as local leader (used by grug-far etc.)
 vim.g.editorconfig = true -- respect .editorconfig files
 vim.g.root_pattern = { '.git', '.nvim', '.project.el', '.editorconfig' }
+vim.g.no_plugin_maps = true -- disable default regex ftplugin jump, because treesitter-textobjects
 
 -- ── Persistence ────────────────────────────────────────────────────
 vim.opt.shada = "'100,<0" -- remember 100 marks, don't persist registers
