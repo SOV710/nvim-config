@@ -14,7 +14,7 @@ return {
     },
     system_clipboard = {
       sync_with_ring = true, -- sync system clipboard with yank ring
-      clipboard_register = nil, -- clipboard register to use (nil = auto)
+      clipboard_register = '+', -- clipboard register to use (nil = auto)
     },
     highlight = {
       on_put = true, -- highlight on put
