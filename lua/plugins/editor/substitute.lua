@@ -1,10 +1,13 @@
 return {
   'gbprod/substitute.nvim',
+  dependencies = { 'gbprod/yanky.nvim' },
   keys = require 'keymaps.editor.substitute',
   opts = {
-    on_substitute = nil, -- callback fired after substitution
+    on_substitute = function(event)
+      require('yanky.integration').substitute()(event)
+    end, -- callback fired after substitution
     yank_substituted_text = false, -- yank the text that was substituted
-    preserve_cursor_position = false, -- keep cursor position after substitute
+    preserve_cursor_position = true, -- keep cursor position after substitute
     modifiers = nil, -- custom modifiers for substitute
     highlight_substituted_text = {
       enabled = true, -- highlight text after substitution
