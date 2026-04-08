@@ -51,12 +51,12 @@ return {
       -- ── move (goto) textobjects ─────────────────────────────────────
       local move_maps = {
         { ']f', 'goto_next_start', '@function.outer', 'Next function start' },
-        { ']c', 'goto_next_start', '@class.outer', 'Next class start' },
         { ']F', 'goto_next_end', '@function.outer', 'Next function end' },
+        { ']c', 'goto_next_start', '@class.outer', 'Next class start' },
         { ']C', 'goto_next_end', '@class.outer', 'Next class end' },
         { '[f', 'goto_previous_start', '@function.outer', 'Prev function start' },
-        { '[c', 'goto_previous_start', '@class.outer', 'Prev class start' },
         { '[F', 'goto_previous_end', '@function.outer', 'Prev function end' },
+        { '[c', 'goto_previous_start', '@class.outer', 'Prev class start' },
         { '[C', 'goto_previous_end', '@class.outer', 'Prev class end' },
         { ']a', 'goto_next_start', '@parameter.inner', 'Next parameter' },
         { '[a', 'goto_previous_start', '@parameter.inner', 'Prev parameter' },
