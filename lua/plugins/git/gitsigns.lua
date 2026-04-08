@@ -1,7 +1,7 @@
 return {
   'lewis6991/gitsigns.nvim',
   event = 'BufReadPost', -- attach to buffers as they open
-  keys = require 'core.keymaps.git.gitsigns',
+  keys = require 'keymaps.git.gitsigns',
   opts = {
     signs = {
       add = { text = '+' }, -- sign for added lines

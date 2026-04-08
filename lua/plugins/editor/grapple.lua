@@ -2,7 +2,7 @@ return {
   'cbochs/grapple.nvim',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-  keys = require 'core.keymaps.editor.grapple',
+  keys = require 'keymaps.editor.grapple',
   opts = {
     scope = 'git', -- tag scope: "git"|"git_branch"|"cwd"|"global"|"static"|"lsp"
     icons = true, -- show icons in the tags menu

@@ -1,6 +1,6 @@
 return {
   'monaqa/dial.nvim',
-  keys = require 'core.keymaps.editor.dial',
+  keys = require 'keymaps.editor.dial',
   config = function()
     local augend = require 'dial.augend'
 

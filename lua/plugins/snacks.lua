@@ -8,7 +8,7 @@ return {
     scope = { enabled = true },
   },
 
-  keys = require 'core.keymaps.snacks',
+  keys = require 'keymaps.snacks',
 
   init = function()
     vim.api.nvim_create_autocmd('User', {

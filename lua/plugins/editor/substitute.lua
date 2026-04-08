@@ -1,6 +1,6 @@
 return {
   'gbprod/substitute.nvim',
-  keys = require 'core.keymaps.editor.substitute',
+  keys = require 'keymaps.editor.substitute',
   opts = {
     on_substitute = nil, -- callback fired after substitution
     yank_substituted_text = false, -- yank the text that was substituted

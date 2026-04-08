@@ -12,7 +12,7 @@ return {
     'ClaudeCodeTreeAdd',
     'ClaudeCodeStatus',
   },
-  keys = require 'core.keymaps.ai.claudecode',
+  keys = require 'keymaps.ai.claudecode',
   opts = {
     -- ── Server ────────────────────────────────────────────────────────
     port_range = { min = 10000, max = 65535 }, -- WebSocket port range

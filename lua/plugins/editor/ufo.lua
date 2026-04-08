@@ -2,7 +2,7 @@ return {
   'kevinhwang91/nvim-ufo',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = { 'kevinhwang91/promise-async' },
-  keys = require 'core.keymaps.editor.ufo',
+  keys = require 'keymaps.editor.ufo',
 
   init = function()
     -- Fold options co-located with the plugin that manages them

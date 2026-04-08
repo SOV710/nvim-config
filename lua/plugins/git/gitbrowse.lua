@@ -2,7 +2,7 @@
 -- Merges into the main folke/snacks.nvim spec via lazy.nvim spec merging.
 return {
   'folke/snacks.nvim',
-  keys = require 'core.keymaps.git.gitbrowse',
+  keys = require 'keymaps.git.gitbrowse',
   opts = {
     gitbrowse = {
       notify = true, -- show notification when opening URL

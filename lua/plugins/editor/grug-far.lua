@@ -1,7 +1,7 @@
 return {
   'MagicDuck/grug-far.nvim',
   cmd = 'GrugFar',
-  keys = require 'core.keymaps.editor.grug-far',
+  keys = require 'keymaps.editor.grug-far',
   opts = {
     engine = 'ripgrep', -- search engine: "ripgrep"|"astgrep"
     startInInsertMode = true, -- start with cursor in insert mode

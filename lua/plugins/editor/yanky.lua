@@ -2,7 +2,7 @@ return {
   'gbprod/yanky.nvim',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = { 'kkharji/sqlite.lua' },
-  keys = require 'core.keymaps.editor.yanky',
+  keys = require 'keymaps.editor.yanky',
   opts = {
     ring = {
       history_length = 200,

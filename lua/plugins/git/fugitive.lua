@@ -14,5 +14,5 @@ return {
     'Ggrep', -- git grep
     'Gedit', -- view any blob/tree/commit/tag
   },
-  keys = require 'core.keymaps.git.fugitive',
+  keys = require 'keymaps.git.fugitive',
 }

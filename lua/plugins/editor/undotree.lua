@@ -1,7 +1,7 @@
 return {
   'jiaoshijie/undotree',
   dependencies = { 'nvim-lua/plenary.nvim' },
-  keys = require 'core.keymaps.editor.undotree',
+  keys = require 'keymaps.editor.undotree',
   opts = {
     float_diff = true, -- show diff in floating window
     layout = 'left_bottom', -- layout: "left_bottom"|"left_left_bottom"

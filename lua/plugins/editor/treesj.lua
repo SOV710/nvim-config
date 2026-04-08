@@ -1,7 +1,7 @@
 return {
   'Wansmer/treesj',
   cmd = { 'TSJToggle', 'TSJSplit', 'TSJJoin' },
-  keys = require 'core.keymaps.editor.treesj',
+  keys = require 'keymaps.editor.treesj',
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   opts = {
     use_default_keymaps = false, -- disable default keymaps (we manage our own)

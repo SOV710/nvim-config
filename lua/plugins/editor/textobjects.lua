@@ -2,7 +2,7 @@ return {
   'nvim-treesitter/nvim-treesitter-textobjects',
   event = { 'BufReadPost', 'BufNewFile' },
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
-  keys = require 'core.keymaps.editor.textobjects',
+  keys = require 'keymaps.editor.textobjects',
   config = function()
     require('nvim-treesitter-textobjects').setup {
       select = {

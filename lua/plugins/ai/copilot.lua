@@ -2,7 +2,7 @@ return {
   'zbirenbaum/copilot.lua',
   cmd = 'Copilot',
   event = 'InsertEnter',
-  keys = require 'core.keymaps.ai.copilot',
+  keys = require 'keymaps.ai.copilot',
   opts = {
     -- HEADLESS backend: all UI goes through blink-copilot / blink.cmp.
     -- suggestion and panel are fully disabled.

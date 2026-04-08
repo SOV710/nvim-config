@@ -8,7 +8,7 @@ return {
     'DiffviewRefresh',
     'DiffviewFileHistory',
   },
-  keys = require 'core.keymaps.git.diffview',
+  keys = require 'keymaps.git.diffview',
   opts = {
     diff_binaries = false, -- show diffs for binary files
     enhanced_diff_hl = false, -- more granular diff highlighting

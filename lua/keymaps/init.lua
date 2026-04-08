@@ -10,11 +10,11 @@ local function apply(keymaps)
 end
 
 -- Standalone keymaps (not tied to any plugin)
-apply(require 'core.keymaps.editing')
-apply(require 'core.keymaps.winbuf')
+apply(require 'keymaps.editing')
+apply(require 'keymaps.winbuf')
 
 -- LSP keymaps (special: uses LspAttach autocmd)
-require('core.keymaps.langs.lsp').setup()
+require('keymaps.langs.lsp').setup()
 
 -- diagnostic keymaps
-apply(require 'core.keymaps.langs.diagnostic')
+apply(require 'keymaps.langs.diagnostic')
