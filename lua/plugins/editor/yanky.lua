@@ -1,6 +1,6 @@
 return {
   'gbprod/yanky.nvim',
-  event = { 'BufReadPost', 'BufNewFile' },
+  event = 'LazyFile',
   dependencies = { 'kkharji/sqlite.lua' },
   keys = require 'keymaps.editor.yanky',
   opts = {
