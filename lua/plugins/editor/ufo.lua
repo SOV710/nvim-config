@@ -27,7 +27,9 @@ return {
       return { 'lsp', 'treesitter', 'indent' }
     end,
     open_fold_hl_timeout = 400, -- ms to highlight newly opened fold (0 = disable)
-    close_fold_kinds_for_ft = {}, -- fold kinds to keep closed per filetype
+    close_fold_kinds_for_ft = {
+      default = { 'imports' },
+    },
 
     preview = {
       win_config = {
