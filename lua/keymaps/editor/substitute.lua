@@ -178,18 +178,6 @@ return {
     desc = 'Replace [W]ORD in whole [f]ile',
   },
 
-  -- ── cword in function ────────────────────────────────────────────
-  {
-    '<leader>SwF',
-    function()
-      require('substitute.range').operator {
-        subject = { expand = '<cword>' },
-        range = { motion = 'af' },
-      }
-    end,
-    desc = 'Replace [w]ord in [F]unction',
-  },
-
   -- ── last search in whole file ────────────────────────────────────
   -- Workflow: `*` to search cword, N to go back, then <leader>S/R
   {
