@@ -34,8 +34,13 @@ return {
       local has_ts = has_ts_folds(bufnr, filetype)
 
       -- Filetypes where LSP folding is unreliable — use treesitter as main
-      local ts_only = { markdown = true, org = true, tex = true }
-      if ts_only[filetype] then
+      local prefer_ts = {
+        markdown = true,
+        org = true,
+        tex = true,
+        python = true,
+      }
+      if prefer_ts[filetype] then
         return has_ts and { 'treesitter', 'indent' } or { 'indent', 'indent' }
       end
 
