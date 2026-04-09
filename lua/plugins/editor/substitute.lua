@@ -8,7 +8,13 @@ return {
     end, -- callback fired after substitution
     yank_substituted_text = false, -- yank the text that was substituted
     preserve_cursor_position = true, -- keep cursor position after substitute
-    modifiers = nil, -- custom modifiers for substitute
+    modifiers = function(state)
+      if state.vmode == 'line' then
+        return { 'reindent' } -- auto-reindent when replace lines
+      elseif state.vmode == 'char' then
+        return { 'trim' }
+      end
+    end,
     highlight_substituted_text = {
       enabled = true, -- highlight text after substitution
       timer = 200, -- highlight duration in ms
