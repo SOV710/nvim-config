@@ -35,6 +35,6 @@ return {
       previewLocation = { n = '<localleader>i' }, -- preview result in split
       swapReplacementInterpreter = { n = '<localleader>x' }, -- swap replacement mode
     },
-    windowCreationCommand = 'split', -- command to create window: "split"|"vsplit"|"tabnew"
+    windowCreationCommand = 'vsplit', -- command to create window: "split"|"vsplit"|"tabnew"
   },
 }
