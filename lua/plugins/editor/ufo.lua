@@ -13,8 +13,18 @@ return {
   end,
 
   opts = {
-    provider_selector = function()
-      return { 'lsp', 'indent' } -- fold providers: LSP first, indent fallback
+    provider_selector = function(_bufnr, filetype, _buftype)
+      -- Filetypes where LSP folding is unreliable or absent — go straight to treesitter
+      local ts_only = {
+        markdown = true,
+        org = true,
+        tex = true,
+      }
+      if ts_only[filetype] then
+        return { 'treesitter', 'indent' }
+      end
+      -- Default: prefer LSP, fall back to treesitter, then indent
+      return { 'lsp', 'treesitter', 'indent' }
     end,
     open_fold_hl_timeout = 400, -- ms to highlight newly opened fold (0 = disable)
     close_fold_kinds_for_ft = {}, -- fold kinds to keep closed per filetype
