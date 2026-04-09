@@ -1,3 +1,15 @@
+--- Check whether treesitter can actually provide folds for this buffer.
+--- Requires both a parser AND a folds.scm query file.
+local function has_ts_folds(bufnr, filetype)
+  local lang = vim.treesitter.language.get_lang(filetype) or filetype
+  local ok_parser = pcall(vim.treesitter.get_parser, bufnr, lang)
+  if not ok_parser then
+    return false
+  end
+  local ok_query, query = pcall(vim.treesitter.query.get, lang, 'folds')
+  return ok_query and query ~= nil
+end
+
 return {
   'kevinhwang91/nvim-ufo',
   event = 'LazyFile',
@@ -19,17 +31,16 @@ return {
         return ''
       end
 
+      local has_ts = has_ts_folds(bufnr, filetype)
+
       -- Filetypes where LSP folding is unreliable — use treesitter as main
       local ts_only = { markdown = true, org = true, tex = true }
-
-      -- Probe whether treesitter has a parser for this buffer
-      local has_ts = pcall(vim.treesitter.get_parser, bufnr, filetype)
-
       if ts_only[filetype] then
         return has_ts and { 'treesitter', 'indent' } or { 'indent', 'indent' }
       end
 
-      -- Default: LSP main, treesitter fallback if available, otherwise indent
+      -- Default: LSP main, treesitter fallback if it actually has folds query,
+      -- otherwise indent as fallback
       return has_ts and { 'lsp', 'treesitter' } or { 'lsp', 'indent' }
     end,
     open_fold_hl_timeout = 400, -- ms to highlight newly opened fold (0 = disable)
