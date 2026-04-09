@@ -304,6 +304,18 @@ end
 
 --- Enable all declared LSP servers via Neovim 0.11+ native API
 function M.enable_lsp()
+  -- Build global default capabilities, merged into every server via '*' config
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+  -- nvim-ufo: request line-based folding ranges from servers that support them
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  }
+
+  vim.lsp.config('*', { capabilities = capabilities })
+
+  -- Per-server configs (will deep-merge with '*' defaults above)
   for server, config in pairs(M._lsp_configs) do
     if next(config) then
       vim.lsp.config(server, config)
