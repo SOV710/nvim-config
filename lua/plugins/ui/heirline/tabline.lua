@@ -203,7 +203,20 @@ end
 
 local Windows = {
   flexible = 3,
-  update = update_events,
+  update = {
+    'TabEnter',
+    'TabNew',
+    'TabClosed',
+    'WinNew',
+    'WinClosed',
+    'WinLeave',
+    'WinEnter',
+    'BufWinEnter',
+    'BufWinLeave',
+    'BufDelete',
+    'User',
+    pattern = { '*', 'GrappleUpdate' },
+  },
   {
     provider = function()
       return render_windows(false)

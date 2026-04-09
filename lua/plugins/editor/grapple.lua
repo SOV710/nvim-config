@@ -32,6 +32,7 @@ return {
       grapple[name] = function(...)
         local result = original(...)
         vim.api.nvim_exec_autocmds('User', { pattern = 'GrappleUpdate' })
+        vim.cmd.redrawtabline() -- force vim rerender tabline
         return result
       end
     end
