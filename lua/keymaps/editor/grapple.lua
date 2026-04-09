@@ -4,7 +4,6 @@ return {
     'm',
     function()
       require('grapple').toggle()
-      vim.api.nvim_exec_autocmds('User', { pattern = 'GrappleToggled' })
     end,
     desc = 'Grapple toggle tag',
   },

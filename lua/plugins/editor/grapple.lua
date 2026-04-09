@@ -23,12 +23,17 @@ return {
   config = function(_, opts)
     require('grapple').setup(opts)
 
-    -- Redraw tabline when tags change so heirline grapple indicator updates
-    vim.api.nvim_create_autocmd('User', {
-      pattern = 'GrappleToggled',
-      callback = function()
-        vim.cmd.redrawtabline()
-      end,
-    })
+    -- Wrap all mutating entry points so any tag change emits a uniform User event,
+    -- regardless of whether the change came from a keymap, :Grapple command, or menu action.
+    local grapple = require 'grapple'
+    local mutating = { 'tag', 'untag', 'toggle', 'reset', 'select', 'cycle_tags' }
+    for _, name in ipairs(mutating) do
+      local original = grapple[name]
+      grapple[name] = function(...)
+        local result = original(...)
+        vim.api.nvim_exec_autocmds('User', { pattern = 'GrappleUpdate' })
+        return result
+      end
+    end
   end,
 }
