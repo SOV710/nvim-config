@@ -13,16 +13,24 @@ return {
   end,
 
   opts = {
-    provider_selector = function(_bufnr, filetype, buftype)
+    provider_selector = function(bufnr, filetype, buftype)
+      -- Skip non-file buffers entirely
       if buftype ~= '' then
         return ''
       end
+
+      -- Filetypes where LSP folding is unreliable — use treesitter as main
       local ts_only = { markdown = true, org = true, tex = true }
+
+      -- Probe whether treesitter has a parser for this buffer
+      local has_ts = pcall(vim.treesitter.get_parser, bufnr, filetype)
+
       if ts_only[filetype] then
-        return { 'treesitter', 'indent' }
+        return has_ts and { 'treesitter', 'indent' } or { 'indent', 'indent' }
       end
-      -- Default: LSP main, treesitter fallback
-      return { 'lsp', 'treesitter' }
+
+      -- Default: LSP main, treesitter fallback if available, otherwise indent
+      return has_ts and { 'lsp', 'treesitter' } or { 'lsp', 'indent' }
     end,
     open_fold_hl_timeout = 400, -- ms to highlight newly opened fold (0 = disable)
     close_fold_kinds_for_ft = {
