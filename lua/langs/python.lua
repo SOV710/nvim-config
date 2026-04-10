@@ -16,6 +16,15 @@
 return {
   treesitter = { 'python' },
 
+  external_deps = {
+    {
+      cmd = 'ty',
+      required = true,
+      install = 'uv tool install ty',
+      note = 'requires uv (pip install uv or emerge dev-python/uv)',
+    },
+  },
+
   lsp = {
     ruff = {
       cmd = { 'ruff', 'server' },
