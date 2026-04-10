@@ -28,6 +28,38 @@
 return {
   treesitter = { 'latex', 'bibtex' },
 
+  external_deps = {
+    {
+      cmd = 'latex',
+      required = true,
+      install = 'emerge app-text/texlive',
+    },
+    {
+      cmd = 'latexmk',
+      required = true,
+      install = 'emerge app-text/texlive',
+      note = 'bundled with TeX Live; build driver texlab invokes',
+    },
+    {
+      cmd = 'latexindent',
+      required = true,
+      install = 'emerge app-text/texlive-latexextra',
+      note = 'bundled with TeX Live; texlab delegates formatting to it',
+    },
+    {
+      cmd = 'chktex',
+      required = true,
+      install = 'emerge app-text/texlive',
+      note = 'bundled with TeX Live; texlab delegates linting to it',
+    },
+    {
+      cmd = 'zathura',
+      required = false,
+      install = 'emerge app-text/zathura app-text/zathura-pdf-mupdf',
+      note = 'PDF viewer for vimtex forward-search',
+    },
+  },
+
   lsp = {
     texlab = {
       cmd = { 'texlab' },
