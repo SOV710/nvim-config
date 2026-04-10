@@ -12,6 +12,7 @@
 ---   language.mason                → string[] for mason ensure_installed
 ---   language.dap_adapters         → table<name, AdapterConfig> for nvim-dap
 ---   language.dap_configurations   → table<filetype, table[]> for nvim-dap
+---   language.snippets             → table<filetype, (fun():table[])[]> for LuaSnip add_snippets
 ---   language.filetypes            → list of tables for vim.filetype.add()
 ---   language.enable_lsp()         → call after plugins loaded
 ---   language.enable_options()     → call after plugins loaded
@@ -31,6 +32,7 @@ local M = {
   mason = {}, ---@type string[]
   dap_adapters = {}, ---@type table<string, DapAdapterConfig>
   dap_configurations = {}, ---@type table<string, table[]>
+  snippets = {}, ---@type table<string, (fun(): table[])[]>
   filetypes = {}, ---@type table[]
 
   --- Internal state
@@ -54,6 +56,7 @@ local M = {
 ---@field mason?              string[]
 ---@field plugins?            LazySpec[]
 ---@field options?            table<string, any>
+---@field snippets?           fun(): table[]
 
 ---@class TreesitterParserConfig
 ---@field url          string
@@ -252,6 +255,16 @@ function M._aggregate()
             table.insert(M.dap_configurations[ft], config)
           end
         end
+      end
+    end
+
+    -- Snippets: store the function reference under every filetype of the lang.
+    -- The function is evaluated once at consumption time (memoized by fn identity),
+    -- with the result reused across every ft bound to it. See plugins/langs/snippets.lua.
+    if lang.snippets then
+      for _, ft in ipairs(fts) do
+        M.snippets[ft] = M.snippets[ft] or {}
+        M.snippets[ft][#M.snippets[ft] + 1] = lang.snippets
       end
     end
 
