@@ -46,7 +46,7 @@ local function os_info()
   if sysname:match 'Windows' then
     -- uname.version on Windows usually looks like "Windows 11 Pro" or similar
     local name = uname.version ~= '' and uname.version or sysname
-    return ' ' .. name
+    return '󰖳 ' .. name
   end
 
   -- macOS
@@ -60,7 +60,7 @@ local function os_info()
     if version == '' then
       version = uname.release -- fallback to Darwin kernel version
     end
-    return ' macOS ' .. version
+    return ' macOS ' .. version
   end
 
   -- Unix-like: read /etc/os-release
