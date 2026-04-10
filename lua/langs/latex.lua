@@ -1,3 +1,30 @@
+--- LaTeX — LSP via mason (texlab), formatter/linter via TeX Live bundle.
+---
+--- External dependencies (NOT managed by mason):
+---
+---   Required:
+---     TeX Live            Full TeX distribution (provides latex, latexmk, etc.)
+---       install:          emerge app-text/texlive
+---       verify:           latex --version && latexmk --version
+---
+---     latexindent         LaTeX formatter (bundled with TeX Live)
+---       install:          emerge app-text/texlive-latexextra
+---       verify:           which latexindent
+---
+---     chktex              LaTeX linter (bundled with TeX Live)
+---       install:          emerge app-text/texlive    # bundled
+---       verify:           which chktex
+---
+---   Optional:
+---     zathura             PDF viewer for forward-search (see vimtex config)
+---       install:          emerge app-text/zathura app-text/zathura-pdf-mupdf
+---       verify:           zathura --version
+---
+--- Notes:
+---   - texlab (mason) delegates formatting to latexindent and linting to
+---     chktex; both live inside the TeX distribution, not mason.
+---   - latexmk is the build driver texlab invokes; comes with TeX Live.
+
 return {
   treesitter = { 'latex', 'bibtex' },
 
@@ -40,8 +67,8 @@ return {
   -- linter: not set — texlab integrates chktex
 
   mason = { 'texlab' },
-  -- NOTE: latexindent and chktex come with your TeX distribution (texlive),
-  -- NOT installed via mason. texlab delegates to them.
+  -- NOTE: latexindent and chktex come with TeX Live, not mason
+  -- (see top-of-file external deps block)
 
   plugins = {
     {
