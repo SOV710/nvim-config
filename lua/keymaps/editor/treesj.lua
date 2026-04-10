@@ -1,16 +1,23 @@
 return {
   {
-    'gS',
+    '<leader>jf',
     function()
       require('treesj').toggle()
     end,
-    desc = 'Toggle split/join',
+    desc = 'TreeSJ toggle',
   },
   {
-    'gJ',
+    '<leader>jj',
     function()
       require('treesj').join()
     end,
-    desc = 'Join block',
+    desc = 'TreeSJ join',
+  },
+  {
+    '<leader>js',
+    function()
+      require('treesj').split()
+    end,
+    desc = 'TreeSJ split',
   },
 }
