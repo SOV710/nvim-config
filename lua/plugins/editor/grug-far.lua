@@ -3,12 +3,21 @@ return {
   cmd = 'GrugFar',
   keys = require 'keymaps.editor.grug-far',
   opts = {
-    engine = 'ripgrep', -- search engine: "ripgrep"|"astgrep"
+    debounceMs = 800,
+    maxWorkers = 8,
+    enabledEngines = { 'ripgrep' },
+    engine = 'ripgrep',
+    engines = {
+      ripgrep = {
+        extraArgs = '--hidden --glob=!.git',
+      },
+    },
+    windowCreationCommand = 'vsplit', -- command to create window: "split"|"vsplit"|"tab split | 'botright split' ..."
     startInInsertMode = true, -- start with cursor in insert mode
-    startCursorRow = 3, -- initial cursor row (search input line)
+    startCursorRow = 1, -- initial cursor row (search input line)
     transient = false, -- close grug-far buffer on window close
     folding = {
-      enabled = true, -- enable folding in results
+      enabled = false, -- enable folding in results
       foldlevel = 0, -- initial fold level (0 = all folded)
     },
     resultLocation = {
@@ -35,6 +44,5 @@ return {
       previewLocation = { n = '<localleader>i' }, -- preview result in split
       swapReplacementInterpreter = { n = '<localleader>x' }, -- swap replacement mode
     },
-    windowCreationCommand = 'vsplit', -- command to create window: "split"|"vsplit"|"tabnew"
   },
 }
