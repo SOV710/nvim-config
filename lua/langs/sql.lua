@@ -23,6 +23,21 @@ return {
   filetypes = { 'sql', 'mysql', 'plsql' },
   treesitter = { 'sql' },
 
+  external_deps = {
+    {
+      cmd = 'sleek',
+      required = true,
+      install = 'cargo install sleek',
+      note = 'requires Rust toolchain; no mason distribution',
+    },
+    {
+      cmd = 'sqlfluff',
+      required = false,
+      install = 'pip install sqlfluff',
+      note = 'mason fallback only — normally managed by mason',
+    },
+  },
+
   lsp = {
     sqlls = {
       cmd = { 'sql-language-server', 'up', '--method', 'stdio' },
