@@ -3,19 +3,16 @@ return {
   version = '1.*',
   event = { 'InsertEnter', 'CmdlineEnter' },
   build = 'cargo build --release',
-  dependencies = {
-    'L3MON4D3/LuaSnip',
-  },
+
+  dependencies = { 'L3MON4D3/LuaSnip' },
+
   opts = {
     keymap = {
-      preset = 'default',
-      ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+      preset = 'super-tab',
+      ['<C-space>'] = { 'accept', 'fallback' }, -- ctrl+space for accept completion
       ['<C-e>'] = { 'cancel', 'fallback' },
-      ['<CR>'] = { 'accept', 'fallback' },
-      ['<Tab>'] = { 'snippet_forward', 'select_next', 'fallback' },
-      ['<S-Tab>'] = { 'snippet_backward', 'select_prev', 'fallback' },
-      ['<C-n>'] = { 'select_next', 'fallback' },
-      ['<C-p>'] = { 'select_prev', 'fallback' },
+      ['<C-k>'] = { 'select_prev', 'fallback' },
+      ['<C-j>'] = { 'select_next', 'fallback' },
       ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
       ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
     },
