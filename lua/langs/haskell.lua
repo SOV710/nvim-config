@@ -1,9 +1,42 @@
+--- Haskell — LSP + DAP via GHCup toolchain.
+---
+--- External dependencies (NOT managed by mason):
+---
+---   Required:
+---     ghc, cabal          Haskell compiler and package manager
+---       install:          curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+---                         ghcup install ghc recommended
+---                         ghcup install cabal recommended
+---       verify:           ghc --version && cabal --version
+---
+---     haskell-language-server  HLS — must match GHC version exactly
+---       install:          ghcup install hls recommended
+---       verify:           haskell-language-server-wrapper --version
+---
+---   Optional:
+---     haskell-debug-adapter    DAP adapter (enables :DapContinue for Haskell)
+---       install:          cabal install haskell-debug-adapter haskell-dap ghci-dap
+---       verify:           haskell-debug-adapter --version
+---
+---     stack               Alternative build tool (if you prefer stack over cabal)
+---       install:          ghcup install stack recommended
+---       verify:           stack --version
+---
+--- Notes:
+---   - HLS versions are tightly coupled to GHC versions; `ghcup install hls`
+---     will auto-pick a compatible one. If you upgrade GHC, re-run ghcup to
+---     install the matching HLS.
+---   - Mason cannot manage the Haskell toolchain because HLS/GHC version
+---     coupling requires a real package manager (GHCup).
+---   - This lang has no `lsp` field — `haskell-tools.nvim` handles HLS
+---     startup internally; see the plugin spec below.
+
 return {
   filetypes = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
   treesitter = { 'haskell' },
 
   -- NO lsp field: haskell-tools.nvim handles HLS startup internally
-  -- HLS is NOT in mason — install via: ghcup install hls
+  -- (see top-of-file external deps block for installation)
 
   -- formatter: not set — HLS integrates ormolu/fourmolu
   -- linter: not set — HLS integrates hlint via plugin
@@ -13,8 +46,7 @@ return {
       ['haskell-debug-adapter'] = {
         type = 'executable',
         command = 'haskell-debug-adapter',
-        -- Assumes haskell-debug-adapter is in PATH
-        -- Install via: cabal install haskell-debug-adapter haskell-dap ghci-dap
+        -- Assumes haskell-debug-adapter is in PATH (see top-of-file external deps block)
       },
     },
     configurations = {
@@ -38,8 +70,7 @@ return {
   },
 
   -- mason: empty — HLS and haskell-debug-adapter are NOT managed by mason
-  -- Install HLS via:   ghcup install hls
-  -- Install DAP via:   cabal install haskell-debug-adapter haskell-dap ghci-dap
+  -- (see top-of-file external deps block for installation)
 
   plugins = {
     {
