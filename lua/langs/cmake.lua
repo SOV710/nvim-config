@@ -1,3 +1,22 @@
+--- CMake — LSP/formatter/linter via mason, with pip fallbacks.
+---
+--- External dependencies (NOT managed by mason):
+---
+---   Optional:
+---     gersemi             Python-based CMake formatter (mason fallback)
+---       install:          pip install gersemi
+---       verify:           gersemi --version
+---
+---     cmakelint           CMake linter (mason fallback)
+---       install:          pip install cmakelint
+---       verify:           cmakelint --version
+---
+--- Notes:
+---   - Both gersemi and cmakelint are normally managed by mason. These pip
+---     install commands are only needed as a recovery path when mason fails
+---     to install them on some systems.
+---   - neocmakelsp IS in mason and managed automatically.
+
 return {
   treesitter = { 'cmake' },
 
@@ -22,6 +41,5 @@ return {
   linter = 'cmakelint',
 
   mason = { 'neocmakelsp', 'gersemi', 'cmakelint' },
-  -- NOTE: if gersemi or cmakelint are not in mason, install via:
-  --   pip install gersemi cmakelint
+  -- NOTE: pip fallback for gersemi/cmakelint in top-of-file external deps block
 }
