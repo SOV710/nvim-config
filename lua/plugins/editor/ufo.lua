@@ -97,4 +97,27 @@ return {
       return new_virt_text
     end,
   },
+  config = function(_, opts)
+    require('ufo').setup(opts)
+
+    -- Workaround for ufo bug: _lines cache can lag behind real buffer when noice
+    -- popups trigger redraws faster than on_lines fires, causing
+    -- `assert(lineCount >= lnum)` to crash in Buffer:lines().
+    -- Replace the assert with a reload-and-retry. Upstream: no fix as of 2025-08.
+    local ok, Buffer = pcall(require, 'ufo.model.buffer')
+    if ok and Buffer and Buffer.lines then
+      local original_lines = Buffer.lines
+      Buffer.lines = function(self, lnum, endLnum)
+        local line_count = self:lineCount()
+        if line_count < lnum then
+          self:reload()
+          line_count = self:lineCount()
+          if line_count < lnum then
+            return {}
+          end
+        end
+        return original_lines(self, lnum, endLnum)
+      end
+    end
+  end,
 }
