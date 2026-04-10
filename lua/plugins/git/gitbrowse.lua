@@ -9,11 +9,6 @@ return {
       -- what to open: 'repo'|'branch'|'file'|'commit'|'permalink'
       -- defaults to 'permalink' for visual selections, 'file' otherwise
       what = 'file',
-      -- remote_patterns: transform SSH/HTTPS remotes to browsable URLs
-      -- (leave empty to use Snacks defaults for GitHub/GitLab/Bitbucket/Azure)
-      remote_patterns = {},
-      -- url_patterns: domain-keyed URL templates (leave empty for defaults)
-      url_patterns = {},
     },
   },
 }
