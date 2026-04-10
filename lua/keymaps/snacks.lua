@@ -26,7 +26,7 @@ return {
   -- ── File ─────────────────────────────────────────────────────────
 
   {
-    '<leader>cr',
+    '<leader>fn',
     function()
       Snacks.rename.rename_file()
     end,
@@ -40,7 +40,7 @@ return {
     desc = 'Scratch buffer',
   },
   {
-    '<leader>fS',
+    '<leader>fe',
     function()
       Snacks.scratch.select()
     end,
