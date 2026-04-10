@@ -28,4 +28,5 @@ return {
       commented = true,
     },
   },
+  -- TODO: install nvim-dap-view for modern debugging experience
 }
