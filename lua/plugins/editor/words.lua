@@ -3,7 +3,7 @@ return {
   opts = {
     words = {
       enabled = true,
-      debounce = 200, -- ms to wait before highlighting
+      debounce = 100, -- ms to wait before highlighting
       notify_jump = false, -- don't show notification when jumping
       notify_end = true, -- notify when reaching last/first reference
     },
