@@ -20,6 +20,15 @@ return {
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   treesitter = { 'javascript', 'typescript', 'tsx', 'jsdoc' },
 
+  external_deps = {
+    {
+      cmd = 'tsgo',
+      required = true,
+      install = 'git clone --recurse-submodules https://github.com/microsoft/typescript-go && cd typescript-go && go build ./cmd/tsgo',
+      note = 'place built binary in $PATH; requires Go toolchain',
+    },
+  },
+
   lsp = {
     -- tsgo: type checking, completions, go-to-definition, refactoring
     -- (see top-of-file external deps block for installation)
