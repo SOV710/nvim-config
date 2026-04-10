@@ -1,10 +1,28 @@
+--- TypeScript/JavaScript — LSP via tsgo (built from source) + biome via mason.
+---
+--- External dependencies (NOT managed by mason):
+---
+---   Required:
+---     tsgo                TypeScript native LSP (Go port, replaces tsserver)
+---       install:          git clone --recurse-submodules https://github.com/microsoft/typescript-go
+---                         cd typescript-go && go build ./cmd/tsgo
+---                         # place resulting `tsgo` binary in $PATH
+---       verify:           tsgo --version
+---
+--- Notes:
+---   - tsgo is the native-Go TypeScript compiler/LSP under active development.
+---     It is not yet published to mason/npm; source build is the only path.
+---   - Requires Go toolchain (`emerge dev-lang/go`) to build.
+---   - biome (linting + formatting) IS in mason and managed automatically.
+---   - js-debug-adapter (DAP) IS in mason and managed automatically.
+
 return {
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   treesitter = { 'javascript', 'typescript', 'tsx', 'jsdoc' },
 
   lsp = {
     -- tsgo: type checking, completions, go-to-definition, refactoring
-    -- NOT in mason — install from source: https://github.com/microsoft/typescript-go
+    -- (see top-of-file external deps block for installation)
     tsgo = {
       cmd = { 'tsgo', 'lsp' },
       root_markers = { 'tsconfig.json', 'package.json', 'jsconfig.json', '.git' },
