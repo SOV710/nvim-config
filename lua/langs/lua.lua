@@ -27,4 +27,23 @@ return {
   },
   formatter = 'stylua',
   mason = { 'lua-language-server', 'stylua' },
+
+  snippets = function()
+    local ls = require 'luasnip'
+    local s, t, i = ls.snippet, ls.text_node, ls.insert_node
+    return {
+      -- `localm` → module scaffold: `local M = {}\n\n<cursor>\n\nreturn M`
+      s('localm', {
+        t { 'local M = {}', '', '' },
+        i(0),
+        t { '', '', 'return M' },
+      }),
+      -- `vpri` → `print(vim.inspect(<cursor>))`
+      s('vpri', {
+        t 'print(vim.inspect(',
+        i(1),
+        t '))',
+      }),
+    }
+  end,
 }
