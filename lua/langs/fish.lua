@@ -20,6 +20,21 @@
 return {
   treesitter = { 'fish' },
 
+  external_deps = {
+    {
+      cmd = 'fish-lsp',
+      required = true,
+      install = 'npm install -g fish-lsp',
+      note = 'requires Node.js/npm runtime',
+    },
+    {
+      cmd = 'fish_indent',
+      required = true,
+      install = 'emerge app-shells/fish',
+      note = 'bundled with fish shell; on $PATH whenever fish is',
+    },
+  },
+
   lsp = {
     fish_lsp = {
       -- (see top-of-file external deps block for installation)
