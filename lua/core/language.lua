@@ -57,6 +57,13 @@ local M = {
 ---@field plugins?            LazySpec[]
 ---@field options?            table<string, any>
 ---@field snippets?           fun(): table[]
+---@field external_deps?      LangExternalDep[]
+
+---@class LangExternalDep
+---@field cmd      string   Bare binary name passed to vim.fn.executable()
+---@field install  string   Human-readable install command (rendered as health advice)
+---@field required boolean  true → health.error on missing; false → health.warn
+---@field note?    string   Extra context rendered as a second advice line
 
 ---@class TreesitterParserConfig
 ---@field url          string

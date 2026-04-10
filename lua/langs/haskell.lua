@@ -35,6 +35,38 @@ return {
   filetypes = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
   treesitter = { 'haskell' },
 
+  external_deps = {
+    {
+      cmd = 'ghc',
+      required = true,
+      install = 'ghcup install ghc recommended',
+      note = 'install GHCup first: curl --proto =https --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh',
+    },
+    {
+      cmd = 'cabal',
+      required = true,
+      install = 'ghcup install cabal recommended',
+    },
+    {
+      cmd = 'haskell-language-server-wrapper',
+      required = true,
+      install = 'ghcup install hls recommended',
+      note = 'HLS version must match GHC version exactly',
+    },
+    {
+      cmd = 'haskell-debug-adapter',
+      required = false,
+      install = 'cabal install haskell-debug-adapter haskell-dap ghci-dap',
+      note = 'enables :DapContinue for Haskell',
+    },
+    {
+      cmd = 'stack',
+      required = false,
+      install = 'ghcup install stack recommended',
+      note = 'alternative build tool',
+    },
+  },
+
   -- NO lsp field: haskell-tools.nvim handles HLS startup internally
   -- (see top-of-file external deps block for installation)
 
