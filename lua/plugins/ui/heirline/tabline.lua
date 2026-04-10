@@ -137,6 +137,31 @@ local Tabpages = {
 -- Windows list (right side)
 -- ══════════════════════════════════════════════════════════════════════
 
+local ignored_filetypes = {
+  ['neo-tree'] = true,
+  ['neo-tree-popup'] = true,
+  ['snacks_picker_list'] = true,
+  ['snacks_picker_input'] = true,
+  ['snacks_layout_box'] = true,
+  ['trouble'] = true,
+  ['undotree'] = true,
+  ['diff'] = true, -- undotree diff preview
+  ['dap-view'] = true,
+  ['dap-view-term'] = true,
+}
+
+local function is_ignored_win(win)
+  local config = vim.api.nvim_win_get_config(win)
+  if config.relative ~= '' then
+    return true -- floating
+  end
+  local buf = vim.api.nvim_win_get_buf(win)
+  if ignored_filetypes[vim.bo[buf].filetype] then
+    return true
+  end
+  return false
+end
+
 local function get_file_icon(buf)
   local ft = vim.bo[buf].filetype
   if ft == '' then
@@ -171,8 +196,7 @@ local function render_windows(compressed)
   local parts = {}
 
   for _, win in ipairs(wins) do
-    local config = vim.api.nvim_win_get_config(win)
-    if config.relative == '' then
+    if not is_ignored_win(win) then
       local buf = vim.api.nvim_win_get_buf(win)
       local bufname = vim.api.nvim_buf_get_name(buf)
       local icon = get_file_icon(buf)
