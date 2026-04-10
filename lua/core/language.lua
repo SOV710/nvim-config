@@ -157,6 +157,13 @@ end
 -- Scanning
 ----------------------------------------------------------------------
 
+--- Files under lua/langs/ that are NOT lang configs and must be skipped
+--- by _scan(). Currently just the :checkhealth langs entry point, which
+--- lives at lua/langs/health.lua by nvim convention.
+local SCAN_IGNORE = {
+  ['health.lua'] = true,
+}
+
 --- Scan lua/langs/ directory and load all language configs
 function M._scan()
   local dir = vim.fn.stdpath 'config' .. '/lua/langs'
@@ -170,7 +177,7 @@ function M._scan()
     if not file then
       break
     end
-    if ftype == 'file' and file:match '%.lua$' then
+    if ftype == 'file' and file:match '%.lua$' and not SCAN_IGNORE[file] then
       local name = file:sub(1, -5) -- "rust.lua" → "rust"
       local ok, config = pcall(require, 'langs.' .. name)
       if ok and type(config) == 'table' and config.enabled ~= false then
