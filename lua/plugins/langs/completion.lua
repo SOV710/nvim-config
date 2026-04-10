@@ -1,6 +1,6 @@
 return {
   'saghen/blink.cmp',
-  version = '*',
+  version = '1.*',
   event = { 'InsertEnter', 'CmdlineEnter' },
   dependencies = {
     'L3MON4D3/LuaSnip',
