@@ -1,6 +1,8 @@
 local _search = { icon = '󰍉 ', color = 'blue' }
 local _lsp = { icon = '󰆍 ', color = 'cyan' }
 local _debug = { icon = '󰃤', color = 'red' }
+local _diagnostic = { icon = '󰀪 ', color = 'yellow' }
+local _treesj = { icon = '󰗈 ', color = 'green' }
 
 return {
   -- Buffer-local Cheatsheet
@@ -20,6 +22,12 @@ return {
 
   -- ── Debug ─────────────────────────────────────────────────────
   { '<leader>d', group = 'Debug', icon = _debug },
+
+  -- ── Diagnostic ────────────────────────────────────────────────
+  { '<leader>n', group = 'Diagnostic', icon = _diagnostic },
+
+  -- ── TreeSJ (Split / Join) ─────────────────────────────────────
+  { '<leader>j', group = 'Split / Join', icon = _treesj },
 
   -- ── Other groups ──────────────────────────────────────────────
   { '<leader>b', group = 'Buffer' },
