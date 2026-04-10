@@ -1,3 +1,18 @@
+--- Python — LSP via mason (ruff) + ty (external uv tool).
+---
+--- External dependencies (NOT managed by mason):
+---
+---   Required:
+---     ty                  Python type checker LSP (uv-managed)
+---       install:          uv tool install ty
+---       verify:           ty --version
+---
+--- Notes:
+---   - ty is a new static type checker LSP distributed via uv, not mason.
+---     Requires `uv` (`pip install uv` or `emerge dev-python/uv`).
+---   - ruff (LSP for linting/formatting) IS in mason and managed automatically.
+---   - debugpy (DAP) IS in mason and managed automatically.
+
 return {
   treesitter = { 'python' },
 
@@ -58,7 +73,7 @@ return {
   },
 
   mason = { 'ruff', 'debugpy' },
-  -- NOTE: ty is NOT in mason — install manually: uv tool install ty
+  -- NOTE: ty is NOT in mason (see top-of-file external deps block)
 
   options = {
     tabstop = 4,
