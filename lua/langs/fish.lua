@@ -1,16 +1,33 @@
+--- Fish shell — LSP via npm (fish-lsp), formatter via bundled `fish_indent`.
+---
+--- External dependencies (NOT managed by mason):
+---
+---   Required:
+---     fish-lsp            Fish shell language server
+---       install:          npm install -g fish-lsp
+---       verify:           fish-lsp --version
+---
+---     fish_indent         Fish's built-in formatter (bundled with fish shell)
+---       install:          emerge app-shells/fish    # comes bundled
+---       verify:           which fish_indent
+---
+--- Notes:
+---   - fish-lsp is not in mason — requires Node.js/npm as runtime.
+---   - fish_indent requires nothing beyond fish itself; if fish is on $PATH,
+---     so is fish_indent.
+---   - No mason packages for this lang.
+
 return {
   treesitter = { 'fish' },
 
   lsp = {
     fish_lsp = {
-      -- NOT in mason — install via: npm install -g fish-lsp
+      -- (see top-of-file external deps block for installation)
       cmd = { 'fish-lsp', 'start' },
       root_markers = { 'config.fish', '.git' },
     },
   },
 
-  -- fish_indent is Fish's built-in formatter, available if fish is installed
+  -- fish_indent is Fish's built-in formatter
   formatter = 'fish_indent',
-
-  -- no mason packages — fish-lsp installed externally, fish_indent comes with fish
 }
