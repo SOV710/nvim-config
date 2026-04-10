@@ -22,10 +22,4 @@ return {
       desc = 'Format buffer',
     },
   },
-  -- formatters = {
-  --   clangformat = {
-  --     command = 'clang-format',
-  --     args = '-style=file:/home/chris/.config/clang-format/.clang-format',
-  --   },
-  -- },
 }
