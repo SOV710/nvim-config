@@ -1,7 +1,6 @@
 return {
   'windwp/nvim-autopairs',
   event = 'InsertEnter',
-  -- TODO(phase7): integrate with nvim-cmp via cmp.event:on('confirm_done', ...)
   opts = {
     enabled = function(bufnr)
       -- disabled in bigfiles (>1MB)
