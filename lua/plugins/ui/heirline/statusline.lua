@@ -360,9 +360,7 @@ local LSPActive = {
   init = function(self)
     local names = {}
     for _, client in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
-      if client.name ~= 'copilot' then
-        table.insert(names, client.name)
-      end
+      table.insert(names, client.name)
     end
     self.lsp_names = names
   end,
