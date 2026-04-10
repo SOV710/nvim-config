@@ -26,7 +26,6 @@ Mason can install *tools* but not the languages themselves.
 | `tsgo` | `typescript.lua` | `git clone --recurse-submodules https://github.com/microsoft/typescript-go && cd typescript-go && go build ./cmd/tsgo` — place binary in `$PATH` |
 | `ty` | `python.lua` | `uv tool install ty` |
 | `haskell-language-server` | `haskell.lua` | `ghcup install hls` — must match GHC version |
-| `cl-lsp` | `common-lisp.lua` | `ros install lem-project/cl-lsp` or via Quicklisp |
 | `fish-lsp` | `fish.lua` | `npm install -g fish-lsp` |
 
 ## DAP Adapters
