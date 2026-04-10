@@ -65,6 +65,10 @@ return {
           },
         },
       },
+      ghost_text = {
+        enabled = true,
+        show_with_menu = true,
+      },
       list = {
         selection = { preselect = true, auto_insert = false },
       },
