@@ -26,7 +26,7 @@ return {
   -- ── File ─────────────────────────────────────────────────────────
 
   {
-    '<leader>cR',
+    '<leader>cr',
     function()
       Snacks.rename.rename_file()
     end,
