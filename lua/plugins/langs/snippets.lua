@@ -12,10 +12,32 @@ return {
       region_check_events = 'CursorMoved',
     }
 
-    -- Load custom Lua-based snippets from lua/snippets/
-    require('luasnip.loaders.from_lua').lazy_load {
-      paths = { vim.fn.stdpath 'config' .. '/lua/snippets' },
-    }
+    -- Load aggregated snippets from lang files (via core.language).
+    -- Each snippets function is evaluated exactly once (memoized by fn identity),
+    -- then its result is registered against every filetype that bound to it.
+    -- This matters for multi-filetype langs (e.g. go → go/gomod/gowork/gotmpl):
+    -- without memoization, the same closure would be invoked N times and produce
+    -- N independent copies of every snippet node.
+    local language = require 'core.language'
+    local evaluated = {} ---@type table<function, { [1]: boolean, [2]: any }>
+    local warned = {} ---@type table<function, true>
+    for ft, fns in pairs(language.snippets) do
+      for _, fn in ipairs(fns) do
+        if not evaluated[fn] then
+          evaluated[fn] = { pcall(fn) }
+        end
+        local ok, result = evaluated[fn][1], evaluated[fn][2]
+        if ok and type(result) == 'table' then
+          luasnip.add_snippets(ft, result)
+        elseif not ok and not warned[fn] then
+          warned[fn] = true
+          vim.notify(
+            ('lang snippets: failed to load: %s'):format(tostring(result)),
+            vim.log.levels.WARN
+          )
+        end
+      end
+    end
 
     -- Load friendly-snippets if installed (optional dependency)
     local ok, _ = pcall(require, 'luasnip.loaders.from_vscode')
