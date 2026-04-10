@@ -20,6 +20,21 @@
 return {
   treesitter = { 'cmake' },
 
+  external_deps = {
+    {
+      cmd = 'gersemi',
+      required = false,
+      install = 'pip install gersemi',
+      note = 'mason fallback only — normally managed by mason',
+    },
+    {
+      cmd = 'cmakelint',
+      required = false,
+      install = 'pip install cmakelint',
+      note = 'mason fallback only — normally managed by mason',
+    },
+  },
+
   lsp = {
     neocmakelsp = {
       cmd = { 'neocmakelsp', 'stdio' },
