@@ -112,7 +112,7 @@ Tokyo Night colorscheme throughout. The statusline and tabline are a custom heir
 | Pairs | `windwp/nvim-autopairs` |
 | Text objects | `nvim-treesitter-textobjects` |
 | Yank ring | `gbprod/yanky.nvim` |
-| Comments | `folke/ts-comments.nvim` (treesitter-aware, replaces `Comment.nvim`) |
+| Comments | `folke/ts-comments.nvim` (treesitter-aware) |
 | Marks (harpoon-style) | `cbochs/grapple.nvim` |
 | Split / join | `Wansmer/treesj` |
 | Inc / dec | `monaqa/dial.nvim` |
