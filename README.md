@@ -93,7 +93,7 @@ A few points:
 
 ### 4. UI
 
-Tokyo Night everywhere. The status line and tabline are a custom heirline build — the tabline integrates `grapple.nvim` so marked files appear directly in the top bar instead of a separate floating window.
+Tokyo Night. The status line and tabline are a custom heirline build — the tabline integrates `grapple.nvim` so marked files appear directly in the top bar instead of a separate floating window.
 
 | Niche | Choice |
 |---|---|
