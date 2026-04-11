@@ -7,7 +7,6 @@ local M = {}
 --- Return a snacks.dashboard section table for the heatmap.
 --- Call this inside the dashboard sections list; it loads fresh data each time.
 ---@param opts? { palette?: string }
----@return snacks.dashboard.Section
 function M.section(opts)
   opts = opts or {}
   local palette_name = opts.palette or 'tokyo_night'
