@@ -26,8 +26,10 @@ return {
       win = {
         input = {
           keys = {
-            ['<C-k>'] = { 'list_scroll_up', mode = { 'n', 'i' } },
-            ['<C-j>'] = { 'list_scroll_down', mode = { 'n', 'i' } },
+            ['<C-k>'] = { 'list_up', mode = { 'n', 'i' } },
+            ['<C-j>'] = { 'list_down', mode = { 'n', 'i' } },
+            ['<C-u>'] = { 'list_scroll_up', mode = { 'i', 'n' } },
+            ['<C-d>'] = { 'list_scroll_down', mode = { 'i', 'n' } },
             ['<C-l>'] = { 'confirm', mode = { 'n', 'i' } },
           },
         },
