@@ -55,7 +55,11 @@ If you're brand new to Neovim, start with [kickstart.nvim](https://github.com/nv
 
 ## Quick start
 
-Requirements: **Neovim 0.11+**, Git, a Nerd Font, and a C compiler (for tree-sitter parsers).
+Requirements:
+- **Neovim 0.11+**
+- Git, a Nerd Font
+- a C compiler (for tree-sitter parsers)
+- `ripgrep` (required by `grug-far` and other pickers).
 
 ```bash
 git clone https://github.com/SOV710/nvim-config ~/.config/nvim

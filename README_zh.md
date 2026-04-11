@@ -55,7 +55,11 @@
 
 ## Quick Start
 
-依赖：**Neovim 0.11+**、Git、一个 Nerd Font，以及一个 C 编译器（用来编 tree-sitter parser）。
+Dependencies:
+- **Neovim 0.11+**
+- Git、一个 Nerd Font
+- 一个 C 编译器（用来编 tree-sitter parser）
+- `ripgrep`（`grug-far` 等插件需要）。
 
 ```bash
 git clone https://github.com/SOV710/nvim-config ~/.config/nvim
