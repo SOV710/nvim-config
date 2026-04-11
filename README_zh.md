@@ -274,11 +274,15 @@ rust ~
 
 四个工具职责不重叠：fugitive 管命令，diffview 管看差异，gitsigns 管在 buffer 里操作 hunk，gitbrowse 管打开网页。
 
+实际用起来，这一节里我最常打开的其实是 `toggleterm`。大部分 git 操作——stage、commit、rebase、push——都在 shell buffer 里完成。上面四个插件只用来补终端里做起来别扭的那几件事：inline blame、当前 buffer 里的 hunk 跳转、并排 diff，以及在浏览器里打开某次提交。
+
 ### 8. AI
 
 - **`coder/claudecode.nvim`**——Claude Code 的 WebSocket MCP bridge。`<leader>a*` 下有一组绑定：打开 terminal、发送 visual 选区、接受或拒绝 diff、切换 model、恢复上一次的 session。
 
 没有 chat overlay，没有 inline 代码生成。只是一个 terminal bridge。
+
+说实话这一层我其实一个都不想装。现在的 coding agent——Claude Code、Codex——都在往独立 TUI 的方向走，自带 chatbox，不需要 editor 参与。这也是我选 `claudecode.nvim` 而不是 `avante.nvim` 的原因：我没想在 Neovim 里重新搭一个 Cursor 风格的体验。装它唯一的理由是偶尔想把当前 buffer 或选区作为 context 交给 Claude Code；而且比起 sidebar，我更愿意把它作为 float window 挂在编辑器上。
 
 ## 添加一种新语言
 

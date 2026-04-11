@@ -274,11 +274,15 @@ rust ~
 
 The four tools don't overlap: fugitive handles git commands, diffview handles viewing diffs, gitsigns handles in-buffer hunk operations, gitbrowse opens the web view.
 
+In practice the plugin I reach for most in this section is `toggleterm`. Most git operations — stage, commit, rebase, push — happen in a shell buffer. The four plugins above exist to cover the cases a terminal is awkward for: inline blame, hunk navigation inside the current buffer, side-by-side diffs, and jumping to a commit on the web.
+
 ### 8. AI
 
 - **`coder/claudecode.nvim`** — Claude Code bridge over WebSocket MCP. Bindings under `<leader>a*`: toggle the terminal, send the visual selection, accept or deny a diff, switch model, resume a previous session.
 
 No chat overlay or inline code generation. Just a terminal bridge.
+
+Honestly, I'd rather install nothing in this layer. Modern coding agents — Claude Code, Codex — are moving toward standalone TUIs with their own chatbox; the editor doesn't need to sit inside the loop. That's why I chose `claudecode.nvim` over `avante.nvim`: I'm not trying to rebuild a Cursor-like experience inside Neovim. The one thing I occasionally want is to hand Claude Code some context from the current buffer or selection, and for that I prefer it as a floating window rather than a docked sidebar.
 
 ## Adding a new language
 
