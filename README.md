@@ -52,7 +52,7 @@ The stack, layer by layer.
 
 ### 1. The plugin manager
 
-`lazy.nvim`. One choice, no debate. Spec files are organized by purpose under `lua/plugins/{ui,editor,langs,git,ai}/`, each directory imported as a unit. Snacks modules are split into separate spec files and lazy.nvim merges them automatically — no 800-line `snacks.lua`.
+`lazy.nvim`. Spec files are organized by purpose under `lua/plugins/{ui,editor,langs,git,ai}/`, each directory imported as a unit. Snacks modules are split into separate spec files and lazy.nvim merges them automatically — no 800-line `snacks.lua`.
 
 ### 2. Options
 

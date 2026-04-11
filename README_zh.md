@@ -52,7 +52,7 @@
 
 ### 1. 插件管理器
 
-`lazy.nvim`。一个选择，没有讨论的余地。所有 spec 文件按用途组织在 `lua/plugins/{ui,editor,langs,git,ai}/` 下，每个目录作为一个整体被 import。Snacks 的各个模块拆成独立的 spec 文件，由 lazy.nvim 自动 merge——不存在 800 行的 `snacks.lua`。
+`lazy.nvim`。所有 spec 文件按用途组织在 `lua/plugins/{ui,editor,langs,git,ai}/` 下，每个目录作为一个整体被 import。Snacks 的各个模块拆成独立的 spec 文件，由 lazy.nvim 自动 merge——不存在 800 行的 `snacks.lua`。
 
 ### 2. Options
 
