@@ -16,4 +16,4 @@
 
 </div>
 
-
+![dashboard-showcase](https://preview.github.sov710.org/nvim-config/neovim-dashboard.png)
