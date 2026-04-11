@@ -1,8 +1,8 @@
 <div align="center">
 
-  # SOV710's Neovim Configuration
-
   ![logo](https://preview.github.sov710.org/nvim-config/logo.svg)
+
+  # SOV710's Neovim Configuration
 
   [![Stand With Palestine](https://img.shields.io/badge/Stand_With-Palestine-007A3D?style=flat-square&labelColor=000000)](https://www.un.org/unispal/)
   [![License](https://img.shields.io/github/license/SOV710/nvim-config?style=flat-square&labelColor=1a1b26&color=bb9af7)](LICENSE)
