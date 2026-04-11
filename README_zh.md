@@ -227,7 +227,7 @@ rust ~
 - OK rustfmt
 ```
 
-> 🚧 Showcase pending：`:checkhealth langs` 截图
+![dashboard-checkhealth-langs](https://preview.github.sov710.org/nvim-config/neovim-checkhealth-langs.png)
 
 **每种语言的下层管线：**
 
