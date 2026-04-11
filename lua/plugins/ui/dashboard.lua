@@ -116,6 +116,7 @@ return {
               title = 'Git Status',
               cmd = 'git --no-pager diff --stat -B -M -C',
               height = 5,
+              ttl = 60,
               pane = 2,
             },
             vim.tbl_extend('force', heatmap.section { palette = 'tokyo_night' }, { pane = 2 }),
