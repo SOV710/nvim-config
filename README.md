@@ -25,7 +25,7 @@
 > [!WARNING]
 > **Neovim 0.12 migration pending.** `plenary.nvim` will be archived on 2026-06-30, and `undotree` in this config depends on it. Migrating to Neovim 0.12 solves this cleanly: 0.12 ships a built-in undotree UI ([neovim/neovim#35627](https://github.com/neovim/neovim/pull/35627)), so the plenary-backed `undotree` plugin can be dropped entirely. This project will migrate as soon as possible.
 >
-> The blocker is `nvim-treesitter`: it's incompatible with 0.12. Neovim 0.12 bundles all treesitter functionality into core but still lacks a parser installer. I'm waiting for a community-maintained treesitter installer before upgrading the whole config to 0.12.
+> The blocker is `nvim-treesitter`: it has a known [bug](https://github.com/nvim-treesitter/nvim-treesitter/issues/8636) with 0.12. Neovim 0.12 bundles all treesitter functionality into core but still lacks a parser installer. I'm waiting for a community-maintained treesitter installer before upgrading the whole config to 0.12.
 >
 > **If you're already on Neovim 0.12, do not use this config yet.**
 
