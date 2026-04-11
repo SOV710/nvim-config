@@ -16,6 +16,10 @@
 
 </div>
 
+<p align="center">
+ <strong>English</strong> | <a href="README_zh.md">中文</a>
+</p>
+
 ![dashboard-showcase](https://preview.github.sov710.org/nvim-config/neovim-dashboard.png)
 
 ## Philosophy
