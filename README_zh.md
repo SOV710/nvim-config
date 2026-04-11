@@ -82,7 +82,7 @@ return {
 
 整个键位面板可以在一个目录里 grep 完。不用在 plugin spec 里到处翻。再也没有"我之前把 `<leader>fg` 绑到哪里了"的瞬间。
 
-几个值得 flag 的高频决定：
+几个重点：
 
 - `s` / `S` → flash（覆盖原生 substitute，反正我从不用）
 - `m` → grapple toggle（覆盖原生 mark）

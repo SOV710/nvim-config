@@ -82,7 +82,7 @@ return {
 
 The whole keymap surface is greppable in one directory. No hunting through plugin specs. No more "where did I bind `<leader>fg` again."
 
-A few high-traffic decisions worth flagging:
+A few points:
 
 - `s` / `S` → flash (overrides native substitute, which I never use)
 - `m` → grapple toggle (overrides native mark)
