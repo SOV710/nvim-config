@@ -323,14 +323,6 @@ lua/
     └── ...
 ```
 
-## Acknowledgments
-
-- [folke](https://github.com/folke) for `lazy.nvim`, `snacks.nvim`, `tokyonight.nvim`, `flash.nvim`, `which-key.nvim`, `noice.nvim`, `ts-comments.nvim`, and a large portion of the modern Neovim ecosystem.
-- The [LazyVim](https://github.com/LazyVim/LazyVim) source — a useful reference even when rolling your own.
-- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) for showing that a single readable `init.lua` is the right starting point.
-- [TJ DeVries](https://github.com/tjdevries) and the Neovim core team for `vim.lsp.config`, `vim.lsp.enable`, `vim.snippet`, and the native APIs that made the no-`lspconfig` path viable.
-- Every plugin author in this stack — `git log` and the `lazy.nvim` lockfile have the full list.
-
 ## License
 
 GPL-3.0-or-later. See [LICENSE](./LICENSE).
