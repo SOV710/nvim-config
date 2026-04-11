@@ -93,7 +93,7 @@ return {
 
 ### 4. UI
 
-Tokyo Night 统一 Colorscheme。状态栏和 tabline 是 heirline 自己搭的——tabline 和 `grapple.nvim` 集成，被 mark 的文件直接出现在顶栏里，而不是另开一个 floating window。
+Tokyo Night 统一 Colorscheme。状态栏和 tabline 是用 heirline 自己搭的——tabline 和 `grapple.nvim` 集成，被 mark 的文件直接出现在顶栏里，而不是另开一个 floating window。
 
 | 生态位 | 选择 |
 |---|---|
