@@ -40,9 +40,9 @@ This config covers all eight.
 
 ## Who this is for
 
-**You're already maintaining your own config.** You're trying to organize 20+ language setups without the whole thing becoming a mess, you've outgrown copy-pasting from someone else's `init.lua`, or you want to see what a from-scratch architecture looks like at some scale. Take whatever's useful.
+**You're already maintaining your own config.** You're trying to organize 20+ language setups without the whole thing becoming a mess, you've outgrown copy-pasting from someone else's `init.lua`, or you want to see what a from-scratch architecture looks like at some scale.
 
-**Or: you're using LazyVim, NvChad, AstroVim, LunarVim** and you're starting to run into its limits. You can't quite articulate what you want changed, but you know your editor is doing things you don't fully understand. This repo is a from-scratch alternative — opinionated, structured, and small enough to read in full.
+**Or: you're using LazyVim, NvChad, AstroVim, LunarVim** and you're starting to run into its limits. You can't quite articulate what you want changed, but you know your editor is doing things you don't fully understand. This repo is a from-scratch alternative.
 
 If you're brand new to Neovim, start with [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim). Come back here in six months.
 
