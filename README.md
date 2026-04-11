@@ -12,4 +12,9 @@
   [![Lua](https://img.shields.io/badge/Lua-5.1-2C2D72?style=flat-square&labelColor=1a1b26&logo=lua&logoColor=white)](https://www.lua.org)
   [![Gentoo](https://img.shields.io/badge/Gentoo-Linux-54487A?style=flat-square&labelColor=1a1b26&logo=gentoo&logoColor=white)](https://www.gentoo.org)
 
+  [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/SOV710/nvim-config)
+
 </div>
+
+
+https://github.com/topics/nvim-config
