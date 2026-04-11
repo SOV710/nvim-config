@@ -30,19 +30,25 @@ local function format_number(n)
   return s:reverse():gsub('(%d%d%d)', '%1,'):reverse():gsub('^,', '')
 end
 
---- count → level. 0→0, 1→1, 2-3→2, 4-7→3, 8+→4
+--- count → level. Linear scaling: 0→0, then 1..max spans levels 1..4 evenly.
 ---@param count integer
+---@param max integer  highest count in the visible window
 ---@return integer  0..4
-function M.bucket(count)
+function M.bucket(count, max)
   if count <= 0 then
     return 0
   end
-  return math.min(4, math.ceil(math.log(count + 1) / math.log(2)))
+  if max <= 0 then
+    return 1
+  end
+  return math.min(4, math.max(1, math.ceil(count / max * 4)))
 end
 
 --- Build a 7×26 grid of activity levels.
 --- grid[row][col]: row 1=Mon..7=Sun, col 1=oldest week..26=current week.
 --- Future cells (after today in the current week) are marked -1.
+--- Levels are scaled linearly against the max count within the visible window,
+--- so the colors adapt to the user's recent activity range.
 ---@param data table<string, integer>
 ---@param today? table
 ---@return integer[][]
@@ -59,9 +65,11 @@ function M.build_grid(data, today)
 
   local today_str = string.format('%04d-%02d-%02d', t.year, t.month, t.day)
 
-  local grid = {}
+  -- First pass: collect raw counts per cell and find the max within the window.
+  local raw = {}
+  local max = 0
   for row = 1, 7 do
-    grid[row] = {}
+    raw[row] = {}
     for col = 1, 26 do
       local offset = (col - 1) * 7 + (row - 1)
       local cell_ts = os.time {
@@ -72,9 +80,27 @@ function M.build_grid(data, today)
       }
       local cell_str = os.date('%Y-%m-%d', cell_ts)
       if cell_str > today_str then
+        raw[row][col] = FUTURE
+      else
+        local c = data[cell_str] or 0
+        raw[row][col] = c
+        if c > max then
+          max = c
+        end
+      end
+    end
+  end
+
+  -- Second pass: linearly bucket counts against the window max.
+  local grid = {}
+  for row = 1, 7 do
+    grid[row] = {}
+    for col = 1, 26 do
+      local v = raw[row][col]
+      if v == FUTURE then
         grid[row][col] = FUTURE
       else
-        grid[row][col] = M.bucket(data[cell_str] or 0)
+        grid[row][col] = M.bucket(v, max)
       end
     end
   end
