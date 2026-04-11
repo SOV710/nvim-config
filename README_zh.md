@@ -22,6 +22,13 @@
 
 ![dashboard-showcase](https://preview.github.sov710.org/nvim-config/neovim-dashboard.png)
 
+> [!WARNING]
+> **Neovim 0.12 迁移计划中。** `plenary.nvim` 将于 2026-06-30 停止维护并 archive，而本配置里的 `undotree` 依赖 plenary。所以本项目会尽快迁移到 Neovim 0.12。
+>
+> 阻塞点是 `nvim-treesitter`：它与 0.12 不兼容。Neovim 0.12 虽然把 treesitter 的全部功能都集成进了 core，但仍然 lack a treesitter installer。我会等社区出现 treesitter installer 的解决方案，然后在恰当的时机把整个配置升级到 0.12。
+>
+> **如果你现在正在用 Neovim 0.12，不要使用这份配置。**
+
 ## 设计哲学
 
 任何编辑器——VS Code、Emacs、Sublime、JetBrains、Neovim——本质上都是同样八件事的组合：
