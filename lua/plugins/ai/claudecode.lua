@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 return {
   'coder/claudecode.nvim',
   dependencies = { 'folke/snacks.nvim' }, -- Snacks terminal provider

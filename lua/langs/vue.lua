@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local vue_language_server_path = vim.fn.stdpath 'data' .. '/mason/packages/vue-language-server/node_modules/@vue/language-server'
 
 return {

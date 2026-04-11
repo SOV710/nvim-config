@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 -- NOTE: <leader>gs and <leader>gl are taken by Snacks.picker (git_status, git_log).
 -- Fugitive gets <leader>gg for the status window and <leader>gP for pull.
 return {

@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 -- Keymaps managed by mini.surround via its `mappings` config.
 -- Listed here for which-key registration / documentation purposes.
 return {

@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- Python — LSP via mason (ruff) + ty (external uv tool).
 ---
 --- External dependencies (NOT managed by mason):

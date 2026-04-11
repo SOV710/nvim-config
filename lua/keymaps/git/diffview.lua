@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 -- NOTE: <leader>gf is taken by Snacks.picker (git_files).
 -- File history uses <leader>gh/<leader>gH instead.
 return {

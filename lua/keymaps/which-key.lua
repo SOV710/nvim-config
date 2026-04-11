@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local _search = { icon = '󰍉 ', color = 'blue' }
 local _lsp = { icon = '󰆍 ', color = 'cyan' }
 local _debug = { icon = '󰃤', color = 'red' }

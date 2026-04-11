@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 -- ── Leaders & Globals ──────────────────────────────────────────────
 vim.g.mapleader = ' ' -- <Space> as leader key
 vim.g.maplocalleader = ',' -- <,> as local leader (used by grug-far etc.)

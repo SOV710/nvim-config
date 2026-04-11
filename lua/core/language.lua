@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- Language configuration system.
 --- Scans lua/langs/*.lua, aggregates LSP/treesitter/formatter/linter/DAP/plugins
 --- into a single source of truth.

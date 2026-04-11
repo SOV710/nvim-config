@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- Host OS detection shared across plugin configs.
 ---
 --- Detects the host OS (Windows / macOS / Linux distro) and exposes both

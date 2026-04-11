@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 -- Diagnostic keymaps using native vim.diagnostic API.
 
 local function copy_to_clipboard(text, msg)

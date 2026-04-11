@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 -- Snacks.gitbrowse — open current file/line/selection in browser.
 -- Merges into the main folke/snacks.nvim spec via lazy.nvim spec merging.
 return {

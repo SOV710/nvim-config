@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- TypeScript/JavaScript — LSP via tsgo (built from source) + biome via mason.
 ---
 --- External dependencies (NOT managed by mason):

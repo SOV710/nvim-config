@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local heatmap = require 'plugins.ui.dashboard.heatmap'
 local clock = require 'plugins.ui.dashboard.clock'
 local sysinfo = require 'core.sysinfo'

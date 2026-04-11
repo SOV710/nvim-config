@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local mason_path = vim.fn.stdpath 'data' .. '/mason'
 local pses_path = mason_path .. '/packages/powershell-editor-services'
 

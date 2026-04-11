@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- SQL — LSP + linter via mason, formatter via cargo (sleek).
 ---
 --- External dependencies (NOT managed by mason):

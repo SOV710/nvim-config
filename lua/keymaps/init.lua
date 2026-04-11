@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local function apply(keymaps)
   for _, km in ipairs(keymaps) do
     vim.keymap.set(km.mode or 'n', km[1], km[2], {

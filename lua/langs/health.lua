@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- Health check for langs/*.lua external dependency declarations.
 ---
 --- Invoked by :checkhealth langs. Iterates every lang config loaded by

@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- Haskell — LSP + DAP via GHCup toolchain.
 ---
 --- External dependencies (NOT managed by mason):

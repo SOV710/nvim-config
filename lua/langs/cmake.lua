@@ -1,3 +1,7 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 --- CMake — LSP/formatter/linter via mason, with pip fallbacks.
 ---
 --- External dependencies (NOT managed by mason):
