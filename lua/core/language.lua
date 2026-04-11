@@ -45,6 +45,7 @@ local M = {
   _seen_lsp_ft = {}, ---@type table<string, table<string, boolean>> per-server filetype dedup
   _seen_ts = {}, ---@type table<string, boolean>
   _seen_mason = {}, ---@type table<string, boolean>
+  _disabled_mason = {}, ---@type table<string, string> pkg_name → disabled lang name
 }
 
 ---@class LangConfig
@@ -184,9 +185,17 @@ function M._scan()
     if ftype == 'file' and file:match '%.lua$' and not SCAN_IGNORE[file] then
       local name = file:sub(1, -5) -- "rust.lua" → "rust"
       local ok, config = pcall(require, 'langs.' .. name)
-      if ok and type(config) == 'table' and config.enabled ~= false then
-        config.filetypes = config.filetypes or { name }
-        M._langs[name] = config
+      if ok and type(config) == 'table' then
+        if config.enabled == false then
+          if config.mason then
+            for _, pkg in ipairs(config.mason) do
+              M._disabled_mason[pkg] = name
+            end
+          end
+        else
+          config.filetypes = config.filetypes or { name }
+          M._langs[name] = config
+        end
       end
     end
   end

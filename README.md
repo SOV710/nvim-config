@@ -313,6 +313,13 @@ The aggregator picks it up on the next require; all downstream plugins see the n
 
 To temporarily disable a language without deleting the file, add `enabled = false` at the top and restart. It disappears from all consumers — LSP, formatters, linters, DAP, snippets.
 
+## Removing a language
+
+1. Delete `lua/langs/<name>.lua` — or just trim the unwanted entries out of its `mason` field.
+2. Restart Neovim.
+3. Run `:checkhealth langs`. The `langs.mason` section flags any mason package that's installed but no longer declared.
+4. Remove orphans with `:MasonUninstall <pkg>` (targeted) or `:MasonToolsClean` (all at once). `:MasonToolsClean` also removes packages belonging to a lang currently marked `enabled = false`, so prefer per-package uninstall if you have disabled langs.
+
 ## Project layout
 
 ```text

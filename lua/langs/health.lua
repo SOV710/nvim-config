@@ -60,6 +60,40 @@ local function check_lang(name, deps)
   end
 end
 
+--- Diff the mason install directory against the declared mason package set.
+--- Declared → OK. Belongs to an `enabled = false` lang → INFO (kept).
+--- Unknown → WARN with an uninstall-command hint.
+---@param language table core.language module
+local function check_mason_orphans(language)
+  vim.health.start 'langs.mason'
+
+  local ok, registry = pcall(require, 'mason-registry')
+  if not ok then
+    vim.health.info 'mason-registry unavailable; skipping mason orphan check'
+    return
+  end
+
+  local installed = registry.get_installed_package_names()
+  if #installed == 0 then
+    vim.health.info 'no mason packages installed'
+    return
+  end
+  table.sort(installed)
+
+  for _, pkg in ipairs(installed) do
+    if language._seen_mason[pkg] then
+      vim.health.ok(pkg .. ': declared')
+    elseif language._disabled_mason[pkg] then
+      local owner = language._disabled_mason[pkg]
+      vim.health.info(pkg .. ": kept (belongs to disabled lang '" .. owner .. "')")
+    else
+      vim.health.warn(pkg .. ': installed but not declared', {
+        'remove with `:MasonUninstall ' .. pkg .. '` (or `:MasonToolsClean` for all orphans)',
+      })
+    end
+  end
+end
+
 --- :checkhealth langs entry point.
 function M.check()
   local language = require 'core.language'
@@ -73,6 +107,8 @@ function M.check()
   for _, name in ipairs(names) do
     check_lang(name, all_langs[name].external_deps)
   end
+
+  check_mason_orphans(language)
 end
 
 return M

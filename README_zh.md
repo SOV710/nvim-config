@@ -313,6 +313,13 @@ rust ~
 
 临时禁用一种语言而不删文件：在文件顶部加 `enabled = false`，重启。该语言从所有消费者——LSP、formatter、linter、DAP、snippets——中消失。
 
+## 删除一种语言
+
+1. 删掉 `lua/langs/<name>.lua`——或者只是把 `mason` 字段里不想要的那项去掉。
+2. 重启 Neovim。
+3. 跑 `:checkhealth langs`。`langs.mason` 那一节会把所有还装着但已经不在声明里的 mason 包标出来。
+4. 用 `:MasonUninstall <pkg>` 精确卸载，或 `:MasonToolsClean` 一次清掉所有孤儿包。`:MasonToolsClean` 同时也会把当前被 `enabled = false` 的 lang 对应的包一起删掉，所以如果有禁用中的 lang，优先用 per-package 的 `:MasonUninstall`。
+
 ## 项目结构
 
 ```text
