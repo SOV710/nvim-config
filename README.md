@@ -60,7 +60,7 @@ The stack, layer by layer.
 
 ### 3. Keymaps
 
-Every keymap in the config lives under `lua/core/keymaps/`, organized by feature. Plugin specs **never** call `vim.keymap.set` directly — they consume return-table keymap files:
+Every keymap in the config lives under `lua/keymaps/`, organized by feature. Plugin specs **never** call `vim.keymap.set` directly — they consume return-table keymap files:
 
 ```lua
 -- lua/plugins/editor/flash.lua
@@ -68,12 +68,12 @@ return {
   'folke/flash.nvim',
   event = 'VeryLazy',
   opts = {},
-  keys = require('core.keymaps.editor.flash'),  -- the only keymap line in this spec
+  keys = require('keymaps.editor.flash'),  -- the only keymap line in this spec
 }
 ```
 
 ```lua
--- lua/core/keymaps/editor/flash.lua
+-- lua/keymaps/editor/flash.lua
 return {
   { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end,       desc = 'Flash jump' },
   { 'S', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash treesitter' },
@@ -88,7 +88,6 @@ A few points:
 - `m` → grapple toggle (overrides native mark)
 - `'` → grapple menu (overrides native mark jump)
 - `+` / `-` → dial (replaces `<C-a>` / `<C-x>`)
-- `<M-c>` → toggle Copilot source in blink.cmp, normal and insert mode
 - `<leader>g*` → git, `<leader>h*` → hunks, `<leader>a*` → AI
 
 ### 4. UI
@@ -115,11 +114,10 @@ The everyday loop. This is the layer where the choices diverge most from distro 
 | Motion | `folke/flash.nvim` |
 | Surround | `echasnovski/mini.surround` |
 | Pairs | `windwp/nvim-autopairs` |
-| Text objects | `nvim-treesitter-textobjects` + `mini.ai` |
+| Text objects | `nvim-treesitter-textobjects` |
 | Yank ring | `gbprod/yanky.nvim` |
 | Comments | `folke/ts-comments.nvim` (treesitter-aware, replaces `Comment.nvim`) |
 | Marks (harpoon-style) | `cbochs/grapple.nvim` |
-| Folding | `kevinhwang91/nvim-ufo` (LSP → treesitter fallback) |
 | Split / join | `Wansmer/treesj` |
 | Inc / dec | `monaqa/dial.nvim` |
 | Undo tree | `jiaoshijie/undotree` |
@@ -267,16 +265,11 @@ These don't overlap on purpose. Fugitive is for *commands*; diffview is for *see
 
 ### 8. AI
 
-Two integrations, kept deliberately minimal.
+One integration, kept deliberately minimal.
 
-- **`coder/claudecode.nvim`** — official Claude Code bridge over WebSocket MCP. Lets me hand the editor to Claude Code as a frontend.
-- **`zbirenbaum/copilot.lua`** running headless as an LSP backend, surfaced via **`fang2hou/blink-copilot`** as a `blink.cmp` source. Copilot suggestions appear as ghost text *inside* the same completion menu as LSP and snippets — not as a separate competing UI.
-
-`<M-c>` toggles the Copilot source on or off without unloading the plugin. When I want suggestions, they're there. When I don't, they're silent.
+- **`coder/claudecode.nvim`** — official Claude Code bridge over WebSocket MCP. Lets me hand the editor to Claude Code as a frontend. All bindings live behind `<leader>a*`: toggle the terminal, send the visual selection, accept or deny a diff, switch model, resume the last session.
 
 No `avante.nvim`, no auto-prompted "let me write this function for you" chat overlay. The AI assists; it doesn't drive.
-
-> 🚧 Showcase pending: blink.cmp menu with Copilot ghost text inline (screenshot)
 
 ## Adding a new language
 
@@ -314,23 +307,27 @@ For full per-language install instructions, see [`docs/langs/`](docs/langs/).
 ## Project layout
 
 ```text
+init.lua                     -- lazy.nvim bootstrap, top-level setup
 lua/
-├── init.lua                 -- lazy.nvim bootstrap, top-level setup
 ├── core/
 │   ├── options.lua
 │   ├── language.lua         -- the aggregator
-│   ├── autocmds.lua
-│   └── keymaps/             -- every keymap, organized by feature
-│       ├── editing.lua
-│       ├── winbuf.lua
-│       ├── editor/
-│       ├── git/
-│       └── ai/
+│   └── sysinfo.lua
+├── keymaps/                 -- every keymap, organized by feature
+│   ├── init.lua
+│   ├── editing.lua
+│   ├── winbuf.lua
+│   ├── snacks.lua
+│   ├── which-key.lua
+│   ├── editor/
+│   ├── git/
+│   ├── ai/
+│   └── langs/
 ├── plugins/
 │   ├── snacks.lua           -- central Snacks registration
 │   ├── ui/
 │   ├── editor/
-│   ├── langs/               -- conform, blink, treesitter, dap, lint, etc.
+│   ├── langs/               -- completion, format, lint, treesitter, dap, mason, snippets
 │   ├── git/
 │   └── ai/
 └── langs/                   -- one file per language; the source of truth
