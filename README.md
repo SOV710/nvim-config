@@ -235,7 +235,7 @@ rust ~
 - OK rustfmt
 ```
 
-> 🚧 Showcase pending: `:checkhealth langs` screenshot
+![dashboard-checkhealth-langs](https://preview.github.sov710.org/nvim-config/neovim-checkhealth-langs.png)
 
 **The plumbing per language**, for completeness:
 
