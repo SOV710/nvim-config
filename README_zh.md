@@ -65,8 +65,6 @@ nvim
 
 输出会列出哪些非 mason 外部工具还需要安装，并给出每个工具的安装命令。
 
-完整的逐语言安装指南在 [`docs/langs/`](docs/langs/)。
-
 ## Contents
 
 ### 1. Plugin manager

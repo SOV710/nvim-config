@@ -65,8 +65,6 @@ Then run:
 
 This reports which non-mason external tools still need installing, with the install command for each.
 
-For per-language install instructions, see [`docs/langs/`](docs/langs/).
-
 ## Contents
 
 ### 1. Plugin manager
