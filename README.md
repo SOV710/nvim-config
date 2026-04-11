@@ -98,6 +98,8 @@ Tokyo Night colorscheme throughout. The statusline and tabline are a custom heir
 | Statusline + tabline | `rebelot/heirline.nvim` (custom) |
 | Messages | `folke/noice.nvim` (messages only; cmdline stays inline at the bottom) |
 | Dashboard, indent, scroll, statuscolumn, image | `folke/snacks.nvim` |
+| Mode-aware cursorline | `mvllow/modes.nvim` |
+| Color literals (hex, CSS, Tailwind) | `brenoprata10/nvim-highlight-colors` |
 
 > 🚧 Showcase pending: full UI tour — dashboard → editing buffer → grapple-aware tabline (15s GIF)
 
@@ -110,10 +112,13 @@ Tokyo Night colorscheme throughout. The statusline and tabline are a custom heir
 | Motion | `folke/flash.nvim` |
 | Surround | `echasnovski/mini.surround` |
 | Pairs | `windwp/nvim-autopairs` |
+| Match brackets / tags | `andymass/vim-matchup` |
 | Text objects | `nvim-treesitter-textobjects` |
 | Yank ring | `gbprod/yanky.nvim` |
 | Comments | `folke/ts-comments.nvim` (treesitter-aware) |
 | Marks (harpoon-style) | `cbochs/grapple.nvim` |
+| LSP reference jumps | `snacks.words` |
+| Scratch buffer | `snacks.scratch` |
 | Split / join | `Wansmer/treesj` |
 | Inc / dec | `monaqa/dial.nvim` |
 | Undo tree | `jiaoshijie/undotree` |
@@ -233,14 +238,30 @@ rust ~
 
 | Layer | Plugin |
 |---|---|
+| Package manager | `williamboman/mason.nvim` + `WhoIsSethDaniel/mason-tool-installer.nvim` |
 | Tree-sitter | `nvim-treesitter` |
 | LSP | `vim.lsp.config` + `vim.lsp.enable` (native, no `nvim-lspconfig`) |
 | Completion | `saghen/blink.cmp` (Rust fuzzy matcher) |
 | Snippets | `L3MON4D3/LuaSnip` + `friendly-snippets` |
 | Formatter | `stevearc/conform.nvim` |
 | Linter | `mfussenegger/nvim-lint` |
-| Diagnostics | `vim.diagnostic` (native) |
+| Diagnostics | `vim.diagnostic` (native) + `rachartier/tiny-inline-diagnostic.nvim` |
+| Diagnostics list | `folke/trouble.nvim` |
 | DAP | `mfussenegger/nvim-dap` + `theHamsta/nvim-dap-virtual-text` |
+
+**Language-specific plugins.** Injected into the lazy.nvim spec via each lang file's `plugins` field:
+
+| Language | Plugin |
+|---|---|
+| Rust | `mrcjkb/rustaceanvim`, `Saecki/crates.nvim` |
+| Haskell | `mrcjkb/haskell-tools.nvim` |
+| C / C++ | `p00f/clangd_extensions.nvim` |
+| LaTeX | `lervag/vimtex` |
+| Clojure / Lisp | `Olical/conjure` |
+| Markdown | `MeanderingProgrammer/render-markdown.nvim` |
+| CSV / TSV | `cameron-wags/rainbow_csv.nvim` |
+| JSON / YAML | `b0o/SchemaStore.nvim` |
+| Ghostty | `bezhermoso/tree-sitter-ghostty` |
 
 ### 7. Version control
 
