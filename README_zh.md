@@ -46,6 +46,27 @@
 
 如果你完全是 Neovim 新手，先去看 [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)。半年之后再回来这里。
 
+## Quick Start
+
+依赖：**Neovim 0.11+**、Git、一个 Nerd Font，以及一个 C 编译器（用来编 tree-sitter parser）。
+
+```bash
+git clone https://github.com/SOV710/nvim-config ~/.config/nvim
+nvim
+```
+
+首次启动时 `lazy.nvim` 自举并安装所有插件，`mason-tool-installer` 拉取所有 mason 管理的包。
+
+然后运行：
+
+```vim
+:checkhealth langs
+```
+
+输出会列出哪些非 mason 外部工具还需要安装，并给出每个工具的安装命令。
+
+完整的逐语言安装指南在 [`docs/langs/`](docs/langs/)。
+
 ## Contents
 
 ### 1. Plugin manager
@@ -293,27 +314,6 @@ rust ~
 聚合器在下次 require 时自动捡起新文件，所有下游插件看到新条目。
 
 临时禁用一种语言而不删文件：在文件顶部加 `enabled = false`，重启。该语言从所有消费者——LSP、formatter、linter、DAP、snippets——中消失。
-
-## Quick Start
-
-依赖：**Neovim 0.11+**、Git、一个 Nerd Font，以及一个 C 编译器（用来编 tree-sitter parser）。
-
-```bash
-git clone https://github.com/SOV710/nvim-config ~/.config/nvim
-nvim
-```
-
-首次启动时 `lazy.nvim` 自举并安装所有插件，`mason-tool-installer` 拉取所有 mason 管理的包。
-
-然后运行：
-
-```vim
-:checkhealth langs
-```
-
-输出会列出哪些非 mason 外部工具还需要安装，并给出每个工具的安装命令。
-
-完整的逐语言安装指南在 [`docs/langs/`](docs/langs/)。
 
 ## 项目结构
 

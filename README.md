@@ -46,6 +46,27 @@ This config covers all eight.
 
 If you're brand new to Neovim, start with [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim). Come back here in six months.
 
+## Quick start
+
+Requirements: **Neovim 0.11+**, Git, a Nerd Font, and a C compiler (for tree-sitter parsers).
+
+```bash
+git clone https://github.com/SOV710/nvim-config ~/.config/nvim
+nvim
+```
+
+`lazy.nvim` bootstraps itself on first launch, installs all plugins, and `mason-tool-installer` pulls every mason-managed package.
+
+Then run:
+
+```vim
+:checkhealth langs
+```
+
+This reports which non-mason external tools still need installing, with the install command for each.
+
+For per-language install instructions, see [`docs/langs/`](docs/langs/).
+
 ## Contents
 
 ### 1. Plugin manager
@@ -293,27 +314,6 @@ Honestly, I'd rather install nothing in this layer. Modern coding agents — Cla
 The aggregator picks it up on the next require; all downstream plugins see the new entries automatically.
 
 To temporarily disable a language without deleting the file, add `enabled = false` at the top and restart. It disappears from all consumers — LSP, formatters, linters, DAP, snippets.
-
-## Quick start
-
-Requirements: **Neovim 0.11+**, Git, a Nerd Font, and a C compiler (for tree-sitter parsers).
-
-```bash
-git clone https://github.com/SOV710/nvim-config ~/.config/nvim
-nvim
-```
-
-`lazy.nvim` bootstraps itself on first launch, installs all plugins, and `mason-tool-installer` pulls every mason-managed package.
-
-Then run:
-
-```vim
-:checkhealth langs
-```
-
-This reports which non-mason external tools still need installing, with the install command for each.
-
-For per-language install instructions, see [`docs/langs/`](docs/langs/).
 
 ## Project layout
 
