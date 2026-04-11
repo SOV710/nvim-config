@@ -17,4 +17,3 @@
 </div>
 
 
-https://github.com/topics/nvim-config
