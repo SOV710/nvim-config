@@ -323,14 +323,6 @@ lua/
     └── ...
 ```
 
-## 致谢
-
-- [folke](https://github.com/folke)：`lazy.nvim`、`snacks.nvim`、`tokyonight.nvim`、`flash.nvim`、`which-key.nvim`、`noice.nvim`、`ts-comments.nvim`，以及现代 Neovim 生态里很大一部分。
-- [LazyVim](https://github.com/LazyVim/LazyVim) 源码——自己从零搭时很有参考价值。
-- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)——一份可读的 `init.lua` 是正确的起点。
-- [TJ DeVries](https://github.com/tjdevries) 和 Neovim 核心团队：`vim.lsp.config`、`vim.lsp.enable`、`vim.snippet`，以及让不依赖 lspconfig 的路线成为可能的那些原生 API。
-- 这套 stack 里的每一位插件作者——`git log` 和 `lazy.nvim` 的 lockfile 是完整的 credit 列表。
-
 ## License
 
 GPL-3.0-or-later。完整文本见 [LICENSE](./LICENSE)。
