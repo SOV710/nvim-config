@@ -24,7 +24,7 @@
 
 ## Philosophy
 
-Every editor — VS Code, Emacs, Sublime, JetBrains, Neovim — is, at the bottom, a composition of the same eight things. The editor that nails all eight is one of the strongest editors in existence.
+Every editor — VS Code, Emacs, Sublime, JetBrains, Neovim — is a composition of the same eight things:
 
 1. **A plugin manager** that disappears into the background
 2. **The editor's own knobs** — `vim.opt`, autocmds, the built-ins
@@ -36,31 +36,29 @@ Every editor — VS Code, Emacs, Sublime, JetBrains, Neovim — is, at the botto
 7. **Version control** that doesn't make you drop to a shell
 8. **AI integration** — because it's 2026 and ignoring it is its own statement
 
-This config is my answer to those eight layers.
+This config covers all eight.
 
 ## Who this is for
 
-**You're already deep in your own config.** You're trying to organize 20+ language setups without losing your mind, you've outgrown copy-pasting from someone else's `init.lua`, or you want to see what a from-scratch architecture looks like that doesn't collapse at scale. Steal whatever's useful here. The architecture is the point.
+**You're already maintaining your own config.** You're trying to organize 20+ language setups without the whole thing becoming a mess, you've outgrown copy-pasting from someone else's `init.lua`, or you want to see what a from-scratch architecture looks like at some scale. Take whatever's useful.
 
-**Or: you're using LazyVim, NvChad, AstroVim, LunarVim** and you're starting to feel the walls. You can't quite articulate what you want changed, but you know your editor is doing things you don't fully understand. This repo is what comes after the distro — opinionated, structured, and small enough that one person can hold the whole thing in their head.
+**Or: you're using LazyVim, NvChad, AstroVim, LunarVim** and you're starting to run into its limits. You can't quite articulate what you want changed, but you know your editor is doing things you don't fully understand. This repo is a from-scratch alternative — opinionated, structured, and small enough to read in full.
 
 If you're brand new to Neovim, start with [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim). Come back here in six months.
 
-## What's in the box
+## Contents
 
-The stack, layer by layer.
+### 1. Plugin manager
 
-### 1. The plugin manager
-
-`lazy.nvim`. Spec files are organized by purpose under `lua/plugins/{ui,editor,langs,git,ai}/`, each directory imported as a unit. Snacks modules are split into separate spec files and lazy.nvim merges them automatically — no 800-line `snacks.lua`.
+`lazy.nvim`. Spec files are organized by purpose under `lua/plugins/{ui,editor,langs,git,ai}/`, each directory imported as a unit. Snacks modules live in separate spec files under `lua/plugins/ui/`; lazy.nvim merges them automatically.
 
 ### 2. Options
 
-`lua/core/options.lua` — small and boring on purpose. A few dozen lines of `vim.opt`. If something can stay a default, it stays a default.
+`lua/core/options.lua` — a few dozen lines of `vim.opt`. If something can stay a default, it stays a default.
 
 ### 3. Keymaps
 
-Every keymap in the config lives under `lua/keymaps/`, organized by feature. Plugin specs **never** call `vim.keymap.set` directly — they consume return-table keymap files:
+All keymaps live under `lua/keymaps/`, organized by feature. Plugin specs never call `vim.keymap.set` directly — they reference keymap files that return plain tables:
 
 ```lua
 -- lua/plugins/editor/flash.lua
@@ -68,7 +66,7 @@ return {
   'folke/flash.nvim',
   event = 'VeryLazy',
   opts = {},
-  keys = require('keymaps.editor.flash'),  -- the only keymap line in this spec
+  keys = require('keymaps.editor.flash'),
 }
 ```
 
@@ -80,9 +78,9 @@ return {
 }
 ```
 
-The whole keymap surface is greppable in one directory. No hunting through plugin specs. No more "where did I bind `<leader>fg` again."
+All keymaps are greppable from one directory.
 
-A few points:
+A few notable bindings:
 
 - `s` / `S` → flash (overrides native substitute, which I never use)
 - `m` → grapple toggle (overrides native mark)
@@ -92,9 +90,9 @@ A few points:
 
 ### 4. UI
 
-Tokyo Night. The status line and tabline are a custom heirline build — the tabline integrates `grapple.nvim` so marked files appear directly in the top bar instead of a separate floating window.
+Tokyo Night colorscheme throughout. The statusline and tabline are a custom heirline build — the tabline integrates `grapple.nvim` so marked files appear directly in the top bar.
 
-| Niche | Choice |
+| Component | Plugin |
 |---|---|
 | Colorscheme | `folke/tokyonight.nvim` |
 | Statusline + tabline | `rebelot/heirline.nvim` (custom) |
@@ -105,9 +103,7 @@ Tokyo Night. The status line and tabline are a custom heirline build — the tab
 
 ### 5. Editing flow
 
-The everyday loop. This is the layer where the choices diverge most from distro defaults.
-
-| Niche | Choice |
+| Component | Plugin |
 |---|---|
 | File explorer | `stevearc/oil.nvim` + `snacks.explorer` |
 | Picker | `snacks.picker` (replaces telescope) |
@@ -132,11 +128,9 @@ The everyday loop. This is the layer where the choices diverge most from distro 
 
 ### 6. Languages
 
-This is where the architecture earns its name.
+Each supported language — Rust, Go, Python, TypeScript, Haskell, Lua, C/C++, LaTeX, Fish, SQL, and 20+ others — has a single file under `lua/langs/`. That file declares everything: LSP server config, treesitter parsers, formatters, linters, DAP adapters, snippets, mason packages, file-type detection, and any language-specific plugins.
 
-Every language this config supports — Rust, Go, Python, TypeScript, Haskell, Lua, C/C++, LaTeX, Fish, SQL, and 20+ others — lives in **a single declarative file** under `lua/langs/`. That file is the source of truth for everything: LSP server config, treesitter parsers, formatters, linters, DAP adapters, snippets, mason packages, file-type detection, language-specific options, and any extra plugins (`rustaceanvim`, `crates.nvim`, etc.).
-
-A typical `lua/langs/<name>.lua` looks like this:
+A typical `lua/langs/<name>.lua`:
 
 ```lua
 return {
@@ -181,9 +175,7 @@ return {
 }
 ```
 
-That's the *whole* declaration. There's no second file to update, no `formatters_by_ft` table to remember to extend, no separate mason `ensure_installed` list.
-
-`lua/core/language.lua` scans `lua/langs/*.lua` on require and aggregates the per-language declarations into:
+`lua/core/language.lua` scans `lua/langs/*.lua` on require and aggregates the declarations into:
 
 | Aggregated as | Consumed by |
 |---|---|
@@ -194,9 +186,9 @@ That's the *whole* declaration. There's no second file to update, no `formatters
 | `language.dap_adapters`, `language.dap_configurations` | `nvim-dap` |
 | `language.snippets` | `LuaSnip` |
 | `language.plugins` | injected directly into the lazy.nvim spec |
-| LSP servers | registered via the native `vim.lsp.config` / `vim.lsp.enable` API — **no `nvim-lspconfig` middleware** |
+| LSP servers | registered via the native `vim.lsp.config` / `vim.lsp.enable` API — no `nvim-lspconfig` |
 
-So conform's spec, in full:
+So conform's full spec is:
 
 ```lua
 opts = {
@@ -204,16 +196,14 @@ opts = {
 }
 ```
 
-That's it. Adding Kotlin tomorrow means dropping `lua/langs/kotlin.lua` and restarting Neovim. No other file changes anywhere.
-
 > 🚧 Showcase pending: architecture diagram — `lua/langs/*.lua` → `core/language.lua` → fan-out to consumers
 
-**Toggling languages.** Every lang file accepts an `enabled = false` switch. When set, the file is silently dropped during the scan, and *every* downstream consumer (LSP, conform, lint, DAP, snippets, mason) loses it consistently. This is the kill switch for isolating which language broke after a plugin update — flip one boolean, restart, the language vanishes from the entire stack.
+**Toggling languages.** Each lang file accepts an `enabled = false` field. When set, the file is dropped during the scan and all downstream consumers (LSP, conform, lint, DAP, snippets, mason) lose it consistently. Useful for isolating which language broke after a plugin update.
 
-**External dependencies.** Half the language toolchains in this config can't be managed by mason — `tsgo` builds from source, `ty` ships via PyPI, HLS via GHCup, `fish-lsp` via npm, `sleek` via cargo, plus things like `latexindent` and `chktex` that come bundled with TeX Live. Every lang file with non-mason deps documents them in two places:
+**External dependencies.** Many language toolchains can't be managed by mason — `tsgo` builds from source, `ty` ships via PyPI, HLS via GHCup, `fish-lsp` via npm, `sleek` via cargo, and things like `latexindent` and `chktex` come bundled with TeX Live. Each lang file with non-mason deps documents them in two places:
 
-1. **A top-of-file block comment** describing what to install, the install command, and a one-liner to verify it. You see it the moment you open the file.
-2. **A structured `external_deps` field** consumed by `:checkhealth langs` — Neovim's native health framework reports which deps are present and which are missing, with the install command inline.
+1. **A top-of-file block comment** with the install command and a one-liner to verify it.
+2. **A structured `external_deps` field** consumed by `:checkhealth langs`, which reports what's present and what's missing.
 
 ```text
 :checkhealth langs
@@ -239,7 +229,7 @@ rust ~
 
 ![dashboard-checkhealth-langs](https://preview.github.sov710.org/nvim-config/neovim-checkhealth-langs.png)
 
-**The plumbing per language**, for completeness:
+**The plumbing per language:**
 
 | Layer | Plugin |
 |---|---|
@@ -254,34 +244,30 @@ rust ~
 
 ### 7. Version control
 
-| Niche | Choice | What it's for |
+| Component | Plugin | Purpose |
 |---|---|---|
 | Hunks in the gutter | `lewis6991/gitsigns.nvim` | `]h` / `[h` jump, `<leader>hs` stage hunk, blame line |
 | Git commands | `tpope/vim-fugitive` | `:Git status`, commit, push, pull, blame |
-| Diff viewer | `sindrets/diffview.nvim` | All visual diffs and file history |
+| Diff viewer | `sindrets/diffview.nvim` | Visual diffs and file history |
 | Open in browser | `Snacks.gitbrowse` | `<leader>gB` to GitHub / Codeberg |
 
-These don't overlap on purpose. Fugitive is for *commands*; diffview is for *seeing* diffs; gitsigns is for *in-buffer hunk operations*; gitbrowse opens the *web view*. Four tools, four distinct verbs. No keymap I press will ever surprise me about which one shows up.
+The four tools don't overlap: fugitive handles git commands, diffview handles viewing diffs, gitsigns handles in-buffer hunk operations, gitbrowse opens the web view.
 
 ### 8. AI
 
-One integration, kept deliberately minimal.
+- **`coder/claudecode.nvim`** — Claude Code bridge over WebSocket MCP. Bindings under `<leader>a*`: toggle the terminal, send the visual selection, accept or deny a diff, switch model, resume a previous session.
 
-- **`coder/claudecode.nvim`** — official Claude Code bridge over WebSocket MCP. Lets me hand the editor to Claude Code as a frontend. All bindings live behind `<leader>a*`: toggle the terminal, send the visual selection, accept or deny a diff, switch model, resume the last session.
-
-No `avante.nvim`, no auto-prompted "let me write this function for you" chat overlay. The AI assists; it doesn't drive.
+No chat overlay or inline code generation. Just a terminal bridge.
 
 ## Adding a new language
 
-Three steps, none of which touch any file outside `lua/langs/`:
-
 1. Drop a new file: `lua/langs/<name>.lua`
-2. Fill in the fields you actually need (everything is optional except `filetypes`)
+2. Fill in the fields you need (everything is optional except `filetypes`)
 3. Restart Neovim
 
-That's all. The aggregator picks it up on the next require, and every downstream plugin that consumes `language.*` sees the new entries automatically. No `ensure_installed` list to update. No `formatters_by_ft` to extend. No mason package list to grow.
+The aggregator picks it up on the next require; all downstream plugins see the new entries automatically.
 
-To temporarily disable a language without deleting the file: add `enabled = false` at the top. Restart. Gone — from LSP, conform, mason, treesitter, DAP, snippets, every consumer.
+To temporarily disable a language without deleting the file, add `enabled = false` at the top and restart. It disappears from all consumers — LSP, formatters, linters, DAP, snippets.
 
 ## Quick start
 
@@ -292,17 +278,17 @@ git clone https://github.com/SOV710/nvim-config ~/.config/nvim
 nvim
 ```
 
-`lazy.nvim` will bootstrap itself, install plugins, and `mason-tool-installer` will pull every mason-managed package on first launch.
+`lazy.nvim` bootstraps itself on first launch, installs all plugins, and `mason-tool-installer` pulls every mason-managed package.
 
-Then:
+Then run:
 
 ```vim
 :checkhealth langs
 ```
 
-This tells you which **non-mason external tools** still need installing (toolchains, LSPs from package managers, language-specific debuggers, etc.), with the exact install command for each. Read the output, install the missing ones, restart, done.
+This reports which non-mason external tools still need installing, with the install command for each.
 
-For full per-language install instructions, see [`docs/langs/`](docs/langs/).
+For per-language install instructions, see [`docs/langs/`](docs/langs/).
 
 ## Project layout
 
@@ -339,11 +325,11 @@ lua/
 
 ## Acknowledgments
 
-- [folke](https://github.com/folke) for `lazy.nvim`, `snacks.nvim`, `tokyonight.nvim`, `flash.nvim`, `which-key.nvim`, `noice.nvim`, `ts-comments.nvim`, and roughly half the modern Neovim ecosystem.
-- The [LazyVim](https://github.com/LazyVim/LazyVim) source — invaluable as a reference even when you've decided to roll your own.
-- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) for the proof that a single readable `init.lua` is the right starting point.
-- [TJ DeVries](https://github.com/tjdevries) and the Neovim core team for `vim.lsp.config`, `vim.lsp.enable`, `vim.snippet`, and the long parade of native APIs that made the no-`lspconfig`, no-Mason path possible.
-- Every plugin author whose work is in this stack. There are too many to list individually — `git log` and the `lazy.nvim` lockfile have the full credits.
+- [folke](https://github.com/folke) for `lazy.nvim`, `snacks.nvim`, `tokyonight.nvim`, `flash.nvim`, `which-key.nvim`, `noice.nvim`, `ts-comments.nvim`, and a large portion of the modern Neovim ecosystem.
+- The [LazyVim](https://github.com/LazyVim/LazyVim) source — a useful reference even when rolling your own.
+- [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) for showing that a single readable `init.lua` is the right starting point.
+- [TJ DeVries](https://github.com/tjdevries) and the Neovim core team for `vim.lsp.config`, `vim.lsp.enable`, `vim.snippet`, and the native APIs that made the no-`lspconfig` path viable.
+- Every plugin author in this stack — `git log` and the `lazy.nvim` lockfile have the full list.
 
 ## License
 
