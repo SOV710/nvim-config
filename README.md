@@ -36,7 +36,7 @@ Every editor — VS Code, Emacs, Sublime, JetBrains, Neovim — is, at the botto
 7. **Version control** that doesn't make you drop to a shell
 8. **AI integration** — because it's 2026 and ignoring it is its own statement
 
-This config is my answer to those eight layers. Not a starter template. Not a distro. The actual answer.
+This config is my answer to those eight layers.
 
 ## Who this is for
 
