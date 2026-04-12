@@ -1,6 +1,6 @@
 <div align="center">
 
-  ![logo](https://preview.github.sov710.org/nvim-config/logo.svg?theme=dark)
+  ![logo](https://preview.github.sov710.org/nvim-config/logo.svg)
 
   # SOV710's Neovim Configuration
 
