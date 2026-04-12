@@ -51,12 +51,6 @@ return {
       install = 'emerge app-text/texlive',
       note = 'bundled with TeX Live; texlab delegates linting to it',
     },
-    {
-      cmd = 'zathura',
-      required = false,
-      install = 'emerge app-text/zathura app-text/zathura-pdf-mupdf',
-      note = 'PDF viewer for vimtex forward-search',
-    },
   },
 
   lsp = {
