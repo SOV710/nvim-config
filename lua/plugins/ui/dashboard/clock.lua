@@ -26,14 +26,7 @@ end
 function M.line()
   local weekdays = { '日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日' }
   local wday = weekdays[tonumber(os.date '%w') + 1]
-  return string.format(
-    '%s   %s (%s)   %s %s',
-    wday,
-    os.date '%y-%m-%d',
-    os.date '%b %d',
-    os.date '%H:%M',
-    get_utc_offset()
-  )
+  return string.format('%s   %s (%s)   %s %s', wday, os.date '%y-%m-%d', os.date '%b %d', os.date '%H:%M', get_utc_offset())
 end
 
 return M

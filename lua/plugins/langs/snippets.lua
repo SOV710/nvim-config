@@ -35,10 +35,7 @@ return {
           luasnip.add_snippets(ft, result)
         elseif not ok and not warned[fn] then
           warned[fn] = true
-          vim.notify(
-            ('lang snippets: failed to load: %s'):format(tostring(result)),
-            vim.log.levels.WARN
-          )
+          vim.notify(('lang snippets: failed to load: %s'):format(tostring(result)), vim.log.levels.WARN)
         end
       end
     end
