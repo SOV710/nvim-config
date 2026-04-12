@@ -364,6 +364,10 @@ lua/
     └── ...
 ```
 
+## 致谢
+
+感谢亲爱的 [@Lingshinx](https://github.com/Lingshinx) 杰出的 [ASCII art](https://github.com/Lingshinx/nvim-config/blob/main/Friends-Logo.txt)。
+
 ## License
 
 GPL-3.0-or-later。完整文本见 [LICENSE](./LICENSE)。
