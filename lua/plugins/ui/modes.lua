@@ -7,6 +7,7 @@ return {
   event = 'VeryLazy',
   opts = {
     colors = {
+      bg = '',
       insert = '#c3e88d', -- green (Tokyo Night green)
       replace = '#ff757f', -- red
       visual = '#c099ff', -- purple
