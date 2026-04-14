@@ -345,7 +345,7 @@ local FileEncoding = {
   },
   init = function(self)
     local encoding = vim.bo.fileencoding ~= '' and vim.bo.fileencoding or vim.o.encoding
-    self.encoding = string.upper(encoding)
+    self.encoding = encoding
   end,
 
   flexible = 2,
