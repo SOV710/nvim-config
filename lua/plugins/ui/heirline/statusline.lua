@@ -335,6 +335,32 @@ local GitDiff = {
 }
 
 -- ══════════════════════════════════════════════════════════════════════
+-- File encoding
+-- ══════════════════════════════════════════════════════════════════════
+
+local FileEncoding = {
+  update = {
+    'BufEnter',
+    'OptionSet',
+  },
+  init = function(self)
+    local encoding = vim.bo.fileencoding ~= '' and vim.bo.fileencoding or vim.o.encoding
+    self.encoding = string.upper(encoding)
+  end,
+
+  flexible = 2,
+
+  {
+    provider = function(self)
+      return ' ' .. self.encoding .. ' '
+    end,
+    hl = { fg = 'white' },
+  },
+
+  { provider = '' },
+}
+
+-- ══════════════════════════════════════════════════════════════════════
 -- Noice status
 -- ══════════════════════════════════════════════════════════════════════
 
@@ -509,6 +535,7 @@ return {
   { provider = '%=' }, -- right-align
   NoiceStatus,
   GitDiff,
+  FileEncoding,
   LSPActive,
   Ruler,
 }
