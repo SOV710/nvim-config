@@ -369,7 +369,7 @@ local LSPActive = {
     self.lsp_names = names
   end,
 
-  flexible = 2, -- Shrink priority: compress before GitDiff(4), after WorkDir(1)
+  flexible = 3, -- Shrink priority: compress before GitDiff(4), after WorkDir(1)
 
   -- Full version: separator + all names + separator
   {
