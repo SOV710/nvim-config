@@ -4,5 +4,5 @@
 
 return {
   filetypes = { 'qml' },
-  treesitter = { 'qml' },
+  treesitter = { 'qmljs' },
 }
