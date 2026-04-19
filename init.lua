@@ -25,6 +25,11 @@ require('lazy.core.handler.event').mappings.LazyFile = {
 -- The language system self-initializes on require:
 -- it scans lua/langs/*.lua and aggregates everything.
 local language = require 'core.language'
+local treesitter = require 'core.treesitter'
+
+-- Filetype detection and treesitter runtime must exist before plugin setup.
+language.enable_filetypes()
+treesitter.setup_runtime()
 
 -- if you have nerd fonts
 local have_nerd_font = true
@@ -126,7 +131,9 @@ require('lazy').setup {
 vim.env.PATH = vim.fn.stdpath 'data' .. '/mason/bin:' .. vim.env.PATH
 
 -- Enable LSP & per-language options (after lazy.nvim has set up rtp)
+treesitter.setup_runtime()
 language.enable()
+treesitter.enable()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

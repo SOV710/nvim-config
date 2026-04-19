@@ -3,14 +3,13 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 --- Language configuration system.
---- Scans lua/langs/*.lua, aggregates LSP/treesitter/formatter/linter/DAP/plugins
+--- Scans lua/langs/*.lua and aggregates LSP/treesitter/formatter/linter/DAP/plugins
 --- into a single source of truth.
 ---
 --- Usage:
 ---   local language = require("core.language")
 ---   language.plugins              → LazySpec[] for lazy.nvim
----   language.treesitter           → string[] for nvim-treesitter ensure_installed
----   language.treesitter_parsers   → table<name, ParserConfig> custom parsers
+---   language.treesitter           → table<lang, TreesitterLanguageConfig>
 ---   language.formatters           → table<filetype, string[]> for conform.nvim
 ---   language.linters              → table<filetype, string[]> for nvim-lint
 ---   language.mason                → string[] for mason ensure_installed
@@ -21,7 +20,6 @@
 ---   language.enable_lsp()         → call after plugins loaded
 ---   language.enable_options()     → call after plugins loaded
 ---   language.enable_filetypes()   → call after plugins loaded
----   language.register_treesitter_parsers() → call before treesitter setup
 
 ---@alias LazySpec table
 ---@alias DapAdapterConfig table
@@ -29,8 +27,7 @@
 local M = {
   --- Aggregated results (available immediately after require)
   plugins = {}, ---@type LazySpec[]
-  treesitter = {}, ---@type string[]
-  treesitter_parsers = {}, ---@type table<string, TreesitterParserConfig>
+  treesitter = {}, ---@type table<string, TreesitterLanguageConfig>
   formatters = {}, ---@type table<string, string[]>
   linters = {}, ---@type table<string, string[]>
   mason = {}, ---@type string[]
@@ -43,7 +40,7 @@ local M = {
   _langs = {}, ---@type table<string, LangConfig>
   _lsp_configs = {}, ---@type table<string, table> aggregated LSP server configs
   _seen_lsp_ft = {}, ---@type table<string, table<string, boolean>> per-server filetype dedup
-  _seen_ts = {}, ---@type table<string, boolean>
+  _seen_ts = {}, ---@type table<string, string>
   _seen_mason = {}, ---@type table<string, boolean>
   _disabled_mason = {}, ---@type table<string, string> pkg_name → disabled lang name
 }
@@ -51,8 +48,7 @@ local M = {
 ---@class LangConfig
 ---@field enabled?            boolean
 ---@field filetypes?          string[]
----@field treesitter?         string[]|false
----@field treesitter_parsers? table<string, TreesitterParserConfig>
+---@field treesitter?         LangTreesitterConfig|false
 ---@field filetype?           table
 ---@field lsp?                string|table<string, table>
 ---@field formatter?          string|string[]
@@ -70,14 +66,48 @@ local M = {
 ---@field required boolean  true → health.error on missing; false → health.warn
 ---@field note?    string   Extra context rendered as a second advice line
 
----@class TreesitterParserConfig
----@field url          string
----@field branch?      string
----@field revision?    string
----@field files        string[]
----@field filetype?    string
----@field generate?    boolean
----@field queries?     string
+---@class LangTreesitterConfig
+---@field auto_start? boolean
+---@field languages table<string, TreesitterLanguageConfig>
+
+---@class TreesitterLanguageConfig
+---@field auto_start? boolean
+---@field filetypes? string[]
+---@field parser TreesitterParserDefinition
+---@field queries? TreesitterQueryDefinition
+
+---@class TreesitterParserDefinition
+---@field source TreesitterGitSource
+---@field build TreesitterParserBuild
+
+---@class TreesitterGitSource
+---@field type '"git"'
+---@field url string
+---@field branch? string
+---@field revision? string
+---@field location? string
+
+---@class TreesitterParserBuild
+---@field files string[]
+---@field generate? boolean
+
+---@class TreesitterQueryDefinition
+---@field sources? TreesitterQuerySource[]
+
+---@alias TreesitterQuerySource TreesitterParserQuerySource|TreesitterGitQuerySource
+
+---@class TreesitterParserQuerySource
+---@field type '"parser_source"'
+---@field lang? string
+
+---@class TreesitterGitQuerySource
+---@field type '"git"'
+---@field url string
+---@field branch? string
+---@field revision? string
+---@field location? string
+---@field lang string
+---@field path? string
 
 ---@class LangDapConfig
 ---@field adapter        table<string, DapAdapterConfig>
@@ -218,9 +248,58 @@ local function collect_unique(list, seen, items)
   end
 end
 
+---@param owner string
+---@param config LangConfig
+local function collect_treesitter(owner, config)
+  if config.treesitter == nil or config.treesitter == false then
+    return
+  end
+
+  local manifest = config.treesitter
+  if type(manifest) ~= 'table' or type(manifest.languages) ~= 'table' then
+    error(("lang '%s' has an invalid treesitter manifest"):format(owner))
+  end
+
+  local default_auto_start = manifest.auto_start ~= false
+  for ts_lang, ts_config in pairs(manifest.languages) do
+    if M._seen_ts[ts_lang] then
+      error(("duplicate treesitter language '%s' declared in '%s' and '%s'"):format(ts_lang, M._seen_ts[ts_lang], owner))
+    end
+
+    if type(ts_config) ~= 'table' or type(ts_config.parser) ~= 'table' then
+      error(("lang '%s' treesitter language '%s' is missing parser config"):format(owner, ts_lang))
+    end
+
+    local source = ts_config.parser.source
+    local build = ts_config.parser.build
+    if type(source) ~= 'table' or source.type ~= 'git' then
+      error(("lang '%s' treesitter language '%s' must use parser.source.type = 'git'"):format(owner, ts_lang))
+    end
+    if type(source.url) ~= 'string' or source.url == '' then
+      error(("lang '%s' treesitter language '%s' is missing parser.source.url"):format(owner, ts_lang))
+    end
+    if type(build) ~= 'table' or type(build.files) ~= 'table' or #build.files == 0 then
+      error(("lang '%s' treesitter language '%s' must declare parser.build.files"):format(owner, ts_lang))
+    end
+
+    local normalized = vim.deepcopy(ts_config)
+    normalized.auto_start = normalized.auto_start
+    if normalized.auto_start == nil then
+      normalized.auto_start = default_auto_start
+    end
+
+    if normalized.queries and normalized.queries.sources == nil then
+      normalized.queries.sources = {}
+    end
+
+    M._seen_ts[ts_lang] = owner
+    M.treesitter[ts_lang] = normalized
+  end
+end
+
 --- Process all loaded language configs into aggregated tables
 function M._aggregate()
-  for _, lang in pairs(M._langs) do
+  for owner, lang in pairs(M._langs) do
     local fts = lang.filetypes --[[@as string[] ]]
 
     -- Plugins: just append, no dedup needed (lazy.nvim handles duplicate specs)
@@ -230,15 +309,8 @@ function M._aggregate()
       end
     end
 
-    -- Treesitter: deduplicate parser names
-    if lang.treesitter ~= false then
-      local parsers = lang.treesitter
-      if parsers == nil then
-        -- Default: use filetypes as parser names
-        parsers = fts
-      end
-      collect_unique(M.treesitter, M._seen_ts, to_list(parsers --[[@as string[] ]]))
-    end
+    -- Treesitter: aggregate native parser/query manifests
+    collect_treesitter(owner, lang)
 
     -- Formatters: map each filetype to its formatter list
     if lang.formatter then
@@ -259,13 +331,6 @@ function M._aggregate()
     -- Mason: explicit package names, deduplicated
     if lang.mason then
       collect_unique(M.mason, M._seen_mason, lang.mason)
-    end
-
-    -- Treesitter parsers: custom parser definitions
-    if lang.treesitter_parsers then
-      for name, config in pairs(lang.treesitter_parsers) do
-        M.treesitter_parsers[name] = config
-      end
     end
 
     -- DAP adapters and configurations
@@ -375,28 +440,6 @@ end
 function M.enable_filetypes()
   for _, ft_config in ipairs(M.filetypes) do
     vim.filetype.add(ft_config)
-  end
-end
-
---- Register custom treesitter parsers (call before nvim-treesitter setup)
-function M.register_treesitter_parsers()
-  for name, config in pairs(M.treesitter_parsers) do
-    local parsers = require 'nvim-treesitter.parsers'
-    parsers.list[name] = {
-      install_info = {
-        url = config.url,
-        branch = config.branch,
-        revision = config.revision,
-        files = config.files,
-        generate = config.generate or false,
-        queries = config.queries,
-      },
-      filetype = config.filetype,
-      tier = 3,
-    }
-    if config.filetype then
-      vim.treesitter.language.register(name, config.filetype)
-    end
   end
 end
 
