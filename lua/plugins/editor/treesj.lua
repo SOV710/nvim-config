@@ -6,7 +6,6 @@ return {
   'Wansmer/treesj',
   cmd = { 'TSJToggle', 'TSJSplit', 'TSJJoin' },
   keys = require 'keymaps.editor.treesj',
-  dependencies = { 'nvim-treesitter/nvim-treesitter' },
   opts = {
     use_default_keymaps = false, -- disable default keymaps (we manage our own)
     check_syntax_error = true, -- check for syntax errors before split/join
