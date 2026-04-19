@@ -98,7 +98,7 @@ local M = {
 
 ---@class TreesitterParserQuerySource
 ---@field type '"parser_source"'
----@field lang? string
+---@field lang? string Runtime query target language name; does not affect the source checkout path.
 
 ---@class TreesitterGitQuerySource
 ---@field type '"git"'
@@ -106,8 +106,8 @@ local M = {
 ---@field branch? string
 ---@field revision? string
 ---@field location? string
----@field lang string
----@field path? string
+---@field lang string Runtime query target language name.
+---@field path? string Directory inside the checkout that contains `.scm` files. Defaults to `queries`.
 
 ---@class LangDapConfig
 ---@field adapter        table<string, DapAdapterConfig>

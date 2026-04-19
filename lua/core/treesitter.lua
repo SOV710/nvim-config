@@ -475,7 +475,7 @@ local function query_source_checkout_async(lang_name, spec, source, context, cb)
         cb(err)
         return
       end
-      cb(nil, join(root, 'queries', source.lang or lang_name), resolved_revision, spec.parser.source)
+      cb(nil, join(root, 'queries'), resolved_revision, spec.parser.source)
     end)
     return
   end
@@ -485,7 +485,7 @@ local function query_source_checkout_async(lang_name, spec, source, context, cb)
       cb(err)
       return
     end
-    cb(nil, join(root, source.path or 'queries', source.lang), resolved_revision, source)
+    cb(nil, join(root, source.path or 'queries'), resolved_revision, source)
   end)
 end
 
