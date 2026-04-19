@@ -117,24 +117,57 @@ local function source_mode(source)
 end
 
 local function source_key(source)
-  return fn.sha256(vim.json.encode {
-    type = source.type,
-    url = source.url,
-    branch = source.branch,
-  }):sub(1, 16)
+  local parts = {
+    source.type or '',
+    source.url or '',
+    source.branch or '',
+  }
+  for index, value in ipairs(parts) do
+    parts[index] = ('%d:%s'):format(#value, value)
+  end
+  return fn.sha256(table.concat(parts, '|')):sub(1, 16)
 end
 
-local function source_checkout_dir(source)
+local function source_repo_name(source)
   local repo = source.url:match '/([^/]+)%.git$' or source.url:match '/([^/]+)$' or 'parser'
-  return join(checkouts_dir, repo .. '-' .. source_key(source))
+  return repo
 end
 
-local function source_root(source)
-  local checkout = source_checkout_dir(source)
+local function source_root_in_checkout(source, checkout)
   if source.location and source.location ~= '' then
     return join(checkout, source.location)
   end
   return checkout
+end
+
+local function source_checkout_dir(source)
+  local repo = source_repo_name(source)
+  local preferred = join(checkouts_dir, repo .. '-' .. source_key(source))
+  if is_dir(preferred) then
+    return preferred
+  end
+
+  local matches = {}
+  local prefix = repo .. '-'
+  for name, kind in scandir(checkouts_dir) do
+    if kind == 'directory' and vim.startswith(name, prefix) then
+      local checkout = join(checkouts_dir, name)
+      if is_dir(source_root_in_checkout(source, checkout)) then
+        matches[#matches + 1] = checkout
+      end
+    end
+  end
+
+  table.sort(matches)
+  if #matches > 0 then
+    return matches[1]
+  end
+
+  return join(checkouts_dir, repo .. '-' .. source_key(source))
+end
+
+local function source_root(source)
+  return source_root_in_checkout(source, source_checkout_dir(source))
 end
 
 local function parser_ext()
@@ -294,6 +327,7 @@ end
 
 local function ensure_checkout_async(source, context, cb)
   local checkout = source_checkout_dir(source)
+  local lock_path = join(checkout, '.git', 'index.lock')
   local active = context.seen_sources[checkout]
   if active then
     if active.done then
@@ -328,6 +362,26 @@ local function ensure_checkout_async(source, context, cb)
     end
   end
 
+  local function clone_checkout()
+    mkdirp(checkouts_dir)
+    local clone_args = { 'git', 'clone', '--filter=blob:none' }
+    if source.branch and source.branch ~= '' then
+      clone_args[#clone_args + 1] = '--branch'
+      clone_args[#clone_args + 1] = source.branch
+    end
+    clone_args[#clone_args + 1] = source.url
+    clone_args[#clone_args + 1] = checkout
+    run_async(clone_args, {}, function(err)
+      if err then
+        finish(err)
+        return
+      end
+      git_head_async(checkout, function(current_head)
+        continue_after_fetch(current_head, true)
+      end)
+    end)
+  end
+
   local function continue_after_fetch(current_head, cloned)
     local floating = source_mode(source) == 'floating'
     local needs_fetch = context.update or (floating and not cloned)
@@ -342,9 +396,17 @@ local function ensure_checkout_async(source, context, cb)
           return
         end
 
+        local function finalize_checkout()
+          if not is_dir(source_root(source)) then
+            finish(("missing treesitter source root: %s"):format(source_root(source)))
+            return
+          end
+          finish(nil, resolved_revision)
+        end
+
         git_head_async(checkout, function(head)
-          if head == resolved_revision then
-            finish(nil, resolved_revision)
+          if head == resolved_revision and is_dir(source_root(source)) then
+            finalize_checkout()
             return
           end
 
@@ -352,7 +414,11 @@ local function ensure_checkout_async(source, context, cb)
             { 'git', '-c', 'advice.detachedHead=false', 'checkout', '--force', resolved_revision },
             { cwd = checkout },
             function(checkout_err)
-              finish(checkout_err, resolved_revision)
+              if checkout_err then
+                finish(checkout_err)
+                return
+              end
+              finalize_checkout()
             end
           )
         end)
@@ -373,22 +439,17 @@ local function ensure_checkout_async(source, context, cb)
   end
 
   if not is_dir(checkout) then
-    mkdirp(checkouts_dir)
-    local clone_args = { 'git', 'clone', '--filter=blob:none' }
-    if source.branch and source.branch ~= '' then
-      clone_args[#clone_args + 1] = '--branch'
-      clone_args[#clone_args + 1] = source.branch
-    end
-    clone_args[#clone_args + 1] = source.url
-    clone_args[#clone_args + 1] = checkout
-    run_async(clone_args, {}, function(err)
-      if err then
-        finish(err)
+    clone_checkout()
+    return
+  end
+
+  if exists(lock_path) then
+    remove_path_async(checkout, function(remove_err)
+      if remove_err then
+        finish(remove_err)
         return
       end
-      git_head_async(checkout, function(current_head)
-        continue_after_fetch(current_head, true)
-      end)
+      clone_checkout()
     end)
     return
   end
