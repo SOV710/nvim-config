@@ -4,7 +4,42 @@
 
 return {
   filetypes = { 'c', 'cpp' },
-  treesitter = { 'c', 'cpp' },
+  treesitter = {
+    languages = {
+      c = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-c',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'c' },
+          },
+        },
+      },
+      cpp = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-cpp',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'cpp' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     clangd = {

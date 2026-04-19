@@ -4,7 +4,26 @@
 
 return {
   filetypes = { 'clojure', 'edn' },
-  treesitter = { 'clojure' },
+  treesitter = {
+    languages = {
+      clojure = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/sogaiu/tree-sitter-clojure',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'clojure' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     clojure_lsp = {

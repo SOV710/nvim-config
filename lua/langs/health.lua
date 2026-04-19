@@ -94,6 +94,83 @@ local function check_mason_orphans(language)
   end
 end
 
+local function check_treesitter()
+  local treesitter = require 'core.treesitter'
+  local requirements = treesitter.requirements()
+  local status = treesitter.status()
+
+  vim.health.start 'langs.treesitter'
+  if not requirements.has_languages then
+    vim.health.info 'no treesitter manifests declared'
+    return
+  end
+
+  if requirements.git then
+    vim.health.ok 'git found in $PATH'
+  else
+    vim.health.error('git not found in $PATH', {
+      'required for :TSInstall / :TSUpdate',
+    })
+  end
+
+  if requirements.compiler then
+    vim.health.ok 'C compiler found in $PATH'
+  else
+    vim.health.error('C compiler not found in $PATH', {
+      'install `cc` or set $CC to a working compiler',
+    })
+  end
+
+  if requirements.needs_generate then
+    if requirements.tree_sitter then
+      vim.health.ok 'tree-sitter CLI found in $PATH'
+    else
+      vim.health.error('tree-sitter CLI not found in $PATH', {
+        'required by at least one manifest with parser.build.generate = true',
+      })
+    end
+  else
+    vim.health.info 'tree-sitter CLI not required by current manifests'
+  end
+
+  for _, lang_name in ipairs(treesitter.languages()) do
+    local entry = status[lang_name]
+    vim.health.start('langs.treesitter.' .. lang_name)
+
+    vim.health.info(('mode=%s target=%s resolved=%s'):format(
+      entry.parser.mode,
+      entry.parser.desired or '-',
+      entry.parser.resolved_revision or '-'
+    ))
+
+    if entry.parser.installed then
+      vim.health.ok('parser installed: ' .. entry.parser.path)
+    else
+      vim.health.warn('parser missing', {
+        'install with `:TSInstall ' .. lang_name .. '`',
+      })
+    end
+
+    if entry.queries.required == 0 then
+      vim.health.info 'no external query sources declared'
+    elseif entry.queries.installed == entry.queries.required then
+      vim.health.ok(('query sources installed: %d/%d'):format(entry.queries.installed, entry.queries.required))
+    else
+      vim.health.warn(('query sources installed: %d/%d'):format(entry.queries.installed, entry.queries.required), {
+        'install with `:TSInstall ' .. lang_name .. '`',
+      })
+    end
+
+    if #entry.queries.discovered_files > 0 then
+      vim.health.ok(('runtime query files discovered: %d'):format(#entry.queries.discovered_files))
+    else
+      vim.health.warn('no runtime query files discovered', {
+        'check local `queries/` or install declared sources with `:TSInstall ' .. lang_name .. '`',
+      })
+    end
+  end
+end
+
 --- :checkhealth langs entry point.
 function M.check()
   local language = require 'core.language'
@@ -109,6 +186,7 @@ function M.check()
   end
 
   check_mason_orphans(language)
+  check_treesitter()
 end
 
 return M

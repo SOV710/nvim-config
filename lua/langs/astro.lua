@@ -4,7 +4,26 @@
 
 return {
   filetypes = { 'astro' },
-  treesitter = { 'astro' },
+  treesitter = {
+    languages = {
+      astro = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/virchau13/tree-sitter-astro',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'astro' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     astro = {

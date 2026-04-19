@@ -4,7 +4,27 @@
 
 return {
   filetypes = { 'sh', 'bash', 'zsh' },
-  treesitter = { 'bash' },
+  treesitter = {
+    languages = {
+      bash = {
+        filetypes = { 'sh' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-bash',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'bash' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     bashls = {

@@ -3,7 +3,44 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 return {
-  treesitter = { 'markdown', 'markdown_inline' },
+  treesitter = {
+    languages = {
+      markdown = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/MDeiml/tree-sitter-markdown',
+            location = 'tree-sitter-markdown',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'markdown' },
+          },
+        },
+      },
+      markdown_inline = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/MDeiml/tree-sitter-markdown',
+            location = 'tree-sitter-markdown-inline',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'markdown_inline' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {}, -- remove marksman, I don't need an LSP to teach me how to write Markdown
 
@@ -19,7 +56,6 @@ return {
   plugins = {
     {
       'MeanderingProgrammer/render-markdown.nvim',
-      dependencies = { 'nvim-treesitter/nvim-treesitter' },
       ft = { 'markdown', 'norg', 'org' },
       opts = {
         heading = {

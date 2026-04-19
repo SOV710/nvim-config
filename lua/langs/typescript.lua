@@ -22,7 +22,79 @@
 
 return {
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
-  treesitter = { 'javascript', 'typescript', 'tsx', 'jsdoc' },
+  treesitter = {
+    languages = {
+      javascript = {
+        filetypes = { 'javascript', 'javascriptreact', 'ecma', 'jsx' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-javascript',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'javascript' },
+          },
+        },
+      },
+      typescript = {
+        filetypes = { 'typescript', 'ts' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-typescript',
+            location = 'typescript',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'typescript' },
+          },
+        },
+      },
+      tsx = {
+        filetypes = { 'typescriptreact', 'typescript.tsx' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-typescript',
+            location = 'tsx',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'tsx' },
+          },
+        },
+      },
+      jsdoc = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-jsdoc',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'jsdoc' },
+          },
+        },
+      },
+    },
+  },
 
   external_deps = {
     {

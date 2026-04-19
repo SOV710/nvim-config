@@ -25,7 +25,28 @@
 
 return {
   filetypes = { 'sql', 'mysql', 'plsql' },
-  treesitter = { 'sql' },
+  treesitter = {
+    languages = {
+      sql = {
+        filetypes = { 'sql', 'mysql' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/derekstride/tree-sitter-sql',
+            branch = 'gh-pages',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'sql' },
+          },
+        },
+      },
+    },
+  },
 
   external_deps = {
     {

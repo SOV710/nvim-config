@@ -18,7 +18,26 @@
 ---   - debugpy (DAP) IS in mason and managed automatically.
 
 return {
-  treesitter = { 'python' },
+  treesitter = {
+    languages = {
+      python = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-python',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'python' },
+          },
+        },
+      },
+    },
+  },
 
   external_deps = {
     {

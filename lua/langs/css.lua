@@ -4,7 +4,42 @@
 
 return {
   filetypes = { 'css', 'scss', 'sass' },
-  treesitter = { 'css', 'scss' },
+  treesitter = {
+    languages = {
+      css = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-css',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'css' },
+          },
+        },
+      },
+      scss = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/serenadeai/tree-sitter-scss',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'scss' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     cssls = {

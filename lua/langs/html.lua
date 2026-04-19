@@ -3,7 +3,26 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 return {
-  treesitter = { 'html' },
+  treesitter = {
+    languages = {
+      html = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-html',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'html' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     html = {

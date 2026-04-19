@@ -3,7 +3,58 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 return {
-  treesitter = { 'lua', 'luadoc', 'luap' },
+  treesitter = {
+    languages = {
+      lua = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/MunifTanjim/tree-sitter-lua',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'lua' },
+          },
+        },
+      },
+      luadoc = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/amaanq/tree-sitter-luadoc',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'luadoc' },
+          },
+        },
+      },
+      luap = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/amaanq/tree-sitter-luap',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'luap' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     lua_ls = {

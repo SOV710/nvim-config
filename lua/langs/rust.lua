@@ -3,7 +3,26 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 return {
-  treesitter = { 'rust', 'toml' },
+  treesitter = {
+    languages = {
+      rust = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-rust',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'rust' },
+          },
+        },
+      },
+    },
+  },
 
   -- NO lsp field: rustaceanvim handles rust-analyzer startup internally
 

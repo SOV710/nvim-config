@@ -37,7 +37,26 @@
 
 return {
   filetypes = { 'haskell', 'lhaskell', 'cabal', 'cabalproject' },
-  treesitter = { 'haskell' },
+  treesitter = {
+    languages = {
+      haskell = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-haskell',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'haskell' },
+          },
+        },
+      },
+    },
+  },
 
   external_deps = {
     {

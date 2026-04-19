@@ -4,7 +4,90 @@
 
 return {
   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-  treesitter = { 'go', 'gomod', 'gosum', 'gowork', 'gotmpl' },
+  treesitter = {
+    languages = {
+      go = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-go',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'go' },
+          },
+        },
+      },
+      gomod = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/camdencheek/tree-sitter-go-mod',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'gomod' },
+          },
+        },
+      },
+      gosum = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/amaanq/tree-sitter-go-sum',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'gosum' },
+          },
+        },
+      },
+      gowork = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/omertuc/tree-sitter-go-work',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'gowork' },
+          },
+        },
+      },
+      gotmpl = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/ngalaiko/tree-sitter-go-template',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'gotmpl' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     gopls = {

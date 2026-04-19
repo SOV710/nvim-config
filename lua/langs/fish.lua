@@ -22,7 +22,26 @@
 ---   - No mason packages for this lang.
 
 return {
-  treesitter = { 'fish' },
+  treesitter = {
+    languages = {
+      fish = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/ram02z/tree-sitter-fish',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'fish' },
+          },
+        },
+      },
+    },
+  },
 
   external_deps = {
     {

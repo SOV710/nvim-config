@@ -6,7 +6,27 @@ local mason_path = vim.fn.stdpath 'data' .. '/mason'
 local pses_path = mason_path .. '/packages/powershell-editor-services'
 
 return {
-  treesitter = { 'powershell' },
+  treesitter = {
+    languages = {
+      powershell = {
+        filetypes = { 'ps1' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/airbus-cert/tree-sitter-powershell',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'powershell' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     powershell_es = {

@@ -22,7 +22,26 @@
 ---   - neocmakelsp IS in mason and managed automatically.
 
 return {
-  treesitter = { 'cmake' },
+  treesitter = {
+    languages = {
+      cmake = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/uyha/tree-sitter-cmake',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'cmake' },
+          },
+        },
+      },
+    },
+  },
 
   external_deps = {
     {

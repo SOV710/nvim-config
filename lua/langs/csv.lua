@@ -4,7 +4,27 @@
 
 return {
   filetypes = { 'csv', 'tsv' },
-  treesitter = { 'csv' },
+  treesitter = {
+    languages = {
+      csv = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/amaanq/tree-sitter-csv',
+            location = 'csv',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'csv' },
+          },
+        },
+      },
+    },
+  },
 
   -- no LSP, no formatter, no linter
 

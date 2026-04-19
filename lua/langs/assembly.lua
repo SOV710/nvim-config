@@ -4,7 +4,26 @@
 
 return {
   filetypes = { 'asm', 'nasm', 'masm', 'vmasm' },
-  treesitter = { 'asm' },
+  treesitter = {
+    languages = {
+      asm = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/RubixDev/tree-sitter-asm',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'asm' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     asm_lsp = {

@@ -3,7 +3,26 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 return {
-  treesitter = { 'typst' },
+  treesitter = {
+    languages = {
+      typst = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/uben0/tree-sitter-typst',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'typst' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     tinymist = {

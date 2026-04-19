@@ -4,5 +4,41 @@
 
 return {
   filetypes = { 'qml' },
-  treesitter = { 'qmljs', 'qmldir' },
+  treesitter = {
+    languages = {
+      qmljs = {
+        filetypes = { 'qml' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/yuja/tree-sitter-qmljs',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'qmljs' },
+          },
+        },
+      },
+      qmldir = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/Decodetalkers/tree-sitter-qmldir',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'qmldir' },
+          },
+        },
+      },
+    },
+  },
 }

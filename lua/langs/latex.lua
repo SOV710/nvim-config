@@ -30,7 +30,45 @@
 ---   - latexmk is the build driver texlab invokes; comes with TeX Live.
 
 return {
-  treesitter = { 'latex', 'bibtex' },
+  treesitter = {
+    languages = {
+      latex = {
+        filetypes = { 'tex', 'plaintex' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/latex-lsp/tree-sitter-latex',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+            generate = true,
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'latex' },
+          },
+        },
+      },
+      bibtex = {
+        filetypes = { 'bib' },
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/latex-lsp/tree-sitter-bibtex',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'bibtex' },
+          },
+        },
+      },
+    },
+  },
 
   external_deps = {
     {

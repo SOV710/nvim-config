@@ -6,7 +6,27 @@ local vue_language_server_path = vim.fn.stdpath 'data' .. '/mason/packages/vue-l
 
 return {
   filetypes = { 'vue' },
-  treesitter = { 'vue' },
+  treesitter = {
+    languages = {
+      vue = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter-grammars/tree-sitter-vue',
+            branch = 'main',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'vue' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     vue_ls = {

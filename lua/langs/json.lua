@@ -4,7 +4,58 @@
 
 return {
   filetypes = { 'json', 'jsonc' },
-  treesitter = { 'json', 'jsonc', 'json5' },
+  treesitter = {
+    languages = {
+      json = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-json',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'json' },
+          },
+        },
+      },
+      jsonc = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://gitlab.com/WhyNotHugo/tree-sitter-jsonc.git',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'jsonc' },
+          },
+        },
+      },
+      json5 = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/Joakker/tree-sitter-json5',
+          },
+          build = {
+            files = { 'src/parser.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'json5' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     jsonls = {

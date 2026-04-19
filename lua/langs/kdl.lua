@@ -4,7 +4,26 @@
 
 return {
   filetypes = { 'kdl' },
-  treesitter = { 'kdl' },
+  treesitter = {
+    languages = {
+      kdl = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/amaanq/tree-sitter-kdl',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'kdl' },
+          },
+        },
+      },
+    },
+  },
 
   formatter = 'kdlfmt',
   mason = { 'kdlfmt' },
