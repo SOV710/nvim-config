@@ -41,9 +41,9 @@
 6. **对每一种语言的完整支持**，包括：
    Tree-sitter、LSP、补全、诊断、Linter、Formatter、DAP、Snippets
 7. **不需要切回 shell 就能完成的版本控制**
-8. **AI 集成**——因为这是 2026 年，无视 AI 本身就是一种态度
+8. **对 AI 的态度**——因为这是 2026 年，盲目接受 agent 工具本身也是一种态度
 
-这份配置覆盖了这八层。
+这份配置直接覆盖前七层。第八层现在是一个有意的空缺。
 
 ## 写给谁看
 
@@ -80,7 +80,7 @@ nvim
 
 ### 1. Plugin manager
 
-`lazy.nvim`。所有 spec 文件按用途组织在 `lua/plugins/{ui,editor,langs,git,ai}/` 下，每个目录作为一个整体被 import。Snacks 的各个模块拆成独立的 spec 文件放在 `lua/plugins/ui/` 下，由 lazy.nvim 自动 merge。
+`lazy.nvim`。所有 spec 文件按用途组织在 `lua/plugins/{ui,editor,langs,git}/` 下，每个目录作为一个整体被 import。Snacks 的各个模块拆成独立的 spec 文件放在 `lua/plugins/ui/` 下，由 lazy.nvim 自动 merge。
 
 ### 2. Options
 
@@ -116,7 +116,7 @@ return {
 - `m` → grapple toggle（覆盖原生 mark）
 - `'` → grapple 菜单（覆盖原生 jump-to-mark）
 - `+` / `-` → dial（替代 `<C-a>` / `<C-x>`）
-- `<leader>g*` → git，`<leader>h*` → hunk，`<leader>a*` → AI
+- `<leader>g*` → git，`<leader>h*` → hunk
 
 ### 4. UI
 
@@ -308,11 +308,13 @@ rust ~
 
 ### 8. AI
 
-- **`coder/claudecode.nvim`**——Claude Code 的 WebSocket MCP bridge。`<leader>a*` 下有一组绑定：打开 terminal、发送 visual 选区、接受或拒绝 diff、切换 model、恢复上一次的 session。
+现在没有 AI 插件层了。`lua/plugins/ai/` 是有意删掉的。
 
-没有 chat overlay，没有 inline 代码生成。只是一个 terminal bridge。
+对我来说，Claude Code 已经变成了 a piece of bullshit。Anthropic 也不再是一家值得信任或尊重的公司：它现在的产品方向对使用者非常不友好，而 Claude Code 作为一个想进入开发环境执行 agent 工作的工具，已经带了太多不透明的遥测、检测和审查面。你可以把它叫作间谍工具，也可以把它叫作敌意工具；无论用哪个词，它都已经不适合作为这份配置里的 agent 层。
 
-说实话这一层我其实一个都不想装。现在的 coding agent——Claude Code、Codex——都在往独立 TUI 的方向走，自带 chatbox，不需要 editor 参与。这也是我选 `claudecode.nvim` 而不是 `avante.nvim` 的原因：我没想在 Neovim 里重新搭一个 Cursor 风格的体验。装它唯一的理由是偶尔想把当前 buffer 或选区作为 context 交给 Claude Code；而且比起 sidebar，我更愿意把它作为 float window 挂在编辑器上。
+更大的趋势也已经变了。Agent 正在从旧的 "Cursor mode"——编辑器侧边栏、inline chat overlay、由 editor 接管的工作流——走向 "chatbox mode"：Codex、opencode 这一类独立工具自己拥有 TUI/chat surface，把编辑器当作 context，而不是把编辑器变成整个交互界面。在这个趋势下，`claudecode.nvim`、`avante.nvim` 以及类似模仿 Cursor 模式的 Neovim 插件已经不再适合使用。
+
+所以 AI 仍然是工作流的一部分，但它会留在 Neovim 外面。这份配置暂时不会再保留专门的 AI 插件分类。
 
 ## 添加一种新语言
 

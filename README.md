@@ -41,9 +41,9 @@ Every editor — VS Code, Emacs, Sublime, JetBrains, Neovim — is a composition
 6. **First-class language support** — for *every* language, all eight of:
    Tree-sitter, LSP, completion, diagnostics, linter, formatter, DAP, snippets
 7. **Version control** that doesn't make you drop to a shell
-8. **AI integration** — because it's 2026 and ignoring it is its own statement
+8. **An AI stance** — because it's 2026 and blindly accepting agent tooling is its own statement
 
-This config covers all eight.
+This config covers the first seven directly. The eighth is now a deliberate omission.
 
 ## Who this is for
 
@@ -80,7 +80,7 @@ This reports which non-mason external tools still need installing, with the inst
 
 ### 1. Plugin manager
 
-`lazy.nvim`. Spec files are organized by purpose under `lua/plugins/{ui,editor,langs,git,ai}/`, each directory imported as a unit. Snacks modules live in separate spec files under `lua/plugins/ui/`; lazy.nvim merges them automatically.
+`lazy.nvim`. Spec files are organized by purpose under `lua/plugins/{ui,editor,langs,git}/`, each directory imported as a unit. Snacks modules live in separate spec files under `lua/plugins/ui/`; lazy.nvim merges them automatically.
 
 ### 2. Options
 
@@ -116,7 +116,7 @@ A few notable bindings:
 - `m` → grapple toggle (overrides native mark)
 - `'` → grapple menu (overrides native mark jump)
 - `+` / `-` → dial (replaces `<C-a>` / `<C-x>`)
-- `<leader>g*` → git, `<leader>h*` → hunks, `<leader>a*` → AI
+- `<leader>g*` → git, `<leader>h*` → hunks
 
 ### 4. UI
 
@@ -308,11 +308,13 @@ In practice the plugin I reach for most in this section is `toggleterm`. Most gi
 
 ### 8. AI
 
-- **`coder/claudecode.nvim`** — Claude Code bridge over WebSocket MCP. Bindings under `<leader>a*`: toggle the terminal, send the visual selection, accept or deny a diff, switch model, resume a previous session.
+There is no AI plugin layer now. `lua/plugins/ai/` was removed deliberately.
 
-No chat overlay or inline code generation. Just a terminal bridge.
+Claude Code has, for my purposes, become a piece of bullshit. Anthropic is no longer a company I trust or respect: the product direction feels hostile to the people using it, and Claude Code now carries far too much opaque telemetry and detection surface for something that wants to act as an agent in my development environment. Whether you call that spyware or simply hostile tooling, it is not acceptable as a layer inside this config.
 
-Honestly, I'd rather install nothing in this layer. Modern coding agents — Claude Code, Codex — are moving toward standalone TUIs with their own chatbox; the editor doesn't need to sit inside the loop. That's why I chose `claudecode.nvim` over `avante.nvim`: I'm not trying to rebuild a Cursor-like experience inside Neovim. The one thing I occasionally want is to hand Claude Code some context from the current buffer or selection, and for that I prefer it as a floating window rather than a docked sidebar.
+The broader agent workflow has also moved on. Agents are leaving the old "Cursor mode" — editor sidebars, inline chat overlays, editor-owned workflows — and moving toward "chatbox mode": standalone tools such as Codex and opencode that own their own TUI/chat surface and treat the editor as context, not as the whole interface. In that world, `claudecode.nvim`, `avante.nvim`, and similar Cursor-style Neovim plugins add more coupling than value.
+
+So AI remains part of the workflow, but outside Neovim. This config will not carry a dedicated AI plugin category for now.
 
 ## Adding a new language
 
