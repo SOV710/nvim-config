@@ -1,0 +1,11 @@
+-- SPDX-FileCopyrightText: 2026 SOV710
+--
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
+return {
+  'Olical/conjure',
+  ft = { 'clojure', 'racket' },
+  init = function()
+    vim.g['conjure#filetypes'] = { 'clojure', 'racket' }
+  end,
+}
