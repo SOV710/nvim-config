@@ -26,7 +26,7 @@ return {
     disable_in_replace_mode = true, -- disable in replace mode
     enable_moveright = true, -- move right when closing pair exists
     enable_afterquote = true, -- add pair after a quote character
-    enable_check_bracket_line = true, -- skip pair if next char is a closing bracket
+    enable_check_bracket_line = false, -- allow pairing before an existing closing bracket
     check_ts = true, -- use treesitter to check for pairs
     ts_config = {
       lua = { 'string' }, -- treesitter nodes where pairs are disabled
