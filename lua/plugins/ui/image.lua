@@ -17,7 +17,6 @@ return {
         'tiff',
         'heic',
         'avif',
-        'svg',
         'mp4',
         'mov',
         'avi',

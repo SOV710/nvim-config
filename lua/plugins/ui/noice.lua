@@ -57,6 +57,18 @@ return {
     },
 
     routes = {
+      -- dartls emits noisy progress on almost every edit
+      {
+        filter = {
+          event = 'lsp',
+          kind = 'progress',
+          cond = function(message)
+            local progress = message.opts and message.opts.progress or {}
+            return progress.client == 'dartls' and ((progress.title or ''):find 'Analyzing' or (progress.message or ''):find 'Analyzing')
+          end,
+        },
+        opts = { skip = true },
+      },
       -- skip "No information available" hover messages
       { filter = { event = 'notify', find = 'No information available' }, opts = { skip = true } },
       -- skip write messages like "5L, 123B"

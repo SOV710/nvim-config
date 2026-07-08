@@ -46,12 +46,12 @@ return {
 
   -- linter: markdownlint-cli2
   -- nvim-lint name: "markdownlint-cli2"
-  linter = 'markdownlint-cli2',
+  -- linter = 'markdownlint-cli2',
 
   -- formatter: not set — markdown formatting is opinionated
   -- markdownlint --fix can handle basic formatting if needed
 
-  mason = { 'markdownlint-cli2' },
+  -- mason = { 'markdownlint-cli2' },
 
   plugins = {
     {

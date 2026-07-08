@@ -47,7 +47,7 @@ return {
     },
     modes = {
       search = {
-        enabled = true, -- integrate flash with / and ? search
+        enabled = false, -- don't integrate flash with / and ? search
       },
       char = {
         enabled = true, -- integrate flash with f, F, t, T
