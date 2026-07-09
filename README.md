@@ -8,7 +8,7 @@
   [![License](https://img.shields.io/github/license/SOV710/nvim-config?style=flat-square&labelColor=1a1b26&color=bb9af7)](LICENSE)
   [![Last Commit](https://img.shields.io/github/last-commit/SOV710/nvim-config?style=flat-square&labelColor=1a1b26&color=7aa2f7)](https://github.com/SOV710/nvim-config/commits/main)
   [![Stars](https://img.shields.io/github/stars/SOV710/nvim-config?style=flat-square&labelColor=1a1b26&color=7aa2f7&logo=github&logoColor=white)](https://github.com/SOV710/nvim-config/stargazers)
-  [![Neovim](https://img.shields.io/badge/Neovim-0.11%2B-57A143?style=flat-square&labelColor=1a1b26&logo=neovim&logoColor=white)](https://neovim.io)
+  [![Neovim](https://img.shields.io/badge/Neovim-0.12%2B-57A143?style=flat-square&labelColor=1a1b26&logo=neovim&logoColor=white)](https://neovim.io)
   [![Lua](https://img.shields.io/badge/Lua-5.1-2C2D72?style=flat-square&labelColor=1a1b26&logo=lua&logoColor=white)](https://www.lua.org)
   [![Gentoo](https://img.shields.io/badge/Gentoo-Linux-54487A?style=flat-square&labelColor=1a1b26&logo=gentoo&logoColor=white)](https://www.gentoo.org)
 
@@ -21,13 +21,6 @@
 </p>
 
 ![dashboard-showcase](https://preview.github.sov710.org/nvim-config/neovim-dashboard.png)
-
-> [!WARNING]
-> **Neovim 0.12 migration pending.** `plenary.nvim` will be archived on 2026-06-30, and `undotree` in this config depends on it. Migrating to Neovim 0.12 solves this cleanly: 0.12 ships a built-in undotree UI ([neovim/neovim#35627](https://github.com/neovim/neovim/pull/35627)), so the plenary-backed `undotree` plugin can be dropped entirely. This project will migrate as soon as possible.
->
-> The blocker is `nvim-treesitter`: it has a known [bug](https://github.com/nvim-treesitter/nvim-treesitter/issues/8636) with 0.12. Neovim 0.12 bundles all treesitter functionality into core but still lacks a parser installer. I'm waiting for a community-maintained treesitter installer before upgrading the whole config to 0.12.
->
-> **If you're already on Neovim 0.12, do not use this config yet.**
 
 ## Philosophy
 
@@ -56,8 +49,8 @@ If you're brand new to Neovim, start with [kickstart.nvim](https://github.com/nv
 ## Quick start
 
 Requirements:
-- **Neovim 0.11+**
-- Git, a Nerd Font
+- **Neovim 0.12+**
+- Git, the `tree-sitter` CLI, a Nerd Font
 - a C compiler (for tree-sitter parsers)
 - `ripgrep` (required by `grug-far` and other pickers).
 
@@ -72,9 +65,10 @@ Then run:
 
 ```vim
 :checkhealth langs
+:TSInstall
 ```
 
-This reports which non-mason external tools still need installing, with the install command for each.
+`:checkhealth langs` reports which non-mason external tools still need installing, with the install command for each. `:TSInstall` clones the tree-sitter parser sources declared by the language modules, generates parsers when needed, compiles them, and installs parsers plus queries into this config's managed Neovim runtime.
 
 ## Contents
 
@@ -163,14 +157,33 @@ Tokyo Night colorscheme throughout. The statusline and tabline are a custom heir
 
 ### 6. Languages
 
-Each supported language — Rust, Go, Python, TypeScript, Haskell, Lua, C/C++, LaTeX, Fish, SQL, and 20+ others — has a single file under `lua/langs/`. That file declares everything: LSP server config, treesitter parsers, formatters, linters, DAP adapters, snippets, mason packages, file-type detection, and any language-specific plugins.
+Each supported language — Rust, Go, Python, TypeScript, Haskell, Lua, C/C++, LaTeX, Fish, SQL, and 20+ others — has a single file under `lua/langs/`. That file declares everything: LSP server config, tree-sitter parser source/build/query manifests, formatters, linters, DAP adapters, snippets, mason packages, file-type detection, and any language-specific plugins.
 
 A typical `lua/langs/<name>.lua`:
 
 ```lua
 return {
   filetypes = { 'rust' },
-  treesitter = { 'rust' },
+  treesitter = {
+    languages = {
+      rust = {
+        parser = {
+          source = {
+            type = 'git',
+            url = 'https://github.com/tree-sitter/tree-sitter-rust',
+          },
+          build = {
+            files = { 'src/parser.c', 'src/scanner.c' },
+          },
+        },
+        queries = {
+          sources = {
+            { type = 'parser_source', lang = 'rust' },
+          },
+        },
+      },
+    },
+  },
 
   lsp = {
     rust_analyzer = {
@@ -216,12 +229,16 @@ return {
 |---|---|
 | `language.formatters` | `conform.nvim` |
 | `language.linters` | `nvim-lint` |
-| `language.treesitter` | `nvim-treesitter`'s `ensure_installed` |
+| `language.treesitter` | `core.treesitter`'s native installer/runtime |
 | `language.mason` | `mason-tool-installer` |
 | `language.dap_adapters`, `language.dap_configurations` | `nvim-dap` |
 | `language.snippets` | `LuaSnip` |
 | `language.plugins` | injected directly into the lazy.nvim spec |
 | LSP servers | registered via the native `vim.lsp.config` / `vim.lsp.enable` API — no `nvim-lspconfig` |
+
+`lua/core/treesitter.lua` owns the tree-sitter pipeline. It provides `:TSInstall`, `:TSUpdate`, `:TSStatus`, and `:TSClean`; checks out each parser source from its declared git URL; runs `tree-sitter generate` when the manifest asks for it; compiles parser shared objects; installs query sources into a managed runtime; registers filetypes through `vim.treesitter.language.register`; and starts highlighting through Neovim's native `vim.treesitter.start`.
+
+There is no `nvim-treesitter` parser registry, `ensure_installed`, or installer dependency in this config. Parser provenance lives in `lua/langs/*.lua`, not in an external plugin registry.
 
 So conform's full spec is:
 
@@ -233,7 +250,7 @@ opts = {
 
 > 🚧 Showcase pending: architecture diagram — `lua/langs/*.lua` → `core/language.lua` → fan-out to consumers
 
-**Toggling languages.** Each lang file accepts an `enabled = false` field. When set, the file is dropped during the scan and all downstream consumers (LSP, conform, lint, DAP, snippets, mason) lose it consistently. Useful for isolating which language broke after a plugin update.
+**Toggling languages.** Each lang file accepts an `enabled = false` field. When set, the file is dropped during the scan and all downstream consumers (Tree-sitter, LSP, conform, lint, DAP, snippets, mason) lose it consistently. Useful for isolating which language broke after a plugin update.
 
 **External dependencies.** Many language toolchains can't be managed by mason — `tsgo` builds from source, `ty` ships via PyPI, HLS via GHCup, `fish-lsp` via npm, `sleek` via cargo, and things like `latexindent` and `chktex` come bundled with TeX Live. Each lang file with non-mason deps documents them in two places:
 
@@ -269,7 +286,7 @@ rust ~
 | Layer | Plugin |
 |---|---|
 | Package manager | `williamboman/mason.nvim` + `WhoIsSethDaniel/mason-tool-installer.nvim` |
-| Tree-sitter | `nvim-treesitter` |
+| Tree-sitter | `core.treesitter` + native `vim.treesitter` |
 | LSP | `vim.lsp.config` + `vim.lsp.enable` (native, no `nvim-lspconfig`) |
 | Completion | `saghen/blink.cmp` (Rust fuzzy matcher) |
 | Snippets | `L3MON4D3/LuaSnip` + `friendly-snippets` |
@@ -324,14 +341,17 @@ So AI remains part of the workflow, but outside Neovim. This config will not car
 
 The aggregator picks it up on the next require; all downstream plugins see the new entries automatically.
 
-To temporarily disable a language without deleting the file, add `enabled = false` at the top and restart. It disappears from all consumers — LSP, formatters, linters, DAP, snippets.
+If the new language declares a tree-sitter manifest, run `:TSInstall <lang>` after restart to fetch, build, and register its parser/query runtime.
+
+To temporarily disable a language without deleting the file, add `enabled = false` at the top and restart. It disappears from all consumers — Tree-sitter, LSP, formatters, linters, DAP, snippets.
 
 ## Removing a language
 
 1. Delete `lua/langs/<name>.lua` — or just trim the unwanted entries out of its `mason` field.
 2. Restart Neovim.
 3. Run `:checkhealth langs`. The `langs.mason` section flags any mason package that's installed but no longer declared.
-4. Remove orphans with `:MasonUninstall <pkg>` (targeted) or `:MasonToolsClean` (all at once). `:MasonToolsClean` also removes packages belonging to a lang currently marked `enabled = false`, so prefer per-package uninstall if you have disabled langs.
+4. Run `:TSClean` if the removed language had a tree-sitter parser, so stale parser/query checkouts and runtime entries are pruned.
+5. Remove orphans with `:MasonUninstall <pkg>` (targeted) or `:MasonToolsClean` (all at once). `:MasonToolsClean` also removes packages belonging to a lang currently marked `enabled = false`, so prefer per-package uninstall if you have disabled langs.
 
 ## Project layout
 
@@ -341,6 +361,7 @@ lua/
 ├── core/
 │   ├── options.lua
 │   ├── language.lua         -- the aggregator
+│   ├── treesitter.lua       -- native parser/query installer and runtime
 │   └── sysinfo.lua
 ├── keymaps/                 -- every keymap, organized by feature
 │   ├── init.lua
