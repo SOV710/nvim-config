@@ -9,7 +9,7 @@ local M = {}
 local function has(bufnr, method)
   method = method:find '/' and method or 'textDocument/' .. method
   for _, client in pairs(vim.lsp.get_clients { bufnr = bufnr }) do
-    if client.supports_method(method, bufnr) then
+    if client:supports_method(method, bufnr) then
       return true
     end
   end
