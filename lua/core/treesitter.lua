@@ -333,13 +333,13 @@ local function ensure_checkout_async(source, context, cb)
     if active.done then
       cb(nil, source_root(source), active.resolved_revision)
     else
-      active.callbacks[#active.callbacks + 1] = cb
+      active.callbacks[#active.callbacks + 1] = { source = source, callback = cb }
     end
     return
   end
 
   active = {
-    callbacks = { cb },
+    callbacks = { { source = source, callback = cb } },
     done = false,
     resolved_revision = nil,
   }
@@ -349,18 +349,20 @@ local function ensure_checkout_async(source, context, cb)
     local callbacks = active.callbacks
     if err then
       context.seen_sources[checkout] = nil
-      for _, callback in ipairs(callbacks) do
-        callback(err)
+      for _, item in ipairs(callbacks) do
+        item.callback(err)
       end
       return
     end
 
     active.done = true
     active.resolved_revision = resolved_revision
-    for _, callback in ipairs(callbacks) do
-      callback(nil, source_root(source), resolved_revision)
+    for _, item in ipairs(callbacks) do
+      item.callback(nil, source_root(item.source), resolved_revision)
     end
   end
+
+  local continue_after_fetch
 
   local function clone_checkout()
     mkdirp(checkouts_dir)
@@ -382,7 +384,7 @@ local function ensure_checkout_async(source, context, cb)
     end)
   end
 
-  local function continue_after_fetch(current_head, cloned)
+  continue_after_fetch = function(current_head, cloned)
     local floating = source_mode(source) == 'floating'
     local needs_fetch = context.update or (floating and not cloned)
     if source_mode(source) == 'pinned' and current_head ~= source.revision then
