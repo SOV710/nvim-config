@@ -34,7 +34,13 @@ return {
         },
         queries = {
           sources = {
-            { type = 'parser_source', lang = 'jsonc' },
+            {
+              type = 'git',
+              url = 'https://github.com/nvim-treesitter/nvim-treesitter',
+              branch = 'master',
+              path = 'queries/jsonc',
+              lang = 'jsonc',
+            },
           },
         },
       },

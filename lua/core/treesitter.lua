@@ -268,6 +268,77 @@ local function each_serial(items, iterator, done)
   step()
 end
 
+local function each_parallel(items, limit, iterator, done)
+  if #items == 0 then
+    done(nil, {})
+    return
+  end
+
+  limit = math.max(1, math.min(limit, #items))
+
+  local next_index = 1
+  local running = 0
+  local completed = 0
+  local results = {}
+  local errors = {}
+
+  local pump
+
+  local function finish_one(index, err, result)
+    running = running - 1
+    completed = completed + 1
+
+    if err then
+      errors[#errors + 1] = {
+        index = index,
+        item = items[index],
+        err = err,
+      }
+    else
+      results[index] = result
+    end
+
+    if completed == #items then
+      if #errors > 0 then
+        done(errors, results)
+      else
+        done(nil, results)
+      end
+      return
+    end
+
+    pump()
+  end
+
+  pump = function()
+    while running < limit and next_index <= #items do
+      local index = next_index
+      local item = items[index]
+      local called = false
+      next_index = next_index + 1
+      running = running + 1
+
+      iterator(item, index, function(err, result)
+        if called then
+          return
+        end
+        called = true
+        finish_one(index, err, result)
+      end)
+    end
+  end
+
+  pump()
+end
+
+local function install_concurrency()
+  local value = tonumber(vim.g.sov710_treesitter_install_concurrency)
+  if value and value > 0 then
+    return math.floor(value)
+  end
+  return 4
+end
+
 local function git_head_async(path, cb)
   run_async({ 'git', 'rev-parse', 'HEAD' }, { cwd = path }, function(err, result)
     if err then
@@ -598,7 +669,13 @@ local function install_lang_async(lang_name, spec, context, cb)
     local sources = spec.queries and spec.queries.sources or {}
     each_serial(sources, function(source, index, next_step)
       install_query_source_async(lang_name, spec, source, index, context, next_step)
-    end, cb)
+    end, function(query_err)
+      if query_err then
+        cb(query_err)
+        return
+      end
+      cb(nil, lang_name)
+    end)
   end)
 end
 
@@ -744,20 +821,34 @@ local function install_langs_async(args, update, cb)
     seen_sources = {},
   }
 
-  each_serial(langs, function(lang_name, _, next_step)
+  each_parallel(langs, install_concurrency(), function(lang_name, _, next_step)
     install_lang_async(lang_name, language.treesitter[lang_name], context, next_step)
-  end, function(err)
-    if err then
-      cb(err)
+  end, function(errors, results)
+    local installed_langs = {}
+    for index = 1, #langs do
+      local lang_name = results[index]
+      if lang_name then
+        installed_langs[#installed_langs + 1] = lang_name
+      end
+    end
+
+    if #installed_langs > 0 then
+      M.setup_runtime()
+      for _, lang_name in ipairs(installed_langs) do
+        reload_language(lang_name)
+      end
+    end
+
+    if errors then
+      local lines = {}
+      for _, item in ipairs(errors) do
+        lines[#lines + 1] = ('%s: %s'):format(item.item, item.err)
+      end
+      cb(table.concat(lines, '\n'), installed_langs)
       return
     end
 
-    M.setup_runtime()
-    for _, lang_name in ipairs(langs) do
-      reload_language(lang_name)
-    end
-
-    cb(nil, langs)
+    cb(nil, installed_langs)
   end)
 end
 
@@ -929,16 +1020,19 @@ local function trigger_install(args, update)
 
   install_langs_async(langs, update, function(err, installed_langs)
     finish_operation()
+
+    if installed_langs and #installed_langs > 0 then
+      vim.notify(
+        ('treesitter %s: %s'):format(update and 'updated' or 'installed', table.concat(installed_langs, ', ')),
+        vim.log.levels.INFO,
+        { title = 'Treesitter' }
+      )
+    end
+
     if err then
       vim.notify(err, vim.log.levels.ERROR, { title = 'Treesitter' })
       return
     end
-
-    vim.notify(
-      ('treesitter %s: %s'):format(update and 'updated' or 'installed', table.concat(installed_langs, ', ')),
-      vim.log.levels.INFO,
-      { title = 'Treesitter' }
-    )
   end)
 end
 
