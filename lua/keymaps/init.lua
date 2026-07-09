@@ -16,6 +16,7 @@ end
 -- Standalone keymaps (not tied to any plugin)
 apply(require 'keymaps.editing')
 apply(require 'keymaps.winbuf')
+apply(require 'keymaps.editor.undotree')
 
 -- LSP keymaps (special: uses LspAttach autocmd)
 require('keymaps.langs.lsp').setup()

@@ -148,6 +148,7 @@ local ignored_filetypes = {
   ['snacks_picker_input'] = true,
   ['snacks_layout_box'] = true,
   ['trouble'] = true,
+  ['nvim-undotree'] = true,
   ['undotree'] = true,
   ['diff'] = true, -- undotree diff preview
   ['dap-view'] = true,

@@ -145,7 +145,7 @@ Tokyo Night colorscheme throughout. The statusline and tabline are a custom heir
 | Scratch buffer | `snacks.scratch` |
 | Split / join | `Wansmer/treesj` |
 | Inc / dec | `monaqa/dial.nvim` |
-| Undo tree | `jiaoshijie/undotree` |
+| Undo tree | Neovim builtin `nvim.undotree` |
 | Substitute | `gbprod/substitute.nvim` |
 | Project search & replace | `MagicDuck/grug-far.nvim` |
 | Terminal | `akinsho/toggleterm.nvim` |
