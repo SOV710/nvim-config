@@ -55,7 +55,12 @@ return {
         },
         queries = {
           sources = {
-            { type = 'parser_source', lang = 'typescript' },
+            {
+              type = 'git',
+              url = 'https://github.com/tree-sitter/tree-sitter-typescript',
+              path = 'queries',
+              lang = 'typescript',
+            },
           },
         },
       },
@@ -73,7 +78,12 @@ return {
         },
         queries = {
           sources = {
-            { type = 'parser_source', lang = 'tsx' },
+            {
+              type = 'git',
+              url = 'https://github.com/tree-sitter/tree-sitter-typescript',
+              path = 'queries',
+              lang = 'tsx',
+            },
           },
         },
       },
