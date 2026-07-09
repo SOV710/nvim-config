@@ -71,7 +71,11 @@ return {
         },
         queries = {
           sources = {
-            { type = 'parser_source', lang = 'racket' },
+            {
+              type = 'local',
+              path = 'lua/langs/racket/queries',
+              lang = 'racket',
+            },
           },
         },
       },

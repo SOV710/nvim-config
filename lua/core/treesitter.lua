@@ -14,6 +14,7 @@ local M = {
   _operation = nil,
 }
 
+local config_dir = fn.stdpath 'config'
 local data_dir = fn.stdpath 'data' .. '/treesitter'
 local checkouts_dir = data_dir .. '/checkouts'
 local runtime_dir = data_dir .. '/runtime'
@@ -110,10 +111,21 @@ local function copy_dir(src, dst)
 end
 
 local function source_mode(source)
+  if source.type == 'local' then
+    return 'local'
+  end
   if type(source.revision) == 'string' and source.revision ~= '' then
     return 'pinned'
   end
   return 'floating'
+end
+
+local function local_source_root(source)
+  local path = assert(source.path, 'local treesitter query source requires path')
+  if path:match '^/' or path:match '^%a:[/\\]' then
+    return path
+  end
+  return join(config_dir, path)
 end
 
 local function source_key(source)
@@ -374,6 +386,10 @@ local function resolve_source_revision_async(path, source, cb)
 end
 
 local function source_label(source)
+  if source.type == 'local' then
+    return source.path or 'local'
+  end
+
   if source_mode(source) == 'pinned' then
     return source.revision
   end
@@ -386,6 +402,16 @@ local function source_label(source)
 end
 
 local function source_state(source, resolved_revision)
+  if source.type == 'local' then
+    return {
+      mode = 'local',
+      desired = source_label(source),
+      resolved_revision = resolved_revision,
+      path = source.path,
+      location = local_source_root(source),
+    }
+  end
+
   return {
     mode = source_mode(source),
     branch = source.branch,
@@ -603,6 +629,11 @@ local function install_parser_async(lang_name, spec, context, cb)
 end
 
 local function query_source_checkout_async(lang_name, spec, source, context, cb)
+  if source.type == 'local' then
+    cb(nil, local_source_root(source), nil, source)
+    return
+  end
+
   if source.type == 'parser_source' then
     ensure_checkout_async(spec.parser.source, context, function(err, root, resolved_revision)
       if err then
