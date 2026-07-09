@@ -589,7 +589,7 @@ local function install_parser_async(lang_name, spec, context, cb)
     end
 
     if spec.parser.build.generate then
-      run_async({ 'tree-sitter', 'generate', '--no-bindings' }, { cwd = root }, function(generate_err)
+      run_async({ 'tree-sitter', 'generate' }, { cwd = root }, function(generate_err)
         if generate_err then
           cb(generate_err)
           return
