@@ -120,6 +120,7 @@ Tokyo Night colorscheme throughout. The statusline and tabline are a custom heir
 |---|---|
 | Colorscheme | `folke/tokyonight.nvim` |
 | Statusline + tabline | `rebelot/heirline.nvim` (custom) |
+| Icons | `nvim-mini/mini.icons` |
 | Messages | `folke/noice.nvim` (messages only; cmdline stays inline at the bottom) |
 | Dashboard, indent, scroll, statuscolumn, image | `folke/snacks.nvim` |
 | Mode-aware cursorline | `mvllow/modes.nvim` |
