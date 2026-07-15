@@ -34,7 +34,7 @@ Every editor — VS Code, Emacs, Sublime, JetBrains, Neovim — is a composition
 6. **First-class language support** — for *every* language, all eight of:
    Tree-sitter, LSP, completion, diagnostics, linter, formatter, DAP, snippets
 7. **Version control** that doesn't make you drop to a shell
-8. **An AI stance** — because it's 2026 and blindly accepting agent tooling is its own statement
+8. ~~**An AI stance** — because it's 2026 and blindly accepting agent tooling is its own statement~~
 
 This config covers the first seven directly. The eighth is now a deliberate omission.
 
