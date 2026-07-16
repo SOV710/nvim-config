@@ -2,6 +2,21 @@
 --
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local lisp_filetypes = {
+  'carp',
+  'clojure',
+  'commonlisp',
+  'edn',
+  'elisp',
+  'fennel',
+  'hy',
+  'janet',
+  'lisp',
+  'picolisp',
+  'racket',
+  'scheme',
+}
+
 return {
   'windwp/nvim-autopairs',
   event = 'InsertEnter',
@@ -49,4 +64,12 @@ return {
       highlight_grey = 'LineNr', -- highlight group for non-label chars
     },
   },
+  config = function(_, opts)
+    local autopairs = require 'nvim-autopairs'
+    autopairs.setup(opts)
+
+    local single_quote_rule = assert(autopairs.get_rules("'")[1], 'nvim-autopairs single quote rule is missing')
+    single_quote_rule.not_filetypes = lisp_filetypes
+    autopairs.force_attach()
+  end,
 }
