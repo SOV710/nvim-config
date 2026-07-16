@@ -31,10 +31,4 @@ return {
       },
     },
   },
-
-  options = {
-    lisp = true,
-    autoindent = true,
-    smartindent = false,
-  },
 }
