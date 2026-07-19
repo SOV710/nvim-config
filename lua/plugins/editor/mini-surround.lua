@@ -2,6 +2,23 @@
 --
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local code_fence = '```'
+
+local function code_fence_output()
+  local is_linewise = vim.fn.visualmode() == 'V'
+  if vim.v.operator == 'g@' then
+    local first_mark = vim.fn.getpos "'["
+    local second_mark = vim.fn.getpos "']"
+    is_linewise = first_mark[3] == 1 and second_mark[3] == 1
+  end
+
+  if is_linewise then
+    return { left = code_fence, right = code_fence }
+  end
+
+  return { left = code_fence .. '\n', right = '\n' .. code_fence }
+end
+
 return {
   'echasnovski/mini.surround',
   version = '*',
@@ -11,6 +28,10 @@ return {
       b = {
         input = { 'Box::new%(().-()%)' },
         output = { left = 'Box::new(', right = ')' },
+      },
+      q = {
+        input = { '```()\n.-\n()```' },
+        output = code_fence_output,
       },
     },
     highlight_duration = 1000, -- highlight duration in ms after add/delete/replace
