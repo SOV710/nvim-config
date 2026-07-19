@@ -36,7 +36,13 @@ return {
         },
         queries = {
           sources = {
-            { type = 'parser_source', lang = 'fish' },
+            {
+              type = 'git',
+              url = 'https://github.com/nvim-treesitter/nvim-treesitter',
+              branch = 'master',
+              path = 'queries/fish',
+              lang = 'fish',
+            },
           },
         },
       },
