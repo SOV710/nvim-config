@@ -25,4 +25,18 @@ return {
       },
     },
   },
+
+  lsp = {
+    terraformls = {
+      cmd = { 'terraform-ls', 'serve' },
+      filetypes = { 'terraform', 'tf', 'tfvars', 'hcl' },
+      root_markers = {
+        '.terraform',
+        '.git',
+      },
+    },
+  },
+
+  -- formatter/linter intentionally not set; terraform-ls + terraform fmt handled externally.
+  mason = { 'terraform-ls' },
 }
