@@ -2,12 +2,15 @@
 --
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local filetypes = { 'tf', 'terraform', 'terraform-vars', 'hcl' }
+
 return {
-  filetypes = { 'hcl', 'terraform', 'tf', 'tfvars' },
+  filetypes = filetypes,
 
   treesitter = {
     languages = {
       terraform = {
+        filetypes = filetypes,
         parser = {
           source = {
             type = 'git',
@@ -29,7 +32,7 @@ return {
   lsp = {
     terraformls = {
       cmd = { 'terraform-ls', 'serve' },
-      filetypes = { 'terraform', 'tf', 'tfvars', 'hcl' },
+      filetypes = filetypes,
       root_markers = {
         '.terraform',
         '.git',

@@ -2,6 +2,8 @@
 --
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local conjure = require 'langs.shared.conjure'
+
 return {
   filetypes = { 'clojure', 'edn' },
   treesitter = {
@@ -34,6 +36,8 @@ return {
 
   -- formatter: not set — clojure-lsp integrates cljfmt, formats via LSP
   -- linter: not set — clojure-lsp integrates clj-kondo
+
+  plugins = { conjure.spec 'clojure' },
 
   mason = { 'clojure-lsp' },
 }

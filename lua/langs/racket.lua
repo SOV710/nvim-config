@@ -23,6 +23,8 @@
 ---   - Conjure's Racket client starts a stdio REPL with `racket`.
 ---   - This config intentionally does not manage Racket tools with mason.
 
+local conjure = require 'langs.shared.conjure'
+
 local racket_langs = {
   ['racket'] = true,
   ['racket/base'] = true,
@@ -107,6 +109,8 @@ return {
   -- formatter: not set - racket-langserver provides LSP formatting
   -- linter: not set - racket-langserver provides diagnostics
   -- mason: empty - Racket tooling is managed by Racket/raco
+
+  plugins = { conjure.spec 'racket' },
 
   options = {
     tabstop = 2,

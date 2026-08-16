@@ -215,17 +215,22 @@ function M._scan()
     if ftype == 'file' and file:match '%.lua$' and not SCAN_IGNORE[file] then
       local name = file:sub(1, -5) -- "rust.lua" → "rust"
       local ok, config = pcall(require, 'langs.' .. name)
-      if ok and type(config) == 'table' then
-        if config.enabled == false then
-          if config.mason then
-            for _, pkg in ipairs(config.mason) do
-              M._disabled_mason[pkg] = name
-            end
+      if not ok then
+        error(("failed to load language config 'langs.%s': %s"):format(name, tostring(config)), 0)
+      end
+      if type(config) ~= 'table' then
+        error(("language config 'langs.%s' must return a table, got %s"):format(name, type(config)), 0)
+      end
+
+      if config.enabled == false then
+        if config.mason then
+          for _, pkg in ipairs(config.mason) do
+            M._disabled_mason[pkg] = name
           end
-        else
-          config.filetypes = config.filetypes or { name }
-          M._langs[name] = config
         end
+      else
+        config.filetypes = config.filetypes or { name }
+        M._langs[name] = config
       end
     end
   end
