@@ -70,6 +70,9 @@ return {
 
     local single_quote_rule = assert(autopairs.get_rules("'")[1], 'nvim-autopairs single quote rule is missing')
     single_quote_rule.not_filetypes = lisp_filetypes
+    for _, rule in ipairs(autopairs.get_rules "'") do
+      rule.not_filetypes = vim.list_extend(rule.not_filetypes or {}, { 'rust' })
+    end
     autopairs.force_attach()
   end,
 }
