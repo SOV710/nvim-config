@@ -4,7 +4,7 @@
 
 local api = vim.api
 local fn = vim.fn
-local uv = vim.uv or vim.loop
+local uv = vim.uv
 
 local language = require 'core.language'
 

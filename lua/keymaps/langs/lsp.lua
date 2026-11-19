@@ -45,7 +45,7 @@ function M.setup()
       for _, km in ipairs(lsp_keymaps) do
         local lhs, fn, method, desc = km[1], km[2], km[3], km[4]
         if not method or has(bufnr, method) then
-          vim.keymap.set('n', '<leader>' .. lhs, fn, { buffer = bufnr, desc = desc })
+          vim.keymap.set('n', '<leader>' .. lhs, fn, { buf = bufnr, desc = desc })
         end
       end
     end,
